@@ -14,6 +14,10 @@ class User(db.Model):
     The User model representing the Users entity in the database.
 
     Creates a model instance of the database instance.
+
+    Attributes:
+
+        first_name, last_name, email, password
     """
     __tablename__ = 'users'
     # model attributes
@@ -26,12 +30,15 @@ class User(db.Model):
 
 class UserSchema(ma.Schema):
     """
-    The schema for the User model.
+    User model Schema
 
     The data for each field is validated in this class before being
     committed to the database.
 
     The fields are defined in a tuple in the Meta subclass
+
+    class Meta:
+        fields = ('id', 'email', 'password', 'first_name', 'last_name')
     """
     class Meta:
         """
