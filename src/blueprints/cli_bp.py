@@ -1,4 +1,6 @@
-"""CLI blueprints
+"""
+CLI Blueprints
+
 The following commands are run in the CLI. To invoke a command in the blue print:
 
        ``flask cli <command>``
@@ -13,7 +15,7 @@ Commands:
 """
 from flask import Blueprint
 from models.user import User
-from init import db
+from init import db, bcrypt
 
 cli_bp = Blueprint('cli', __name__)
 
@@ -27,3 +29,27 @@ def create_tables():
 def drop_tables():
     '''Drop the existing tables in the database'''
     db.drop_all()
+
+@cli_bp.cli.command('seed')
+def seed_tables():
+    """
+    Seed the existing tables in the database
+    """
+    users = [
+        User(
+            first_name= "John",
+            last_name= "Smith",
+            email= "john.smith@test.com",
+            password= bcrypt.generate_password_hash('password123').decode('utf8')
+        ),
+        User(
+            first_name= "William",
+            last_name= "Thomas",
+            email= "will.thomas@gmail.com",
+            password= bcrypt.generate_password_hash('thisIsapassword').decode('utf8')
+        )
+    ]
+
+    db.session.add_all(users)
+    db.session.commit()
+    print('Tables seeded')
