@@ -35,6 +35,7 @@ def seed_tables():
     """
     Seed the existing tables in the database
     """
+    # seed the users table
     users = [
         User(
             first_name= "John",
@@ -49,7 +50,8 @@ def seed_tables():
             password= bcrypt.generate_password_hash('thisIsapassword').decode('utf8')
         )
     ]
-
+    # add and commit the list
     db.session.add_all(users)
     db.session.commit()
+    # seed the cars table
     print('Tables seeded')
