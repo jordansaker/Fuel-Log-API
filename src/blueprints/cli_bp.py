@@ -14,6 +14,7 @@ Commands:
     ``seed`` - seed the existing tables in the database
 """
 from flask import Blueprint
+from datetime import datetime
 from models.user import User
 from models.car import Car
 from models.log import LogEntry
@@ -79,8 +80,19 @@ def seed_tables():
         LogEntry(
             current_odo= 80100,
             fuel_quantity= 90,
-            fuel_price = 1.86,
-            avg_
+            fuel_price= 1.86,
+            date_added= datetime.now().timestamp(),
+            avg_consumption= 8.25
+        ),
+        LogEntry(
+            current_odo= 152462,
+            fuel_quantity= 40,
+            fuel_price= 1.90,
+            date_added= datetime.now().timestamp(),
+            avg_consumption= 5.75
         )
     ]
+    # add and commit the list
+    db.session.add_all(logs)
+    db.session.commit()
     print('Tables seeded')

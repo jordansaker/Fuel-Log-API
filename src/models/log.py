@@ -7,6 +7,7 @@ The Log Entry Model contains the following attributes:
 
     id, current_odo, fuel_quantity, fuel_price, date_added, avg_consumption 
 """
+from datetime import datetime
 from init import db, ma
 
 
@@ -18,7 +19,7 @@ class LogEntry(db.Model):
 
     Attributes:
 
-        current_odo (int), fuel_quantity (int), fuel_price (float), avg_consumption (float) 
+        current_odo (int), fuel_quantity (int), fuel_price (float), date_added (datetime), avg_consumption (float) 
     """
     __tablename__ = 'log_entries'
     # model attributes
@@ -26,7 +27,7 @@ class LogEntry(db.Model):
     current_odo = db.Column(db.Integer, nullable=False)
     fuel_quantity = db.Column(db.Integer, nullable=False)
     fuel_price = db.Column(db.Float, nullable=False)
-    date_added = db.Column(db.DateTime(timezone=True), server_default=db.sql.func.now(), nullable=False)
+    date_added = db.Column(db.BigInteger, default=datetime.now().timestamp())
     avg_consumption = db.Column(db.Float, nullable=False)
 
 
