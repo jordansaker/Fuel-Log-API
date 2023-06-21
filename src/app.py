@@ -1,15 +1,16 @@
 '''Fuel Log API app
-This module creates a Flask app instance through OrJSONProvider.'''
+\nThis module creates a Flask app instance through OrJSONProvider.'''
+from os import environ
 from flask import Flask
 from flask.json.provider import JSONProvider
-from os import environ
 import orjson
-from config import Config
 from init import db, ma, jwt, bcrypt
+from blueprints.auth_bp import auth_bp
+from blueprints.cli_bp import cli_bp
 
 
 class OrJSONProvider(JSONProvider):
-    '''Class to use the JSON provider. This will allow schema fields to be ordered'''
+    '''Class to use the JSON provider. This will allow schema fields to be ordered.'''
     def dumps(self, obj, *, option=None):
         '''Function for the dumps method'''
         if option is None:
@@ -20,11 +21,11 @@ class OrJSONProvider(JSONProvider):
         return orjson.loads(s)
 
 def create_app():
-    '''Function to create the flask app. Function creates an instance of Flask'''
+    '''Function to create the flask app. Function creates an instance of Flask.'''
     # to use the JSON provider class, the Flask class
     # will be assigned and instance of the MyFlask Class
     class MyFlask(Flask):
-        '''Assigning the OrJSONProvider to be used to create app instance'''
+        '''Assigning the OrJSONProvider to be used to create app instance.'''
         json_provider_class = OrJSONProvider
 
     # create the app instance
@@ -38,4 +39,7 @@ def create_app():
     ma.init_app(app)
     jwt.init_app(app)
     bcrypt.init_app(app)
+    # register blueprints
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(cli_bp)
     return app
