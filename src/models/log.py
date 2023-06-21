@@ -9,6 +9,7 @@ The Log Entry Model contains the following attributes:
 """
 from init import db, ma
 
+
 class LogEntry(db.Model):
     """
     The Car model representing the cars entity in the database.
@@ -27,6 +28,7 @@ class LogEntry(db.Model):
     fuel_price = db.Column(db.Decimal, nullable=False)
     date_added = db.Column(db.DateTime(timezone=True), server_default=db.sql.func.now(), nullable=False)
     avg_consumption = db.Column(db.Integer, nullable=False)
+
 
 class LogEntrySchema(ma.Schema):
     """
