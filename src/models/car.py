@@ -17,7 +17,7 @@ class Car(db.Model):
 
     Attributes:
 
-        make, model, tank_size 
+        make (str), model (str), tank_size (int) 
     """
 
     __tablename__ = 'cars'

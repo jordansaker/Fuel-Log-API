@@ -15,6 +15,7 @@ Commands:
 """
 from flask import Blueprint
 from models.user import User
+from models.car import Car
 from init import db, bcrypt
 
 cli_bp = Blueprint('cli', __name__)
@@ -25,10 +26,13 @@ def create_tables():
     db.create_all()
     print('Tables created')
 
+
 @cli_bp.cli.command('drop')
 def drop_tables():
     '''Drop the existing tables in the database'''
     db.drop_all()
+    print('Tables dropped')
+
 
 @cli_bp.cli.command('seed')
 def seed_tables():
@@ -54,4 +58,19 @@ def seed_tables():
     db.session.add_all(users)
     db.session.commit()
     # seed the cars table
+    cars = [
+        Car(
+            make= "Ford",
+            model= "Ranger",
+            tank_size= 133
+        ),
+        Car(
+            make= "Toyota",
+            model= "Landcruiser",
+            tank_size = 110
+        )
+    ]
+    # add and commit the list
+    db.session.add_all(cars)
+    db.session.commit()
     print('Tables seeded')

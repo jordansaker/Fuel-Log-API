@@ -17,7 +17,7 @@ class User(db.Model):
 
     Attributes:
 
-        first_name, last_name, email, password
+        first_name (str), last_name (str), email (str), password (str)
     """
     __tablename__ = 'users'
     # model attributes
