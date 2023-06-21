@@ -25,7 +25,7 @@ class LogEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     current_odo = db.Column(db.Integer, nullable=False)
     fuel_quantity = db.Column(db.Integer, nullable=False)
-    fuel_price = db.Column(db.Decimal, nullable=False)
+    fuel_price = db.Column(db.Float, nullable=False)
     date_added = db.Column(db.DateTime(timezone=True), server_default=db.sql.func.now(), nullable=False)
     avg_consumption = db.Column(db.Integer, nullable=False)
 
