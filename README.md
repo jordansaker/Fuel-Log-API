@@ -12,4 +12,12 @@ With the feature invovling trips, the user will be able to plan and budget for t
 
 ## ERD
 
+#### Entities
+
+- Users
+- Log Entries
+- Cars
+- User Cars
+- Trips
+
 ## Third Party Services
