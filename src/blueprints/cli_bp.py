@@ -74,4 +74,13 @@ def seed_tables():
     # add and commit the list
     db.session.add_all(cars)
     db.session.commit()
+    # seed the log entries table
+    logs = [
+        LogEntry(
+            current_odo= 80100,
+            fuel_quantity= 90,
+            fuel_price = 1.86,
+            avg_
+        )
+    ]
     print('Tables seeded')

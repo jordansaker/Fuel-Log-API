@@ -18,7 +18,7 @@ class LogEntry(db.Model):
 
     Attributes:
 
-        current_odo (int), fuel_quantity (int), fuel_price (int), avg_consumption (int) 
+        current_odo (int), fuel_quantity (int), fuel_price (float), avg_consumption (float) 
     """
     __tablename__ = 'log_entries'
     # model attributes
@@ -27,7 +27,7 @@ class LogEntry(db.Model):
     fuel_quantity = db.Column(db.Integer, nullable=False)
     fuel_price = db.Column(db.Float, nullable=False)
     date_added = db.Column(db.DateTime(timezone=True), server_default=db.sql.func.now(), nullable=False)
-    avg_consumption = db.Column(db.Integer, nullable=False)
+    avg_consumption = db.Column(db.Float, nullable=False)
 
 
 class LogEntrySchema(ma.Schema):
