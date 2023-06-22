@@ -13,11 +13,12 @@ Commands:
 
     ``seed`` - seed the existing tables in the database
 """
-from flask import Blueprint
 from datetime import datetime
+from flask import Blueprint
 from models.user import User
 from models.car import Car
 from models.log import LogEntry
+from models.user_car import UserCar
 from init import db, bcrypt
 
 cli_bp = Blueprint('cli', __name__)

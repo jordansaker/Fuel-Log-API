@@ -7,6 +7,7 @@ The Car Model contains the following attributes:
 
     id, make, model, tank_size
 """
+from marshmallow import fields
 from init import db, ma
 
 class Car(db.Model):
@@ -26,6 +27,8 @@ class Car(db.Model):
     make = db.Column(db.String())
     model = db.Column(db.String())
     tank_size = db.Column(db.String())
+    # relationships to foreign key in other table (not model defined attributes)
+    user_car = db.relationship('UserCar', backref='car')
 
 
 class CarSchema(ma.Schema):
@@ -38,11 +41,14 @@ class CarSchema(ma.Schema):
     The fields are defined in a tuple in the Meta subclass
 
     class Meta:
-        fields = ('id', 'make', 'model', 'tank_size')
+        fields = ('id', 'make', 'model', 'tank_size', 'user_car')
+
+    The field ``user_car`` is a nested field related to the UserCar Model
     """
+    user_car = fields.Nested('UserCarSchema', exclude=['car_id'])
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'make', 'model', 'tank_size')
+        fields = ('id', 'make', 'model', 'tank_size', 'user_car')
         ordered = True
