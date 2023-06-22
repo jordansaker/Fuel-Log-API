@@ -53,7 +53,7 @@ class LogEntrySchema(ma.Schema):
 
     class Meta:
         fields = ('id', 'current_odo', 'fuel_quantity', 
-                    'fuel_price', 'date_added', 'avg_consumption', 'user_car_id')
+                    'fuel_price', 'date_added', 'avg_consumption', 'user_car')
     """
     user_car = fields.Nested('UserCarSchema', exclude=['log_entry'])
     class Meta:

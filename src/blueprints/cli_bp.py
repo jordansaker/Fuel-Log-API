@@ -19,6 +19,7 @@ from models.user import User
 from models.car import Car
 from models.log import LogEntry
 from models.user_car import UserCar
+from models.trip import Trip
 from init import db, bcrypt
 
 cli_bp = Blueprint('cli', __name__)
@@ -65,11 +66,15 @@ def seed_tables():
         Car(
             make= "Ford",
             model= "Ranger",
+            model_trim= 'Raptor',
+            year= 2022,
             tank_size= 133
         ),
         Car(
             make= "Toyota",
             model= "Landcruiser",
+            model_trim= '100 series',
+            year= 2004,
             tank_size = 110
         )
     ]

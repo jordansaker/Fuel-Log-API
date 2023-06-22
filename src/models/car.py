@@ -22,10 +22,14 @@ class Car(db.Model):
     """
 
     __tablename__ = 'cars'
+    # set unique constraints
+    __table_args__ = (db.UniqueConstraint("make", "model", "model_trim"),)
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String())
     model = db.Column(db.String())
+    model_trim = db.Column(db.String())
+    year = db.Column(db.Integer)
     tank_size = db.Column(db.String())
     # relationships to foreign key in other table (not model defined attributes)
     user_car = db.relationship('UserCar', backref='car')
@@ -41,7 +45,7 @@ class CarSchema(ma.Schema):
     The fields are defined in a tuple in the Meta subclass
 
     class Meta:
-        fields = ('id', 'make', 'model', 'tank_size', 'user_car')
+        fields = (id', 'make', 'model', 'model_trim', 'year', 'tank_size', 'user_car')
 
     The field ``user_car`` is a nested field related to the UserCar Model
     """
@@ -50,5 +54,5 @@ class CarSchema(ma.Schema):
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'make', 'model', 'tank_size', 'user_car')
+        fields = ('id', 'make', 'model', 'model_trim', 'year', 'tank_size', 'user_car')
         ordered = True
