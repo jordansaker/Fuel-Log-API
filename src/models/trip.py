@@ -18,12 +18,12 @@ class Trip(db.Model):
 
     Attributes:
 
-        fuel_price (int), distance (int)
+        fuel_price (float), distance (int)
     """
     __tablename__ = 'user_trips'
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
-    fuel_price = db.Column(db.Integer, nullable=False)
+    fuel_price = db.Column(db.Float, nullable=False)
     distance = db.Column(db.Integer, nullable=False)
     # foreign keys
     user_car_id = db.Column(db.Integer,

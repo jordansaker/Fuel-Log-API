@@ -116,4 +116,24 @@ def seed_tables():
     # add and commit the list
     db.session.add_all(logs)
     db.session.commit()
+    # seed the user trips table
+    user_trips = [
+        Trip(
+            fuel_price= 1.87,
+            distance= 100,
+            usercar= user_cars[0]
+        ),
+        Trip(
+            fuel_price= 1.90,
+            distance= 400,
+            usercar= user_cars[1]
+        ),
+        Trip(
+            fuel_price= 1.95,
+            distance= 800,
+            usercar= user_cars[1]
+        )
+    ]
+    db.session.add_all(user_trips)
+    db.session.commit()
     print('Tables seeded')
