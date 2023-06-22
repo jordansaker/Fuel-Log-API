@@ -76,6 +76,19 @@ def seed_tables():
     # add and commit the list
     db.session.add_all(cars)
     db.session.commit()
+    # seed the user cars table
+    user_cars = [
+        UserCar(
+            user= users[0],
+            car= cars[1]
+        ),
+        UserCar(
+            user= users[1],
+            car= cars[0]
+        )
+    ]
+    db.session.add_all(user_cars)
+    db.session.commit()
     # seed the log entries table
     logs = [
         LogEntry(
@@ -83,14 +96,16 @@ def seed_tables():
             fuel_quantity= 90,
             fuel_price= 1.86,
             date_added= datetime.now().timestamp(),
-            avg_consumption= 8.25
+            avg_consumption= 8.25,
+            usercar= user_cars[1]
         ),
         LogEntry(
             current_odo= 152462,
             fuel_quantity= 40,
             fuel_price= 1.90,
             date_added= datetime.now().timestamp(),
-            avg_consumption= 5.75
+            avg_consumption= 5.75,
+            usercar= user_cars[0]
         )
     ]
     # add and commit the list
