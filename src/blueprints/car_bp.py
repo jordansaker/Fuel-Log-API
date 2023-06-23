@@ -178,7 +178,32 @@ def get_user_cars():
     # query the database
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
     user_cars = db.session.scalars(stmt).all()
-    return UserCarSchema(many=True, only=['car']).dump(user_cars)
+    return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
 
 
 # delete user car
+@car_bp.route('/me/<int:user_car_id>', methods=['DELETE'])
+@jwt_required()
+def delete_user_car(user_car_id):
+    """
+    Delete a user car view function
+
+    Allows a user to delete a car from their list
+
+    Variables:
+
+    <user_car_id> (int)
+    """
+    # query the database to find user car
+    stmt = db.select(UserCar).where(
+        db.and_(
+            UserCar.id == user_car_id,
+            UserCar.user_id == get_jwt_identity()
+        )
+    )
+    user_car = db.session.scalars(stmt).first()
+    if user_car:
+        # delete and commit the selected car
+        db.session.delete(user_car)
+        db.session.commit()
+        return {'deleted': 'removed car from user list'}
