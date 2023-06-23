@@ -8,6 +8,7 @@ The Car Model contains the following attributes:
     id, make, model, tank_size
 """
 from marshmallow import fields
+from marshmallow.validate import Regexp
 from init import db, ma
 
 class Car(db.Model):
@@ -26,8 +27,8 @@ class Car(db.Model):
     __table_args__ = (db.UniqueConstraint("make", "model", "model_trim"),)
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
-    make = db.Column(db.String())
-    model = db.Column(db.String())
+    make = db.Column(db.String(), nullable=False)
+    model = db.Column(db.String(), nullable=False)
     model_trim = db.Column(db.String())
     year = db.Column(db.Integer)
     tank_size = db.Column(db.String())
@@ -50,6 +51,9 @@ class CarSchema(ma.Schema):
     The field ``user_car`` is a nested field related to the UserCar Model
     """
     user_car = fields.Nested('UserCarSchema', exclude=['car_id'])
+    # validate the data for each attribute
+    make = fields.String(required=True, validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name'))
+    model = fields.String(required=True, validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name'))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
