@@ -7,6 +7,7 @@ import orjson
 from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
 from blueprints.cli_bp import cli_bp
+from blueprints.car_bp import car_bp
 
 
 class OrJSONProvider(JSONProvider):
@@ -42,6 +43,7 @@ def create_app():
     # register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(cli_bp)
+    app.register_blueprint(car_bp)
     # handle errors
     @app.errorhandler(401)
     def unauthorised(err):
@@ -53,5 +55,12 @@ def create_app():
         return {'error': str(err)}, 401
 
 
+    @app.errorhandler(404)
+    def not_found(err):
+        """
+        Handle not found codes passed to the flask abort() function
 
+        ``err`` contains the error JSON response
+        """
+        return {'error': str(err)}, 404
     return app
