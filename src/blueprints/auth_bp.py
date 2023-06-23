@@ -4,9 +4,9 @@ Contains routes related to user authentication.
 
 Routes:
 
-    /login  - 
+    /login  -  allows existing user to authenticate, returing an access token
 
-    /register - 
+    /register -  allows a user to register
 """
 from datetime import timedelta
 from flask import Blueprint, request, abort
