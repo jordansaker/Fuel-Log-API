@@ -127,8 +127,8 @@ def add_new_car():
             Car.tank_size == car_info['tank_size']
         )
     )
-    car = db.session.scalar(stmt)
-    if not car:
+    add_car = db.session.scalar(stmt)
+    if not add_car:
         # add the car to the cars list
         new_car = Car(
             make= car_info['make'],
@@ -154,11 +154,11 @@ def add_new_car():
         return UserCarSchema(exclude=['user_id']).dump(new_user_car)
 
     # return {"msg": car.id}
-    if car:
+    if add_car:
         # add the car to the user's cars list
         new_user_car = UserCar(
             user_id= get_jwt_identity(),
-            car_id= car.id
+            car_id= add_car.id
         )
         # add and commit the car to user cars
         db.session.add(new_user_car)
