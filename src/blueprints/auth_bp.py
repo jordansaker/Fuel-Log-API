@@ -80,5 +80,5 @@ def user_login():
     if user and bcrypt.check_password_hash(user.password, request.json['password']):
         # give user access token, token created using flask_jwt_extended
         token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=120))
-        return {"token": token, "user": UserSchema(exclude=['password', 'reviews']).dump(user)}
+        return {"token": token, "user": UserSchema(exclude=['id', 'password']).dump(user)}
     abort(401, description='Invalid email address or password')

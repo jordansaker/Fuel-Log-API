@@ -52,8 +52,14 @@ class CarSchema(ma.Schema):
     """
     user_car = fields.Nested('UserCarSchema', exclude=['car_id'])
     # validate the data for each attribute
-    make = fields.String(required=True, validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name'))
-    model = fields.String(required=True, validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name'))
+    make = fields.String(
+        required=True,
+        validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name')
+    )
+    model = fields.String(
+        required=True,
+        validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name')
+    )
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields

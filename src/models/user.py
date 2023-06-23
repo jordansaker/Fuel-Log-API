@@ -28,7 +28,7 @@ class User(db.Model):
     email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
     # relationships to foreign key in other table (not model defined attributes)
-    user_car = db.relationship('UserCar', backref='user')
+    cars = db.relationship('UserCar', backref='user')
 
 
 class UserSchema(ma.Schema):
@@ -41,14 +41,14 @@ class UserSchema(ma.Schema):
     The fields are defined in a tuple in the Meta subclass
 
     class Meta:
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', user_car)
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'cars')
 
-    The field ``user_car`` is a nested field related to the UserCar Model
+    The field ``cars`` is a nested field related to the UserCar Model
     """
-    user_car = fields.List(fields.Nested('UserCarSchema', exclude=['user_id']))
+    cars = fields.List(fields.Nested('UserCarSchema', exclude=['id', 'user_trip', 'log_entry', 'user']))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'user_car')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'cars')
         ordered = True
