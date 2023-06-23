@@ -29,7 +29,7 @@ class Car(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(), nullable=False)
     model = db.Column(db.String(), nullable=False)
-    model_trim = db.Column(db.String(), unique=True, nullable=False)
+    model_trim = db.Column(db.String(), nullable=False)
     year = db.Column(db.Integer)
     tank_size = db.Column(db.String())
     # relationships to foreign key in other table (not model defined attributes)

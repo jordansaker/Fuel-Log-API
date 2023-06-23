@@ -164,3 +164,21 @@ def add_new_car():
         db.session.add(new_user_car)
         db.session.commit()
         return UserCarSchema(exclude=['id', 'user']).dump(new_user_car)
+
+
+# get user cars
+@car_bp.route('/me/')
+@jwt_required()
+def get_user_cars():
+    """
+    All user cars view function
+
+    This view function returns all the user cars
+    """
+    # query the database
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
+    user_cars = db.session.scalars(stmt).all()
+    return UserCarSchema(many=True, only=['car']).dump(user_cars)
+
+
+# delete user car
