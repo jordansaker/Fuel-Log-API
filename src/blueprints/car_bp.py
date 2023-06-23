@@ -146,12 +146,12 @@ def add_new_car():
         # add the car to the user's cars list
         new_user_car = UserCar(
             user_id= get_jwt_identity(),
-            car_id= recent_car['id']
+            car_id= recent_car.id
         )
         # add and commit the car to user cars
         db.session.add(new_user_car)
         db.session.commit()
-        return UserCarSchema(exclude=['user_id']).dump(new_user_car)
+        return UserCarSchema(exclude=['user']).dump(new_user_car)
 
     # return {"msg": car.id}
     if add_car:
@@ -178,7 +178,9 @@ def get_user_cars():
     # query the database
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
     user_cars = db.session.scalars(stmt).all()
-    return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
+    if user_cars:
+        return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
+    return {"msg": "user has no cars added to their list"}
 
 
 # delete user car
@@ -195,15 +197,19 @@ def delete_user_car(user_car_id):
     <user_car_id> (int)
     """
     # query the database to find user car
-    stmt = db.select(UserCar).where(
-        db.and_(
-            UserCar.id == user_car_id,
-            UserCar.user_id == get_jwt_identity()
-        )
+    stmt = db.select(UserCar).filter_by(
+        user_id= get_jwt_identity()
+    ).filter_by(
+        id= user_car_id
     )
     user_car = db.session.scalars(stmt).first()
+    # return UserCarSchema(many=True, only=['id', 'car']).dump(user_car)
     if user_car:
         # delete and commit the selected car
         db.session.delete(user_car)
         db.session.commit()
         return {'deleted': 'removed car from user list'}
+    abort(404, description='User car not found')
+
+# admin can delete car from the cars table
+

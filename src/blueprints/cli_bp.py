@@ -46,6 +46,11 @@ def seed_tables():
     # seed the users table
     users = [
         User(
+            email= "fuellogadmin@fuellogapi.com",
+            password= bcrypt.generate_password_hash('admin1234').decode('utf8'),
+            _is_admin= True
+        ),
+        User(
             first_name= "John",
             last_name= "Smith",
             email= "john.smith@test.com",
@@ -84,11 +89,11 @@ def seed_tables():
     # seed the user cars table
     user_cars = [
         UserCar(
-            user= users[0],
+            user= users[1],
             car= cars[1]
         ),
         UserCar(
-            user= users[1],
+            user= users[2],
             car= cars[0]
         )
     ]

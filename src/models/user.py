@@ -27,6 +27,7 @@ class User(db.Model):
     last_name = db.Column(db.String())
     email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
+    _is_admin = db.Column(db.String(), nullable=False, default=False)
     # relationships to foreign key in other table (not model defined attributes)
     cars = db.relationship('UserCar', backref='user')
 
@@ -50,5 +51,5 @@ class UserSchema(ma.Schema):
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'cars')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', '_is_admin', 'cars')
         ordered = True
