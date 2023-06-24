@@ -73,7 +73,7 @@ def create_app():
 
     @app.errorhandler(IntegrityError)
     def integrity_error(err):
-        return {'error': err}
+        return {'error': str(err)}
 
 
     return app

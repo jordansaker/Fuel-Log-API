@@ -155,8 +155,13 @@ def add_new_car():
         return UserCarSchema(exclude=['user']).dump(new_user_car)
 
     # check if user already has car
-    stmt = db.select(UserCar).filter_by(car_id=add_car.id)
+    stmt = db.select(UserCar).filter_by(
+        user_id=get_jwt_identity()
+    ).filter_by(
+        car_id=add_car.id
+    )
     existing_user_car = db.session.scalar(stmt)
+    print(add_car.id)
     if add_car and not existing_user_car:
         # add the car to the user's cars list
         new_user_car = UserCar(

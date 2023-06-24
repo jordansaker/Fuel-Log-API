@@ -27,9 +27,9 @@ class UserCar(db.Model):
     # Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     car_id = db.Column(
-            db.Integer, 
-            db.ForeignKey('cars.id', ondelete='CASCADE'), 
-            nullable=False, unique=True
+            db.Integer,
+            db.ForeignKey('cars.id', ondelete='CASCADE'),
+            nullable=False
         )
     # relationships to foreign key in other table (not model defined attributes)
     log_entry = db.relationship('LogEntry', backref='usercar')

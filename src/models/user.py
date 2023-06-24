@@ -27,7 +27,7 @@ class User(db.Model):
     last_name = db.Column(db.String())
     email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
-    is_admin = db.Column(db.String(), nullable=False, default=False)
+    is_admin = db.Column(db.Boolean(), nullable=False, default=False)
     # relationships to foreign key in other table (not model defined attributes)
     cars = db.relationship('UserCar', backref='user')
 
