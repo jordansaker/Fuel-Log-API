@@ -42,17 +42,17 @@ class UserSchema(ma.Schema):
     The fields are defined in a tuple in the Meta subclass
 
     class Meta:
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'is_admin' 'cars')
+        fields = ('id', 'email', 'first_name', 'last_name', 'cars')
 
     The field ``cars`` is a nested field related to the UserCar Model
     """
     cars = fields.List(fields.Nested(
                 'UserCarSchema', 
-                exclude=['id', 'user_trip', 'log_entry', 'user']
+                exclude=['id', 'logs', 'user']
             ))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'is_admin', 'cars')
+        fields = ('id', 'email', 'first_name', 'last_name', 'cars')
         ordered = True

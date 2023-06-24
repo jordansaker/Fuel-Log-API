@@ -55,12 +55,12 @@ class LogEntrySchema(ma.Schema):
         fields = ('id', 'current_odo', 'fuel_quantity', 
                     'fuel_price', 'date_added', 'avg_consumption', 'user_car')
     """
-    user_car = fields.Nested('UserCarSchema', exclude=['log_entry'])
+    usercar = fields.Nested('UserCarSchema', exclude=['logs'])
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
         fields = ('id', 'current_odo',
                   'fuel_quantity', 'fuel_price', 
-                    'date_added', 'avg_consumption', 'user_car')
+                    'date_added', 'avg_consumption', 'usercar')
         ordered = True

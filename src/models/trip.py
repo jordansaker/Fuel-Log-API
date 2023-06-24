@@ -51,3 +51,4 @@ class TripSchema(ma.Schema):
         Defining the fields in a tuple and ordering the fields
         """
         fields = ('id', 'fuel_price', 'distance', 'user_car')
+        ordered = True

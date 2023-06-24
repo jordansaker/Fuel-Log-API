@@ -52,7 +52,7 @@ def user_register():
     # return the user info and success message
     return {
             "msg": "Successfully created new user",
-            "user_info": UserSchema(exclude=['password', 'is_admin']).dump(new_user)
+            "user_info": UserSchema().dump(new_user)
             }, 201
 
 
@@ -82,7 +82,7 @@ def user_login():
         token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=120))
         return {
                 "token": token, 
-                "user": UserSchema(exclude=['id', 'password', 'is_admin']).dump(user)
+                "user": UserSchema(exclude=['id']).dump(user)
                }
     abort(401, description='Invalid email address or password')
 

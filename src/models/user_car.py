@@ -32,7 +32,7 @@ class UserCar(db.Model):
             nullable=False
         )
     # relationships to foreign key in other table (not model defined attributes)
-    log_entry = db.relationship('LogEntry', backref='usercar')
+    logs = db.relationship('LogEntry', backref='usercar')
     user_trip = db.relationship('Trip', backref='usercar')
 
 
@@ -53,13 +53,13 @@ class UserCarSchema(ma.Schema):
     The field ``user_trip`` is a nested field related to the Tripy Model 
     """
     # nested fields
-    log_entry = fields.List(fields.Nested('LogEntrySchema'))
-    user = fields.Nested('UserSchema', exclude=['is_admin', 'user_car'])
+    logs = fields.List(fields.Nested('LogEntrySchema'))
+    user = fields.Nested('UserSchema', exclude=['cars'])
     car = fields.Nested('CarSchema', exclude=['id', 'user_car'])
     user_trip = fields.List(fields.Nested('TripSchema', exclude=['user_car']))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'user', 'car', 'log_entry', 'user_trip')
+        fields = ('id', 'user', 'car', 'logs', 'user_trip')
         ordered = True
