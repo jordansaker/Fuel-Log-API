@@ -171,7 +171,7 @@ def add_new_car():
         # add and commit the car to user cars
         db.session.add(new_user_car)
         db.session.commit()
-        return UserCarSchema(exclude=['id', 'user']).dump(new_user_car)
+        return UserCarSchema(exclude=['user']).dump(new_user_car)
     return {'error': 'Car already exists for user'}
 
 
@@ -241,8 +241,9 @@ def delete_car(car_id):
     car = db.session.scalar(stmt)
     if car:
         # find in user cars as well and delete the user car record
-        stmt = db.delete(UserCar).filter_by(id= car_id)
+        stmt = db.delete(UserCar).filter_by(car_id= car_id)
         db.session.execute(stmt)
+        # delete car from cars table
         db.session.delete(car)
         db.session.commit()
         return {'msg': 'car successfully deleted'}
