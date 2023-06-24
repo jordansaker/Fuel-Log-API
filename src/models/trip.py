@@ -45,7 +45,7 @@ class TripSchema(ma.Schema):
         fields = ('id', 'fuel_price', 'distance', 'user_car')
 
     """
-    user_car = fields.Nested('UserCarSchema', exclude=['user_trip'])
+    user_car = fields.Nested('UserCarSchema', exclude=['user_trips'])
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields

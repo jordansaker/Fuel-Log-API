@@ -33,7 +33,7 @@ class UserCar(db.Model):
         )
     # relationships to foreign key in other table (not model defined attributes)
     logs = db.relationship('LogEntry', backref='usercar')
-    user_trip = db.relationship('Trip', backref='usercar')
+    user_trips = db.relationship('Trip', backref='usercar')
 
 
 class UserCarSchema(ma.Schema):
@@ -56,10 +56,10 @@ class UserCarSchema(ma.Schema):
     logs = fields.List(fields.Nested('LogEntrySchema'))
     user = fields.Nested('UserSchema', exclude=['cars'])
     car = fields.Nested('CarSchema', exclude=['id', 'user_car'])
-    user_trip = fields.List(fields.Nested('TripSchema', exclude=['user_car']))
+    user_trips = fields.List(fields.Nested('TripSchema', exclude=['user_car']))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'user', 'car', 'logs', 'user_trip')
+        fields = ('id', 'user', 'car', 'logs', 'user_trips')
         ordered = True
