@@ -26,7 +26,11 @@ class UserCar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    car_id = db.Column(db.Integer, db.ForeignKey('cars.id', ondelete='CASCADE'), nullable=False)
+    car_id = db.Column(
+            db.Integer, 
+            db.ForeignKey('cars.id', ondelete='CASCADE'), 
+            nullable=False, unique=True
+        )
     # relationships to foreign key in other table (not model defined attributes)
     log_entry = db.relationship('LogEntry', backref='usercar')
     user_trip = db.relationship('Trip', backref='usercar')
@@ -50,7 +54,7 @@ class UserCarSchema(ma.Schema):
     """
     # nested fields
     log_entry = fields.List(fields.Nested('LogEntrySchema'))
-    user = fields.Nested('UserSchema', exclude=['_is_admin', 'user_car'])
+    user = fields.Nested('UserSchema', exclude=['is_admin', 'user_car'])
     car = fields.Nested('CarSchema', exclude=['id', 'user_car'])
     user_trip = fields.List(fields.Nested('TripSchema', exclude=['user_car']))
     class Meta:

@@ -48,7 +48,7 @@ def seed_tables():
         User(
             email= "fuellogadmin@fuellogapi.com",
             password= bcrypt.generate_password_hash('admin1234').decode('utf8'),
-            _is_admin= True
+            is_admin= True
         ),
         User(
             first_name= "John",

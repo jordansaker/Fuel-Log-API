@@ -27,7 +27,7 @@ class User(db.Model):
     last_name = db.Column(db.String())
     email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
-    _is_admin = db.Column(db.String(), nullable=False, default=False)
+    is_admin = db.Column(db.String(), nullable=False, default=False)
     # relationships to foreign key in other table (not model defined attributes)
     cars = db.relationship('UserCar', backref='user')
 
@@ -42,14 +42,17 @@ class UserSchema(ma.Schema):
     The fields are defined in a tuple in the Meta subclass
 
     class Meta:
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'cars')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'is_admin' 'cars')
 
     The field ``cars`` is a nested field related to the UserCar Model
     """
-    cars = fields.List(fields.Nested('UserCarSchema', exclude=['id', 'user_trip', 'log_entry', 'user']))
+    cars = fields.List(fields.Nested(
+                'UserCarSchema', 
+                exclude=['id', 'user_trip', 'log_entry', 'user']
+            ))
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', '_is_admin', 'cars')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'is_admin', 'cars')
         ordered = True

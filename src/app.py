@@ -3,6 +3,7 @@
 from os import environ
 from flask import Flask
 from flask.json.provider import JSONProvider
+from sqlalchemy.exc import IntegrityError
 import orjson
 from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
@@ -63,4 +64,16 @@ def create_app():
         ``err`` contains the error JSON response
         """
         return {'error': str(err)}, 404
+
+
+    @app.errorhandler(400)
+    def bad_request(err):
+        return {'error': str(err)}, 400
+
+
+    @app.errorhandler(IntegrityError)
+    def integrity_error(err):
+        return {'error': err}
+
+
     return app

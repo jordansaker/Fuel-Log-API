@@ -22,6 +22,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.car import Car, CarSchema
 from models.user_car import UserCar, UserCarSchema
+from blueprints.auth_bp import admin_access
 
 car_bp = Blueprint('car', __name__, url_prefix='/cars')
 
@@ -153,8 +154,10 @@ def add_new_car():
         db.session.commit()
         return UserCarSchema(exclude=['user']).dump(new_user_car)
 
-    # return {"msg": car.id}
-    if add_car:
+    # check if user already has car
+    stmt = db.select(UserCar).filter_by(car_id=add_car.id)
+    existing_user_car = db.session.scalar(stmt)
+    if add_car and not existing_user_car:
         # add the car to the user's cars list
         new_user_car = UserCar(
             user_id= get_jwt_identity(),
@@ -164,6 +167,7 @@ def add_new_car():
         db.session.add(new_user_car)
         db.session.commit()
         return UserCarSchema(exclude=['id', 'user']).dump(new_user_car)
+    return {'error': 'Car already exists for user'}
 
 
 # get user cars
@@ -211,5 +215,29 @@ def delete_user_car(user_car_id):
         return {'deleted': 'removed car from user list'}
     abort(404, description='User car not found')
 
+# ADMIN ROUTES
 # admin can delete car from the cars table
+@car_bp.route('/<int:car_id>', methods=['DELETE'])
+@jwt_required()
+def delete_car(car_id):
+    """
+    Delete a car view function
 
+    Allows the admin to delete a car from their list
+
+    Varibles:
+
+    <car_id> (int)
+    """
+    # admin access
+    admin_access()
+    # query the database to find the car
+    stmt = db.select(Car).filter_by(id= car_id)
+    car = db.session.scalar(stmt)
+    if car:
+        # find in user cars as well and delete the user car record
+        stmt = db.delete(UserCar).filter_by(id= car_id)
+        db.session.execute(stmt)
+        db.session.delete(car)
+        db.session.commit()
+        return {'msg': 'car successfully deleted'}
