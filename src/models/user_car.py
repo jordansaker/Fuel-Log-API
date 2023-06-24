@@ -61,5 +61,5 @@ class UserCarSchema(ma.Schema):
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'user', 'car', 'logs', 'user_trips')
+        fields = ('id', 'user_id', 'car', 'logs', 'user_trips')
         ordered = True

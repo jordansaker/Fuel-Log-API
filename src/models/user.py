@@ -48,7 +48,7 @@ class UserSchema(ma.Schema):
     """
     cars = fields.List(fields.Nested(
                 'UserCarSchema', 
-                exclude=['id', 'logs', 'user']
+                exclude=['id', 'logs', 'user_id']
             ))
     class Meta:
         """
