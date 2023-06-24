@@ -4,6 +4,7 @@ from os import environ
 from flask import Flask
 from flask.json.provider import JSONProvider
 from sqlalchemy.exc import IntegrityError
+from marshmallow.exceptions import ValidationError
 import orjson
 from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
@@ -76,4 +77,7 @@ def create_app():
         return {'error': str(err)}
 
 
+    @app.errorhandler(ValidationError)
+    def validation_error(err):
+        return {'error': err.messages}
     return app
