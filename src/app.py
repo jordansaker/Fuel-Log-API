@@ -1,5 +1,8 @@
-'''Fuel Log API app
-\nThis module creates a Flask app instance through OrJSONProvider.'''
+'''
+Fuel Log API app
+
+This module creates a Flask app instance through OrJSONProvider.
+'''
 from os import environ
 from flask import Flask
 from flask.json.provider import JSONProvider
@@ -10,6 +13,7 @@ from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
 from blueprints.cli_bp import cli_bp
 from blueprints.car_bp import car_bp
+from blueprints.log_bp import log_bp
 
 
 class OrJSONProvider(JSONProvider):
@@ -46,6 +50,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(cli_bp)
     app.register_blueprint(car_bp)
+    app.register_blueprint(log_bp)
     # handle errors
     @app.errorhandler(401)
     def unauthorised(err):
