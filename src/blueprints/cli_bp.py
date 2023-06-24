@@ -106,7 +106,6 @@ def seed_tables():
             fuel_quantity= 90,
             fuel_price= 1.86,
             date_added= datetime.now().timestamp(),
-            avg_consumption= 8.25,
             usercar= user_cars[1]
         ),
         LogEntry(
@@ -114,7 +113,6 @@ def seed_tables():
             fuel_quantity= 40,
             fuel_price= 1.90,
             date_added= datetime.now().timestamp(),
-            avg_consumption= 5.75,
             usercar= user_cars[0]
         )
     ]

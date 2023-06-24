@@ -33,7 +33,6 @@ class LogEntry(db.Model):
     fuel_quantity = db.Column(db.Integer, nullable=False)
     fuel_price = db.Column(db.Float, nullable=False)
     date_added = db.Column(db.BigInteger, default=datetime.now().timestamp())
-    avg_consumption = db.Column(db.Float, nullable=False)
     # Foreign Keys
     user_car_id = db.Column(
                             db.Integer,
@@ -53,7 +52,7 @@ class LogEntrySchema(ma.Schema):
 
     class Meta:
         fields = ('id', 'current_odo', 'fuel_quantity', 
-                    'fuel_price', 'date_added', 'avg_consumption', 'user_car')
+                    'fuel_price', 'date_added', 'user_car')
     """
     usercar = fields.Nested('UserCarSchema', exclude=['logs'])
     class Meta:
@@ -62,5 +61,5 @@ class LogEntrySchema(ma.Schema):
         """
         fields = ('id', 'current_odo',
                   'fuel_quantity', 'fuel_price', 
-                    'date_added', 'avg_consumption', 'usercar')
+                    'date_added', 'usercar')
         ordered = True
