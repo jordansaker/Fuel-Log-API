@@ -228,9 +228,9 @@ def delete_car(car_id):
     """
     Delete a car view function
 
-    Allows the admin to delete a car from their list
+    Allows the admin user to delete a car from the cars table
 
-    Varibles:
+    Variables:
 
     <car_id> (int)
     """
@@ -247,3 +247,36 @@ def delete_car(car_id):
         db.session.delete(car)
         db.session.commit()
         return {'msg': 'car successfully deleted'}
+
+
+# admin can update car info in cars table
+@car_bp.route('/<int:car_id>', methods=['PUT', 'PATCH'])
+@jwt_required()
+def update_car_info(car_id):
+    """
+    Update a car view function
+
+    Allows the admin user to update a car in the cars table
+
+    Variables
+
+    <car_id> (int)
+    """
+    # admin access
+    admin_access()
+    # query the database to find the car
+    stmt = db.select(Car).filter_by(id= car_id)
+    car = db.session.scalar(stmt)
+    if car:
+        # load the request body to car schema
+        car_info = CarSchema().load(request.json)
+        # update the car info
+        car.make= car_info.get('make', car.make)
+        car.model= car_info.get('model', car.model)
+        car.model_trim= car_info.get('model_trim', car.model_trim)
+        car.year= car_info.get('year', car.year)
+        car.tank_size= car_info.get('tank_size', car.tank_size)
+        # commit the update
+        db.session.commit()
+        return CarSchema(exclude=['user_car']).dump(car)
+    abort(404, "Car not found")
