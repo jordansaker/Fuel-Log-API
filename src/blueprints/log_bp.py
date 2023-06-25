@@ -6,6 +6,26 @@ Contains routes related to log entries
 Routes:
 
     url_prefix: '/logs'
+
+    GET '/me/<int:car_id>/' : get the user's logs for the selected car
+
+    POST '/me/<int:car_id>/' : add a new log for the selected car
+
+    PUT/PATCH '/me/<int:car_id>/<int:log_id>/' : update the selected log for the user car
+
+    DELETE '/me/<int:car_id>/<int:log_id>/' : delete the selected log entry for the user car
+
+    POST '/me/<int:car_id>/trip/calculator/' : adds a trip to the trips entity and 
+    calulates the trip cost
+
+    GET '/me/<int:car_id>/trips/' : get the trips for a user car
+
+    DELETE '/me/<int:car_id>/trips/<int:trip_id>' : delete the selected trip for the user car
+
+    PUT/PATCH '/me/<int:car_id>/trips/<int:trip_id>' : update the selected trip for the user car
+
+    GET '/me/<int:car_id>/expenditure/from/<int:from_day>/<int:from_month>/<int:from_year>/to/
+    <int:to_day>/<int:to_month>/<int:to_year>/' : get the expenditure summary for a time period
 """
 from datetime import datetime
 from flask import Blueprint, abort, request

@@ -11,17 +11,17 @@ Routes:
 
     GET '/me/' : returns all the user cars
 
-    GET '/<make>/<model>' :  returns cars that match the given make and model
+    GET '/<string:make>/<string:model>' :  returns cars that match the given make and model
 
-    GET '/<make>/' : returns cars that match the given make
+    GET '/<string:make>/' : returns cars that match the given make
 
     POST '/me/' :  add a new car. Adds to the cars entity first and then assigns to the user
 
-    DELETE '/me/<user_car_id>' : delete a car from the user's car list
+    DELETE '/me/<int:user_car_id>' : delete a car from the user's car list
 
-    DELETE '/<car_id>' : ADMIN ONLY: Admin can delete cars from the cars entity
+    DELETE '/<int:car_id>' : ADMIN ONLY: Admin can delete cars from the cars entity
 
-    PUT/PATCH '/<car_id>' ADMIN ONLY: Admin can update a car in the cars entity
+    PUT/PATCH '/<int:car_id>' ADMIN ONLY: Admin can update a car in the cars entity
 """
 from flask import Blueprint, abort, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
