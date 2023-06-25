@@ -72,11 +72,76 @@ def add_log_entry(car_id):
         # add and commit new log entry
         db.session.add(new_log_entry)
         db.session.commit()
-        return LogEntrySchema(exclude=['user_trips']).dump(new_log_entry)
+        return LogEntrySchema().dump(new_log_entry)
     abort(404, "User car not found")
 
 # update a log entry
+@log_bp.route('/me/<int:car_id>/<int:log_id>', methods=['PUT', 'PATCH'])
+@jwt_required()
+def update_log_entry(car_id, log_id):
+    """
+    Update Log Entry
+
+    Update an existing log entry for the specified user car
+
+    Variables:
+
+            <car_id> (int)
+
+            <log_id> (int)
+    """
+    # query the database for user car's id
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    user_car = db.session.scalar(stmt)
+    if user_car:
+        # search for the log entry
+        stmt = db.select(LogEntry).filter_by(id=log_id)
+        log_entry = db.session.scalar(stmt)
+        if log_entry:
+            # load the reponse to the Log Entry Schema
+            log_info = LogEntrySchema().load(request.json)
+            # update the log entry fields
+            log_entry.current_odo = log_info.get('current_odo', log_entry.current_odo)
+            log_entry.fuel_quantity = log_info.get('fuel_quantity', log_entry.fuel_quantity)
+            log_entry.fuel_price = log_info.get('fuel_price', log_entry.fuel_price)
+            log_entry.user_car_id = car_id
+            # commit the update
+            db.session.commit()
+            return LogEntrySchema().dump(log_entry)
+        abort(404, "Log entry not found")
+    abort(404, "User car not found")
+
 # delete a log entry
+@log_bp.route('/me/<int:car_id>/<int:log_id>', methods=['DELETE'])
+@jwt_required()
+def delete_log_entry(car_id, log_id):
+    """
+    Delete Log Entry
+
+    Delete and existing log entry for the specified user car
+
+    Variables:
+
+            <car_id> (int)
+
+            <log_id> (int)
+    """
+    # query the database for user car's id
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    user_car = db.session.scalar(stmt)
+    if user_car:
+        # search for the log entry
+        stmt = db.select(LogEntry).filter_by(id=log_id)
+        log_entry = db.session.scalar(stmt)
+        if log_entry:
+            # delete the log and commit
+            db.session.delete(log_entry)
+            db.session.commit()
+            return {'msg': 'Log entry deleted from user car'}
+        abort(404, "Log entry not found")
+    abort(404, "User car not found")
+        
+
 # calculate the average consumption
 # calculate the trip cost
 # expenditure summary
