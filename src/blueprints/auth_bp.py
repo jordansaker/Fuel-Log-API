@@ -13,6 +13,7 @@ from flask import Blueprint, request, abort
 from flask_jwt_extended import create_access_token, get_jwt_identity
 from init import bcrypt, db
 from models.user import User, UserSchema
+from models.user_car import UserCar
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -102,3 +103,18 @@ def admin_access():
     print(user.is_admin)
     if not user.is_admin:
         abort(401, description='admin access only')
+
+def verify_user(car_id):
+    """
+    Verify that the user making the request is allowed to access the
+    response
+
+    Variables:
+
+            <car_id> (int)
+
+    Returns the user object
+    """
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    user = db.session.scalar(stmt)
+    return user

@@ -15,6 +15,7 @@ from models.log import LogEntry, LogEntrySchema
 from models.user_car import UserCar
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
+from blueprints.auth_bp import verify_user
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
 
@@ -304,3 +305,69 @@ def update_trips(car_id, trip_id):
     abort(404, "User car trip does not exist")
 
 # expenditure summary
+@log_bp.route(
+    '/me/<int:car_id>/expenditure/from/<int:from_day>/<int:from_month>/<int:from_year>/to/' + \
+    '<int:to_day>/<int:to_month>/<int:to_year>/'
+)
+@jwt_required()
+def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_year, car_id):
+    """
+    Expenditure Summary
+
+    Allows the user to generate an expenditure report for the specified time period
+
+    Variables:
+
+            <car_id> (int)
+
+            <from_day> (int)
+
+            <from_month> (int)
+
+            <from_year> (int)
+
+            <to_day> (int)
+
+            <to_month> (int)
+
+            <to_year> (int)
+    """
+    # convert "from" date to format stored in database "unix"
+    from_date = datetime(from_year, from_month, from_day).timestamp()
+    # 'to' date
+    to_date = datetime(to_year, to_month, to_day).date()
+
+    # if "to" date is the same as the current date
+    # assign it using the .now() function
+    if to_date == datetime.now().date():
+        to_date = datetime.now()
+    # convert "to" date to timestamp
+    to_date = to_date.timestamp()
+    # filter the logs using the to and from dates
+    stmt = db.select(LogEntry).where(
+        db.and_(
+            LogEntry.date_added <= to_date,
+            LogEntry.date_added >= from_date
+        )
+    )
+    logs_for_period = db.session.scalars(stmt).all()
+    # verify the user is allowed to access the logs
+    user = verify_user(car_id)
+    if user:
+        if logs_for_period:
+            # filter out the logs that belong to the user and car
+            user_logs_for_period = [log for log in logs_for_period if log.user_car_id == car_id]
+            print(user_logs_for_period)
+            # calculate the total cost for the period
+            total_cost = 0
+            for log in user_logs_for_period:
+                total_cost += log.fuel_price * log.fuel_quantity
+            
+            
+            return {
+                    'from': f'{from_day}-{from_month}-{from_year}',
+                    'to': f'{to_day}-{to_month}-{to_year}',
+                    'total_cost_for_period': f"${format(total_cost, '.2f')}"
+            }
+        return {'expenditure_for_period': 'no expenditure for period specified'}
+    abort(404, "User car does not exist")
