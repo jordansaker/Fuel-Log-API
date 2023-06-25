@@ -183,9 +183,7 @@ def calculate_avg_consuption(car_id):
                 )
             )
             check_trip = db.session.scalar(stmt)
-            print(check_trip)
             if not check_trip:
-                print('yes')
             # add a new trip
                 new_trip = Trip(
                     fuel_price= trip_info['fuel_price'],

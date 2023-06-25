@@ -152,7 +152,7 @@ def add_new_car():
         # add and commit the car to user cars
         db.session.add(new_user_car)
         db.session.commit()
-        return UserCarSchema(exclude=['user']).dump(new_user_car)
+        return UserCarSchema(exclude=['user_id']).dump(new_user_car)
 
     # check if user already has car
     stmt = db.select(UserCar).filter_by(
