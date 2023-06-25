@@ -45,10 +45,10 @@ class TripSchema(ma.Schema):
         fields = ('id', 'fuel_price', 'distance', 'user_car')
 
     """
-    user_car = fields.Nested('UserCarSchema')
+    usercar = fields.Nested('UserCarSchema')
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('id', 'fuel_price', 'distance', 'user_car')
+        fields = ('id', 'fuel_price', 'distance', 'usercar', 'user_car_id')
         ordered = True

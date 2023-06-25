@@ -142,7 +142,6 @@ def delete_log_entry(car_id, log_id):
             return {'msg': 'Log entry deleted from user car'}
         abort(404, "Log entry not found")
     abort(404, "User car not found")
-        
 
 # calculate the average consumption
 # calculate the trip cost
@@ -179,12 +178,24 @@ def calculate_avg_consuption(car_id):
         if len(log_entries) > 2:
             # load the request body to the trip schema
             trip_info = TripSchema().load(request.json)
-            # add a new trip
-            new_trip = Trip(
-                fuel_price= trip_info['fuel_price'],
-                distance= trip_info['distance'],
-                user_car_id= car_id
+            # see if the trip exists already, if it does, skip the adding part (avoid dulplicates)
+            stmt = db.select(Trip).where(
+                db.and_(
+                    Trip.fuel_price == trip_info['fuel_price'],
+                    Trip.distance == trip_info['distance'],
+                    Trip.user_car_id == car_id
+                )
             )
+            check_trip = db.session.scalar(stmt)
+            if not check_trip:
+            # add a new trip
+                new_trip = Trip(
+                    fuel_price= trip_info['fuel_price'],
+                    distance= trip_info['distance'],
+                    user_car_id= car_id
+                )
+            # if trip exists, assign to new_trip
+            new_trip = check_trip
             # last 2 entries are in list position's 0 and 1
             # calculate the distance travelled from one fill up
             # gather as many data points for distance travelled
@@ -211,10 +222,85 @@ def calculate_avg_consuption(car_id):
                 'car': CarSchema(exclude=['id', 'user_car']).dump(user_car.car)
             }
         return {
-            'calculation_error': 'unable to calculate average consumption due to number of log entries present',
+            'calc_error': 'unable to calc average consumption due to num of log entries present',
             'log_entries_required': 'Require more than 2 log entries for user car'
         }
     abort(404, "User car not found")
 
+# get trips for user car
+@log_bp.route('/me/<int:car_id>/trips/')
+@jwt_required()
+def get_all_trips(car_id):
+    """
+    Get Trips
+
+    Get all trips related to the specified user car
+
+    Variables:
+
+            <car_id> (int)
+    """
+    # query the database
+    stmt = db.select(Trip).filter_by(user_car_id=car_id)
+    all_trips = db.session.scalars(stmt).all()
+    if all_trips:
+        user_trips = [trip for trip in all_trips if trip.usercar.user_id == get_jwt_identity()]
+        return TripSchema(many=True, exclude=['usercar']).dump(user_trips)
+    abort(404, "User car has no trips")
+
+# delete trips
+@log_bp.route('/me/<int:car_id>/trips/<int:trip_id>', methods=['DELETE'])
+@jwt_required()
+def delete_trips(car_id, trip_id):
+    """
+    Delete trips
+
+    Allows the user to delete a trip for the specified user car
+
+    Variables:
+
+            <car_id> (int)
+
+            <trip_id> (int)
+    """
+    # query the database
+    stmt = db.select(Trip).filter_by(id=trip_id)
+    trip = db.session.scalar(stmt)
+    if trip and trip.usercar.user_id == get_jwt_identity() and trip.user_car_id == car_id:
+        # delete the trip and commit
+        db.session.delete(trip)
+        db.session.commit()
+        return {'deleted': 'Trip successfully delete'}
+    abort(404, "User car trip does not exist")
+
+# update trips
+@log_bp.route('/me/<int:car_id>/trips/<int:trip_id>', methods=['PUT', 'PATCH'])
+@jwt_required()
+def update_trips(car_id, trip_id):
+    """
+    Update trips
+
+    Allows the user to update a trip for the specified user car
+
+    Variables:
+
+            <car_id> (int)
+
+            <trip_id> (int)
+    """
+    # query the database
+    stmt = db.select(Trip).filter_by(id=trip_id)
+    trip = db.session.scalar(stmt)
+    if trip and trip.usercar.user_id == get_jwt_identity() and trip.user_car_id == car_id:
+        # load the request body to the trip schema
+        trip_info = TripSchema().load(request.json)
+        # update the trip
+        trip.fuel_price = trip_info.get('fuel_price', trip.fuel_price)
+        trip.distance = trip_info.get('distance', trip.distance)
+        trip.user_car_id = car_id
+        # commit the update
+        db.session.commit()
+        return TripSchema().dump(trip)
+    abort(404, "User car trip does not exist")
 
 # expenditure summary

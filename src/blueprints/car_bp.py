@@ -48,9 +48,9 @@ def get_cars_by_make_model(make, model):
 
     Variables:
 
-        <make>  (str)
+            <make>  (str)
 
-        <model>  (str)
+            <model>  (str)
     """
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(
@@ -74,7 +74,7 @@ def get_cars_by_make(make):
 
     Variables:
 
-        <make>  (str)
+            <make>  (str)
     """
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(Car.make == make.capitalize())
@@ -203,7 +203,7 @@ def delete_user_car(user_car_id):
 
     Variables:
 
-    <user_car_id> (int)
+            <user_car_id> (int)
     """
     # query the database to find user car
     stmt = db.select(UserCar).filter_by(
@@ -220,6 +220,7 @@ def delete_user_car(user_car_id):
         return {'deleted': 'removed car from user list'}
     abort(404, description='User car not found')
 
+
 # ADMIN ROUTES
 # admin can delete car from the cars table
 @car_bp.route('/<int:car_id>', methods=['DELETE'])
@@ -232,7 +233,7 @@ def delete_car(car_id):
 
     Variables:
 
-    <car_id> (int)
+            <car_id> (int)
     """
     # admin access
     admin_access()
@@ -260,7 +261,7 @@ def update_car_info(car_id):
 
     Variables
 
-    <car_id> (int)
+            <car_id> (int)
     """
     # admin access
     admin_access()
