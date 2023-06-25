@@ -12,8 +12,9 @@ from flask import Blueprint, abort, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.log import LogEntry, LogEntrySchema
-from models.user_car import UserCar, UserCarSchema
+from models.user_car import UserCar
 from models.car import CarSchema
+from models.trip import Trip, TripSchema
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
 
@@ -145,9 +146,9 @@ def delete_log_entry(car_id, log_id):
 
 # calculate the average consumption
 # calculate the trip cost
-@log_bp.route('/me/<int:car_id>/trip/calculator/<int:distance>/<float:fuel_price>')
+@log_bp.route('/me/<int:car_id>/trip/calculator/', methods=['POST'])
 @jwt_required()
-def calculate_avg_consuption(car_id, distance, fuel_price):
+def calculate_avg_consuption(car_id):
     """
     Trip calculator and Average Consumption
 
@@ -165,9 +166,6 @@ def calculate_avg_consuption(car_id, distance, fuel_price):
 
             <car_id> (int)
 
-            <distance> (int) distance of the trip
-
-            <fuel_price> (float)
     """
     # query the database for user car's id
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
@@ -179,6 +177,14 @@ def calculate_avg_consuption(car_id, distance, fuel_price):
                                 ).order_by(LogEntry.date_added.desc())
         log_entries = db.session.scalars(stmt).all()
         if len(log_entries) > 2:
+            # load the request body to the trip schema
+            trip_info = TripSchema().load(request.json)
+            # add a new trip
+            new_trip = Trip(
+                fuel_price= trip_info['fuel_price'],
+                distance= trip_info['distance'],
+                user_car_id= car_id
+            )
             # last 2 entries are in list position's 0 and 1
             # calculate the distance travelled from one fill up
             # gather as many data points for distance travelled
@@ -192,9 +198,12 @@ def calculate_avg_consuption(car_id, distance, fuel_price):
             # average consumption
             avg_consumption = (total_fuel) / (distance_travelled / 100)
             # esitmated fuel needed for trip
-            trip_fuel = avg_consumption * (distance / 100)
+            trip_fuel = avg_consumption * (trip_info['distance'] / 100)
             # estimated trip cost
-            trip_cost = trip_fuel * fuel_price
+            trip_cost = trip_fuel * trip_info['fuel_price']
+            # add and commit the trip
+            db.session.add(new_trip)
+            db.session.commit()
             return {
                 'avg_consumption': f"{format(avg_consumption, '.2f')} L/100km",
                 'estimated_trip_fuel': f"{format(trip_fuel, '.2f')} L",
