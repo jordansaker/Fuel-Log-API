@@ -4,13 +4,15 @@ Contains routes related to user authentication.
 
 Routes:
 
-    /login  -  allows existing user to authenticate, returing an access token
+    POST '/login'  -  allows existing user to authenticate, returing an access token
 
-    /register -  allows a user to register
+    POST '/register' -  allows a user to register
+
+    DELETE '/me/<int:user_id>/delete/' - ADMIN and user only: delete a user account
 """
 from datetime import timedelta
 from flask import Blueprint, request, abort
-from flask_jwt_extended import create_access_token, get_jwt_identity
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from init import bcrypt, db
 from models.user import User, UserSchema
 from models.user_car import UserCar
@@ -53,7 +55,7 @@ def user_register():
     # return the user info and success message
     return {
             "msg": "Successfully created new user",
-            "user_info": UserSchema().dump(new_user)
+            "user_info": UserSchema(exclude=['password']).dump(new_user)
             }, 201
 
 
@@ -83,9 +85,39 @@ def user_login():
         token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=120))
         return {
                 "token": token, 
-                "user": UserSchema(exclude=['id']).dump(user)
+                "user": UserSchema(exclude=['id', 'password']).dump(user)
                }
     abort(401, description='Invalid email address or password')
+
+
+@auth_bp.route('/me/<int:user_id>/delete/', methods=['DELETE'])
+@jwt_required()
+def delete_user(user_id):
+    """
+    Delete a user
+
+    Delete a user record. A user can delete their record or the admin can delete all records
+
+    Variables:
+
+            <user_id> (int)    
+    """
+    # verify user
+    stmt = db.select(User).filter_by(id=user_id).filter_by(id=get_jwt_identity())
+    user = db.session.scalar(stmt)
+    if user and not user.is_admin:
+        db.session.delete(user)
+        db.session.commit()
+        return {'deleted': 'user successfully deleted'}
+    user = admin_access()
+    stmt = db.select(User).filter_by(id=user_id)
+    delete_user = db.session.scalar(stmt)
+
+    if user and delete_user:
+        db.session.delete(delete_user)
+        db.session.commit()
+        return {'admin_deleted': 'user successfully deleted'}
+    abort(404, "User not found")
 
 
 def admin_access():
@@ -100,9 +132,9 @@ def admin_access():
     # query the database and check if the user is_admin
     stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
-    print(user.is_admin)
     if not user.is_admin:
         abort(401, description='admin access only')
+    return user
 
 def verify_user(car_id):
     """
