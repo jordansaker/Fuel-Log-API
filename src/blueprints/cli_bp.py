@@ -73,7 +73,7 @@ def seed_tables():
             model= "Ranger",
             model_trim= 'Raptor',
             year= 2022,
-            tank_size= 133
+            tank_size= 80
         ),
         Car(
             make= "Toyota",
@@ -103,7 +103,7 @@ def seed_tables():
     logs = [
         LogEntry(
             current_odo= 80100,
-            fuel_quantity= 90,
+            fuel_quantity= 80,
             fuel_price= 1.86,
             date_added= datetime.now().timestamp(),
             usercar= user_cars[1]

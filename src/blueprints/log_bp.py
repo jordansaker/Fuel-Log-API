@@ -13,6 +13,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.log import LogEntry, LogEntrySchema
 from models.user_car import UserCar, UserCarSchema
+from models.car import CarSchema
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
 
@@ -144,4 +145,67 @@ def delete_log_entry(car_id, log_id):
 
 # calculate the average consumption
 # calculate the trip cost
+@log_bp.route('/me/<int:car_id>/trip/calculator/<int:distance>/<float:fuel_price>')
+@jwt_required()
+def calculate_avg_consuption(car_id, distance, fuel_price):
+    """
+    Trip calculator and Average Consumption
+
+    Calculates the average fuel consumption. Queries the database for the last 2 log entries
+    and calculates the distance between fill ups.
+
+    Calculates how much fuel was used from previous fills.
+
+    Average will only be calculated once there is more than 2 log entries for the user car.
+
+    The trip calculator relies on the average. Once the average can be calculated, the trip
+    cost will be calculated based on the average.
+
+    Variables:
+
+            <car_id> (int)
+
+            <distance> (int) distance of the trip
+
+            <fuel_price> (float)
+    """
+    # query the database for user car's id
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    user_car = db.session.scalar(stmt)
+    if user_car:
+        # filter the log entries using the user car id, order by date added
+        stmt = db.select(LogEntry).filter_by(
+                                    user_car_id=car_id
+                                ).order_by(LogEntry.date_added.desc())
+        log_entries = db.session.scalars(stmt).all()
+        if len(log_entries) > 2:
+            # last 2 entries are in list position's 0 and 1
+            # calculate the distance travelled from one fill up
+            # gather as many data points for distance travelled
+            distance_travelled = log_entries[0].current_odo - log_entries[-2].current_odo
+            # average fuel consumed from last fill up
+            # is isn't the real average consumption as the fuel left in the tank isn't recorded
+            # fuel total
+            total_fuel = 0
+            for index in range(1, len(log_entries) - 1):
+                total_fuel += log_entries[index].fuel_quantity
+            # average consumption
+            avg_consumption = (total_fuel) / (distance_travelled / 100)
+            # esitmated fuel needed for trip
+            trip_fuel = avg_consumption * (distance / 100)
+            # estimated trip cost
+            trip_cost = trip_fuel * fuel_price
+            return {
+                'avg_consumption': f"{format(avg_consumption, '.2f')} L/100km",
+                'estimated_trip_fuel': f"{format(trip_fuel, '.2f')} L",
+                'esitmated_trip_cost': f"${format(trip_cost, '.2f')}",
+                'car': CarSchema(exclude=['id', 'user_car']).dump(user_car.car)
+            }
+        return {
+            'calculation_error': 'unable to calculate average consumption due to number of log entries present',
+            'log_entries_required': 'Require more than 2 log entries for user car'
+        }
+    abort(404, "User car not found")
+
+
 # expenditure summary

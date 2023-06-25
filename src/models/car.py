@@ -31,7 +31,7 @@ class Car(db.Model):
     model = db.Column(db.String(), nullable=False)
     model_trim = db.Column(db.String(), nullable=False)
     year = db.Column(db.Integer)
-    tank_size = db.Column(db.String())
+    tank_size = db.Column(db.Integer)
     # relationships to foreign key in other table (not model defined attributes)
     user_car = db.relationship('UserCar', backref='car')
 
@@ -50,7 +50,7 @@ class CarSchema(ma.Schema):
 
     The field ``user_car`` is a nested field related to the UserCar Model
     """
-    user_car = fields.Nested('UserCarSchema', exclude=['car_id'])
+    user_car = fields.Nested('UserCarSchema', exclude=['car'])
     # validate the data for each attribute
     make = fields.String(
         required=True,
