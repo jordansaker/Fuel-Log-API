@@ -15,7 +15,13 @@ Routes:
 
     GET '/<make>/' : returns cars that match the given make
 
-    POST '/me/' :  add a new car    
+    POST '/me/' :  add a new car. Adds to the cars entity first and then assigns to the user
+
+    DELETE '/me/<user_car_id>' : delete a car from the user's car list
+
+    DELETE '/<car_id>' : ADMIN ONLY: Admin can delete cars from the cars entity
+
+    PUT/PATCH '/<car_id>' ADMIN ONLY: Admin can update a car in the cars entity
 """
 from flask import Blueprint, abort, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -171,7 +177,7 @@ def add_new_car():
         # add and commit the car to user cars
         db.session.add(new_user_car)
         db.session.commit()
-        return UserCarSchema(exclude=['user']).dump(new_user_car)
+        return UserCarSchema(exclude=['user_id']).dump(new_user_car)
     return {'error': 'Car already exists for user'}
 
 
@@ -212,7 +218,6 @@ def delete_user_car(user_car_id):
         id= user_car_id
     )
     user_car = db.session.scalars(stmt).first()
-    # return UserCarSchema(many=True, only=['id', 'car']).dump(user_car)
     if user_car:
         # delete and commit the selected car
         db.session.delete(user_car)
@@ -248,6 +253,7 @@ def delete_car(car_id):
         db.session.delete(car)
         db.session.commit()
         return {'msg': 'car successfully deleted'}
+    abort(404, "Car not found")
 
 
 # admin can update car info in cars table

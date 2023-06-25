@@ -55,7 +55,7 @@ class UserCarSchema(ma.Schema):
     # nested fields
     logs = fields.List(fields.Nested('LogEntrySchema'))
     user = fields.Nested('UserSchema', exclude=['cars'])
-    car = fields.Nested('CarSchema', exclude=['id', 'user_car'])
+    car = fields.Nested('CarSchema', exclude=['user_car'])
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
