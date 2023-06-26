@@ -7,8 +7,9 @@ The Car Model contains the following attributes:
 
     id, make, model, model_trim, year, tank_size
 """
+from datetime import datetime
 from marshmallow import fields
-from marshmallow.validate import Regexp
+from marshmallow.validate import Regexp, And
 from init import db, ma
 
 class Car(db.Model):
@@ -30,8 +31,8 @@ class Car(db.Model):
     make = db.Column(db.String(), nullable=False)
     model = db.Column(db.String(), nullable=False)
     model_trim = db.Column(db.String(), nullable=False)
-    year = db.Column(db.Integer)
-    tank_size = db.Column(db.Integer)
+    year = db.Column(db.Integer, nullable=False)
+    tank_size = db.Column(db.Integer, nullable=False)
     # relationships to foreign key in other table (not model defined attributes)
     user_car = db.relationship('UserCar', backref='car')
 
@@ -59,6 +60,16 @@ class CarSchema(ma.Schema):
     model = fields.String(
         required=True,
         validate=Regexp('^[A-Z][a-zA-Z0-9 ]+$', error='Must capitalise the name')
+    )
+    year = fields.Integer(
+        required=True,
+        validate=And(min(1900), max(datetime.date.today().year + 1))
+    )
+    tank_size = fields.Integer(
+        required=True
+    )
+    model_trim = fields.String(
+        required=True
     )
     class Meta:
         """
