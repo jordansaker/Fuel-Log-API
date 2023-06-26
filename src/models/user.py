@@ -8,6 +8,7 @@ The User Model contains the following attributes:
     id, first_name, last_name, email, password
 """
 from marshmallow import fields
+from marshmallow.validate import And, Length, Regexp
 from init import db, ma
 
 class User(db.Model):
@@ -23,8 +24,8 @@ class User(db.Model):
     __tablename__ = 'users'
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String())
-    last_name = db.Column(db.String())
+    first_name = db.Column(db.String(), default='null')
+    last_name = db.Column(db.String(), default='null')
     email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
@@ -50,6 +51,17 @@ class UserSchema(ma.Schema):
                 'UserCarSchema', 
                 exclude=['id', 'logs', 'user_id']
             ))
+    password = fields.String(
+        required=True,
+        validate=Length(min=8)
+    )
+    first_name = fields.String(
+        validate=Regexp('^[a-zA-Z]+$', error="Must only contain letters")
+    )
+    last_name = fields.String(
+        validate=Regexp('^[a-zA-Z]+$', error="Must only contain letters")
+    )
+    email = fields.Email(required=True)
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
