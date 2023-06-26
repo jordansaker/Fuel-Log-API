@@ -34,7 +34,7 @@ from init import db
 from models.log import LogEntry, LogEntrySchema
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
-from blueprints.auth_bp import verify_user_car
+from blueprints.auth_bp import verify_user_car, verify_user
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
 
@@ -52,6 +52,7 @@ def get_log_entries(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
+    verify_user()
     user_car = verify_user_car(car_id)
     if user_car:
         # query the database and filter logs by user_car_id
@@ -77,6 +78,7 @@ def add_log_entry(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
+    verify_user()
     user_car = verify_user_car(car_id)
     if user_car:
         # load the requeest body to the log entry schema
@@ -111,6 +113,7 @@ def update_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
+    verify_user()
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -146,6 +149,7 @@ def delete_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
+    verify_user()
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -182,6 +186,7 @@ def calculate_avg_consuption(car_id):
             <car_id> (int)
 
     """
+    verify_user()
     # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
@@ -256,6 +261,7 @@ def get_all_trips(car_id):
             <car_id> (int)
     """
     # verify the user
+    verify_user()
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(user_car_id=car_id)
@@ -283,6 +289,7 @@ def delete_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
+    verify_user()
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
@@ -312,6 +319,7 @@ def update_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
+    verify_user()
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
@@ -358,6 +366,7 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
 
             <to_year> (int)
     """
+    verify_user()
     # convert "from" date to format stored in database "unix"
     from_date = datetime(from_year, from_month, from_day).timestamp()
     # 'to' date
