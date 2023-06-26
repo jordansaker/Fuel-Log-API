@@ -44,8 +44,8 @@ def user_register():
     user_info = UserSchema().load(request.json)
     # create new user model instance with data
     new_user = User(
-        first_name= user_info.get('first_name', 'null'),
-        last_name= user_info.get('last_name', 'null'),
+        first_name= user_info.get('first_name', None),
+        last_name= user_info.get('last_name', None),
         email= user_info['email'],
         password= bcrypt.generate_password_hash(user_info['password']).decode('utf8')
     )
