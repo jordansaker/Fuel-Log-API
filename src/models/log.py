@@ -66,7 +66,7 @@ class LogEntrySchema(ma.Schema):
     )
     fuel_price = fields.Float(
         required=True,
-        validate=(0.01)
+        validate=Range(0.01)
     )
     class Meta:
         """

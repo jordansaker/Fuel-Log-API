@@ -46,6 +46,7 @@ class TripSchema(ma.Schema):
 
     """
     usercar = fields.Nested('UserCarSchema')
+    
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
