@@ -9,7 +9,7 @@ The Car Model contains the following attributes:
 """
 from datetime import datetime
 from marshmallow import fields
-from marshmallow.validate import Regexp, And
+from marshmallow.validate import Regexp, And, Range
 from init import db, ma
 
 class Car(db.Model):
@@ -63,10 +63,11 @@ class CarSchema(ma.Schema):
     )
     year = fields.Integer(
         required=True,
-        validate=And(min(1900), max(datetime.date.today().year + 1))
+        validate=Range(1900, (datetime.today().year + 1))
     )
     tank_size = fields.Integer(
-        required=True
+        required=True,
+        validate=Range(1)
     )
     model_trim = fields.String(
         required=True
