@@ -5,7 +5,7 @@ This module contains the Car model and CarSchema classes
 
 The Car Model contains the following attributes:
 
-    id, make, model, tank_size
+    id, make, model, model_trim, year, tank_size
 """
 from marshmallow import fields
 from marshmallow.validate import Regexp

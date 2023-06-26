@@ -29,10 +29,12 @@ from init import db
 from models.car import Car, CarSchema
 from models.user_car import UserCar, UserCarSchema
 from blueprints.auth_bp import admin_access
+from blueprints.auth_bp import verify_user
 
 car_bp = Blueprint('car', __name__, url_prefix='/cars')
 
 @car_bp.route('/')
+@jwt_required()
 def get_all_cars():
     """
     All cars view function
@@ -40,12 +42,14 @@ def get_all_cars():
     This view function returns all the cars in the Cars table
     """
     # statement to query the database
+    verify_user()
     stmt = db.select(Car)
     cars = db.session.scalars(stmt).all()
     return CarSchema(many=True, exclude=['user_car']).dump(cars)
 
 
 @car_bp.route('/<string:make>/<string:model>')
+@jwt_required()
 def get_cars_by_make_model(make, model):
     """
     Cars by Make and Model
@@ -58,6 +62,7 @@ def get_cars_by_make_model(make, model):
 
             <model>  (str)
     """
+    verify_user()
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(
         db.and_(
@@ -72,6 +77,7 @@ def get_cars_by_make_model(make, model):
 
 
 @car_bp.route('/<string:make>/')
+@jwt_required()
 def get_cars_by_make(make):
     """
     Cars by Make
@@ -82,6 +88,7 @@ def get_cars_by_make(make):
 
             <make>  (str)
     """
+    verify_user()
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(Car.make == make.capitalize())
     cars = db.session.scalars(stmt).all()
@@ -122,6 +129,7 @@ def add_new_car():
                 "tank_size" : "car tank size"
             }
     """
+    verify_user()
     # load the request using the Car schema
     car_info = CarSchema().load(request.json)
     # query the database to see if the car exists
@@ -190,6 +198,7 @@ def get_user_cars():
 
     This view function returns all the user cars
     """
+    verify_user()
     # query the database
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
     user_cars = db.session.scalars(stmt).all()
@@ -211,6 +220,7 @@ def delete_user_car(user_car_id):
 
             <user_car_id> (int)
     """
+    verify_user()
     # query the database to find user car
     stmt = db.select(UserCar).filter_by(
         user_id= get_jwt_identity()

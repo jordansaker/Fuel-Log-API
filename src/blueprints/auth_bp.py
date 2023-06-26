@@ -102,21 +102,18 @@ def delete_user(user_id):
 
             <user_id> (int)    
     """
+    admin_delete_user = verify_user()
     # verify user
-    stmt = db.select(User).filter_by(id=user_id).filter_by(id=get_jwt_identity())
-    user = db.session.scalar(stmt)
-    if user and not user.is_admin:
-        db.session.delete(user)
-        db.session.commit()
-        return {'deleted': 'user successfully deleted'}
-    user = admin_access()
-    stmt = db.select(User).filter_by(id=user_id)
-    delete_user = db.session.scalar(stmt)
-
-    if user and delete_user:
-        db.session.delete(delete_user)
-        db.session.commit()
-        return {'admin_deleted': 'user successfully deleted'}
+    if admin_delete_user:
+        if admin_delete_user.id == user_id and not admin_delete_user.is_admin:
+            db.session.delete(admin_delete_user)
+            db.session.commit()
+            return {'deleted': 'user successfully deleted'}
+        admin_user = admin_access()
+        if admin_user:
+            db.session.delete(admin_delete_user)
+            db.session.commit()
+            return {'admin_deleted': 'user successfully deleted'}
     abort(404, "User not found")
 
 
@@ -136,7 +133,7 @@ def admin_access():
         abort(401, description='admin access only')
     return user
 
-def verify_user(car_id):
+def verify_user_car(car_id):
     """
     Verify that the user making the request is allowed to access the
     response
@@ -150,3 +147,13 @@ def verify_user(car_id):
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
     user = db.session.scalar(stmt)
     return user
+
+def verify_user():
+    """
+    Verify that user exists using the JWT token linked to the user ID
+    """
+    stmt = db.select(User).filter_by(id=get_jwt_identity())
+    user = db.session.scalar(stmt)
+    if user:
+        return user
+    abort(401, "You must be logged in or registered")

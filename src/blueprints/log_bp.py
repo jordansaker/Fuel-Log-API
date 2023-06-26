@@ -32,10 +32,9 @@ from flask import Blueprint, abort, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.log import LogEntry, LogEntrySchema
-from models.user_car import UserCar
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
-from blueprints.auth_bp import verify_user
+from blueprints.auth_bp import verify_user_car
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
 
@@ -53,7 +52,7 @@ def get_log_entries(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
-    user_car = verify_user(car_id)
+    user_car = verify_user_car(car_id)
     if user_car:
         # query the database and filter logs by user_car_id
         stmt = db.select(LogEntry).filter_by(user_car_id=user_car.id)
@@ -78,7 +77,7 @@ def add_log_entry(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
-    user_car = verify_user(car_id)
+    user_car = verify_user_car(car_id)
     if user_car:
         # load the requeest body to the log entry schema
         log_entry_info = LogEntrySchema().load(request.json)
@@ -112,7 +111,7 @@ def update_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
-    user_car = verify_user(car_id)
+    user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
         stmt = db.select(LogEntry).filter_by(id=log_id)
@@ -147,7 +146,7 @@ def delete_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
-    user_car = verify_user(car_id)
+    user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
         stmt = db.select(LogEntry).filter_by(id=log_id)
@@ -184,7 +183,7 @@ def calculate_avg_consuption(car_id):
 
     """
     # query the database for user car's id
-    user_car = verify_user(car_id)
+    user_car = verify_user_car(car_id)
     if user_car:
         # filter the log entries using the user car id, order by date added
         stmt = db.select(LogEntry).filter_by(
@@ -257,7 +256,7 @@ def get_all_trips(car_id):
             <car_id> (int)
     """
     # verify the user
-    user = verify_user(car_id)
+    user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(user_car_id=car_id)
     all_trips = db.session.scalars(stmt).all()
@@ -284,7 +283,7 @@ def delete_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
-    user = verify_user(car_id)
+    user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
     trip = db.session.scalar(stmt)
@@ -313,7 +312,7 @@ def update_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
-    user = verify_user(car_id)
+    user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
     trip = db.session.scalar(stmt)
@@ -379,7 +378,7 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
     )
     logs_for_period = db.session.scalars(stmt).all()
     # verify the user is allowed to access the logs
-    user = verify_user(car_id)
+    user = verify_user_car(car_id)
     if user:
         if logs_for_period:
             # filter out the logs that belong to the user and car
