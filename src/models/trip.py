@@ -8,6 +8,7 @@ The Trip model contains the following attributes:
     id, fuel_price, car_id (Foreign Key)
 """
 from marshmallow import fields
+from marshmallow.validate import Range
 from init import db, ma
 
 class Trip(db.Model):
@@ -46,7 +47,14 @@ class TripSchema(ma.Schema):
 
     """
     usercar = fields.Nested('UserCarSchema')
-    
+    fuel_price = fields.Float(
+        required=True,
+        validate=Range(0.01)
+    )
+    distance = fields.Integer(
+        required=True,
+        validate=Range(1)
+    )
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
