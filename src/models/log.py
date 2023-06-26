@@ -11,6 +11,7 @@ The Log Entry Model contains the following attributes:
 """
 from datetime import datetime
 from marshmallow import fields
+from marshmallow.validate import Range
 from init import db, ma
 
 
@@ -55,6 +56,18 @@ class LogEntrySchema(ma.Schema):
                     'fuel_price', 'date_added', 'user_car')
     """
     usercar = fields.Nested('UserCarSchema', exclude=['logs'])
+    current_odo = fields.Integer(
+        required=True,
+        validate=Range(0)
+    )
+    fuel_quantity = fields.Integer(
+        required=True,
+        validate=Range(1)
+    )
+    fuel_price = fields.Float(
+        required=True,
+        validate=(0.01)
+    )
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields

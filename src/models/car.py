@@ -9,7 +9,7 @@ The Car Model contains the following attributes:
 """
 from datetime import datetime
 from marshmallow import fields
-from marshmallow.validate import Regexp, And, Range
+from marshmallow.validate import Regexp, Range
 from init import db, ma
 
 class Car(db.Model):
