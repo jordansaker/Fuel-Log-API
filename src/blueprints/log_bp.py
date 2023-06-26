@@ -376,6 +376,8 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
     # assign it using the .now() function
     if to_date == datetime.now().date():
         to_date = datetime.now()
+    else:
+        to_date = datetime(to_year, to_month, to_day)
     # convert "to" date to timestamp
     to_date = to_date.timestamp()
     # filter the logs using the to and from dates
@@ -394,13 +396,17 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
             user_logs_for_period = [log for log in logs_for_period if log.user_car_id == car_id]
             # calculate the total cost for the period
             total_cost = 0
+            total_distance = user_logs_for_period[-1].current_odo \
+                                    - user_logs_for_period[0].current_odo
             for log in user_logs_for_period:
                 total_cost += log.fuel_price * log.fuel_quantity
+
 
             return {
                     'from': f'{from_day}-{from_month}-{from_year}',
                     'to': f'{to_day}-{to_month}-{to_year}',
-                    'total_cost_for_period': f"${format(total_cost, '.2f')}"
+                    'total_cost_for_period': f"${format(total_cost, '.2f')}",
+                    'total_distance_for_period': f"{total_distance} km"
             }
         return {'expenditure_for_period': 'no expenditure for period specified'}
     abort(404, "User car does not exist")
