@@ -15,15 +15,15 @@ Requirements:
 
 ## REST API Resources
 
-Below is a full listing of all available endpoints. For more information on a particular endpoint, click the resource name.
+A full listing of all available endpoints can be found [here](./docs/endpoints.md).
 
 #### User Access and account management
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[POST       /login](./docs/endpoints.md#post-login) | Allows existing user to authenticate.|
-|[POST       /register](./docs/endpoints.md#post-register) | Allows a user to register.|
-|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#delete-meuser_iddelete) | Allows a user to delete their account. Admin can delete any user.|
+|[POST       /login](./docs/endpoints.md#head1) | Allows existing user to authenticate.|
+|[POST       /register](./docs/endpoints.md#head2) | Allows a user to register.|
+|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#head3) | Allows a user to delete their account. Admin can delete any user.|
 
 #### Cars
 
@@ -51,7 +51,6 @@ Below is a full listing of all available endpoints. For more information on a pa
 |[DELETE           /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
 |[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
 |[GET                /logs/me/$car_id/expenditure/from/\$from_day/\$from_month/\$from_year/to/\$to_day/\$to_month/\$to_year/](./docs/endpoints.md#get-logsmecar_idexpenditurefromfrom_dayfrom_monthfrom_yeartoto_dayto_monthto_year) | Get the expenditure summary for a time period |
-
 
 #### The problem this API app is trying to solve
 

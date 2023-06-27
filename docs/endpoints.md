@@ -2,7 +2,8 @@
 
 All URLs specified point to the Localhost server at the default port 5000 when the Flask API is run.
 
-## POST    /login
+
+## <a name="head1"></a> POST    /login
 
 Let's the user authenticate and recieve an access token
 
@@ -77,7 +78,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## POST    /register
+## <a name="head2"></a> POST    /register
 
 Let's a user register to use the API.
 
@@ -143,7 +144,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## DELETE    /me/$user_id/delete/
+## <a name="head3"></a> DELETE    /me/$user_id/delete/
 
 Allows a user to delete their account. Admin accessing this endpoint can delete any user.
 
@@ -198,7 +199,7 @@ http://127.0.0.1:5000/me/3/delete/
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## GET  /cars/
+## <a name="head4"></a> GET  /cars/
 
 Get a list of all cars.
 
@@ -265,7 +266,7 @@ http://127.0.0.1:5000/cars/
 
 [Back to Main](../README.md#cars)
 
-## GET  /cars/$make/
+## <a name="head5"></a> GET  /cars/$make/
 
 Get a filtered list of cars by make.
 
@@ -331,7 +332,7 @@ http://127.0.0.1:5000/cars/ford/
 
 [Back to Main](../README.md#cars)
 
-## GET  /cars/$make/\$model
+## <a name="head6"></a> GET  /cars/$make/\$model
 
 Get a filtered list of cars by make and model.
 
@@ -390,7 +391,7 @@ http://127.0.0.1:5000/cars/ford/ranger
 
 [Back to Main](../README.md#cars)
 
-## GET  /cars/me/
+## <a name="head7"></a> GET  /cars/me/
 
 Get a list of all cars that belong to the authenticated user.
 
@@ -443,7 +444,7 @@ http://127.0.0.1:5000/cars/me/
 
 [Back to Main](../README.md#cars)
 
-## POST  /cars/me/
+## <a name="head8"></a> POST  /cars/me/
 
 Add a new car to the user's car list. The car is also added to the cars list.
 
@@ -520,7 +521,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#cars)
 
-## DELETE  /cars/me/$user_car_id
+## <a name="head9"></a> DELETE  /cars/me/$user_car_id
 
 Delete a car in user's car list.
 
@@ -575,7 +576,7 @@ http://127.0.0.1:5000/cars/me/
 
 [Back to Main](../README.md#cars)
 
-## DELETE  /cars/$car_id
+## <a name="head10"></a> DELETE  /cars/$car_id
 
 ADMIN ONLY: Admin can delete a car which will delete from all user car lists.
 
@@ -628,7 +629,7 @@ http://127.0.0.1:5000/cars/3
 
 [Back to Main](../README.md#cars)
 
-## PUT/PATCH  /cars/$car_id
+## <a name="head11"></a> PUT/PATCH  /cars/$car_id
 
 ADMIN ONLY: Admin can delete a car which will delete from all user car lists.
 
@@ -708,7 +709,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#cars)
 
-## GET  /logs/me/$car_id/
+## <a name="head12"></a> GET  /logs/me/$car_id/
 
 Get a list of the logs that belong to the authenticated user's car.
 
@@ -816,7 +817,7 @@ http://127.0.0.1:5000/logs/me/2/
 
 [Back to Main](../README.md#logs)
 
-## POST  /logs/me/$car_id/
+## <a name="head13"></a> POST  /logs/me/$car_id/
 
 Add a new log entry for the authenticated user's car.
 
@@ -902,7 +903,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## PUT/PATCH  /logs/me/$car_id/\$log_id/
+## <a name="head14"></a> PUT/PATCH  /logs/me/$car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -990,7 +991,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## DELETE  /logs/me/$car_id/\$log_id/
+## <a name="head15"></a> DELETE  /logs/me/$car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -1043,7 +1044,7 @@ http://127.0.0.1:5000/logs/me/2/6
 
 [Back to Main](../README.md#logs)
 
-## POST  /logs/me/$car_id/trip/calculator/
+## <a name="head16"></a> POST  /logs/me/$car_id/trip/calculator/
 
 Update a log entry for the authenticated user's car.
 
@@ -1119,7 +1120,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## GET  /logs/me/$car_id/trips/
+## <a name="head17"></a> GET  /logs/me/$car_id/trips/
 
 Get all trips for the authenticated user's car.
 
@@ -1188,7 +1189,7 @@ http://127.0.0.1:5000/logs/me/2/trips/
 
 [Back to Main](../README.md#logs)
 
-## DELETE  /logs/me/$car_id/trips/\$trip_id
+## <a name="head18"></a> DELETE  /logs/me/$car_id/trips/\$trip_id
 
 Delete a trip for the authenticated user's car.
 
@@ -1241,7 +1242,7 @@ http://127.0.0.1:5000/logs/me/2/trips/3
 
 [Back to Main](../README.md#logs)
 
-## PUT/PATCH  /logs/me/$car_id/trips/\$trip_id
+## <a name="head19"></a> PUT/PATCH  /logs/me/$car_id/trips/\$trip_id
 
 Update a trip for the authenticated user's car.
 
@@ -1313,7 +1314,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## GET  /logs/me/\$car_id/expenditure/from/\$from_day/\$from_month/\$from_year/to/\$to_day/\$to_month/\$to_year/
+## <a name="head20"></a> GET  /logs/me/\$car_id/expenditure/from/\$from_day/\$from_month/\$from_year/to/\$to_day/\$to_month/\$to_year/
 
 Get an expenditure summary for a specified tiem period for the authenticated user's car. The endpoint takes a "to" and "from" date as dynamic variables.
 
