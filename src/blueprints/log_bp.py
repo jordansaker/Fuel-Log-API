@@ -52,7 +52,9 @@ def get_log_entries(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user_car = verify_user_car(car_id)
     if user_car:
         # query the database and filter logs by user_car_id
@@ -60,8 +62,8 @@ def get_log_entries(car_id):
         log_entries = db.session.scalars(stmt).all()
         if log_entries:
             return LogEntrySchema(many=True).dump(log_entries)
-        return {'msg': 'No log entries for user car'}
-    abort(404, "User car not found")
+        return {'not_found': 'No log entries for user car'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 
 # add a new log
@@ -78,7 +80,9 @@ def add_log_entry(car_id):
             <car_id> (int)
     """
     # query the database for user car's id
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user_car = verify_user_car(car_id)
     if user_car:
         # load the requeest body to the log entry schema
@@ -95,7 +99,7 @@ def add_log_entry(car_id):
         db.session.add(new_log_entry)
         db.session.commit()
         return LogEntrySchema().dump(new_log_entry)
-    abort(404, "User car not found")
+    return {'not_found':  "User car not found"}, 404
 
 # update a log entry
 @log_bp.route('/me/<int:car_id>/<int:log_id>', methods=['PUT', 'PATCH'])
@@ -113,7 +117,9 @@ def update_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -130,8 +136,8 @@ def update_log_entry(car_id, log_id):
             # commit the update
             db.session.commit()
             return LogEntrySchema().dump(log_entry)
-        abort(404, "Log entry not found")
-    abort(404, "User car not found")
+        return {'not_found': 'Log entry not found'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # delete a log entry
 @log_bp.route('/me/<int:car_id>/<int:log_id>', methods=['DELETE'])
@@ -149,7 +155,9 @@ def delete_log_entry(car_id, log_id):
             <log_id> (int)
     """
     # query the database for user car's id
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -159,9 +167,9 @@ def delete_log_entry(car_id, log_id):
             # delete the log and commit
             db.session.delete(log_entry)
             db.session.commit()
-            return {'msg': 'Log entry deleted from user car'}
-        abort(404, "Log entry not found")
-    abort(404, "User car not found")
+            return {'deleted': 'Log entry deleted from user car'}
+        return {'not_found': 'Log entry not found'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # calculate the average consumption
 # calculate the trip cost
@@ -186,7 +194,9 @@ def calculate_avg_consuption(car_id):
             <car_id> (int)
 
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
@@ -242,10 +252,10 @@ def calculate_avg_consuption(car_id):
                 'car': CarSchema(exclude=['id', 'user_car']).dump(user_car.car)
             }
         return {
-            'calc_error': 'unable to calc average consumption due to num of log entries present',
+            'calc_error': 'Unable to calc average consumption due to num of log entries present',
             'log_entries_required': 'Require more than 2 log entries for user car'
-        }
-    abort(404, "User car not found")
+        }, 400
+    return {'not_found': 'User car not found'}
 
 # get trips for user car
 @log_bp.route('/me/<int:car_id>/trips/')
@@ -261,7 +271,9 @@ def get_all_trips(car_id):
             <car_id> (int)
     """
     # verify the user
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(user_car_id=car_id)
@@ -270,8 +282,8 @@ def get_all_trips(car_id):
         if all_trips:
             user_trips = [trip for trip in all_trips if trip.usercar.user_id == get_jwt_identity()]
             return TripSchema(many=True, exclude=['usercar']).dump(user_trips)
-        abort(404, "User car has no trips")
-    abort(404, "User car not found")
+        return {'not_found': 'User car has no trips'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # delete trips
 @log_bp.route('/me/<int:car_id>/trips/<int:trip_id>', methods=['DELETE'])
@@ -289,7 +301,9 @@ def delete_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
@@ -299,9 +313,9 @@ def delete_trips(car_id, trip_id):
             # delete the trip and commit
             db.session.delete(trip)
             db.session.commit()
-            return {'deleted': 'Trip successfully delete'}
-        abort(404, "User car trip does not exist")
-    abort(404, "User car not found")
+            return {'deleted': 'Trip successfully deleted'}
+        return {'not_found': 'User car trip does not exsist'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # update trips
 @log_bp.route('/me/<int:car_id>/trips/<int:trip_id>', methods=['PUT', 'PATCH'])
@@ -319,7 +333,9 @@ def update_trips(car_id, trip_id):
             <trip_id> (int)
     """
     # verify the user
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     user = verify_user_car(car_id)
     # query the database
     stmt = db.select(Trip).filter_by(id=trip_id)
@@ -335,8 +351,8 @@ def update_trips(car_id, trip_id):
             # commit the update
             db.session.commit()
             return TripSchema(exclude=['usercar']).dump(trip)
-        abort(404, "User car trip does not exist")
-    abort(404, "User car not found")
+        return {'not_found': 'User car trip does not exist'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # expenditure summary
 @log_bp.route(
@@ -366,7 +382,9 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
 
             <to_year> (int)
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # convert "from" date to format stored in database "unix"
     from_date = datetime(from_year, from_month, from_day).timestamp()
     # 'to' date
@@ -408,5 +426,5 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
                     'total_cost_for_period': f"${format(total_cost, '.2f')}",
                     'total_distance_for_period': f"{total_distance} km"
             }
-        return {'expenditure_for_period': 'no expenditure for period specified'}
-    abort(404, "User car does not exist")
+        return {'not_found': 'No expenditure for period specified'}, 404
+    return{'not_found': 'User car not found'}, 404

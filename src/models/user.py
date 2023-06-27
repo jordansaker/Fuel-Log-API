@@ -53,7 +53,7 @@ class UserSchema(ma.Schema):
             ))
     password = fields.String(
         required=True,
-        validate=Length(min=8)
+        validate=Length(min=8),
     )
     first_name = fields.String(
         validate=Regexp('^[a-zA-Z]+$', error="Must only contain letters")
