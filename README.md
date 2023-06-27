@@ -2,15 +2,73 @@
 
 #### Installation
 
-Requirements:
-- PostgreSQL    :       "psql"
-- Python 3         :        (Python 3.11.3 used)
+##### Requirements:
+- PostgreSQL
+- Python 3
 
 ##### Database setup
 
+Run PostgreSQL in the terminal:
+```
+psql
+```
+Create a database and database user:
+```
+create database fuel_log_db;
+```
+```
+create user fuel_dev with password 'fueldevpass123';
+```
+Grant access for the new user to the database:
+```
+grant all privileges on database fuel_log_db to fuel_dev;
+```
+##### Python setup
+
+Navigate to the **src** file in a terminal window. In the **src** directory, create a virtual environment and activate it:
+
+```
+python3 -m venv .venv
+source  .venv/bin/activate
+```
+Install the required packages:
+```
+python3 -m pip install -r requirements.txt
+```
+
+##### Running the Flask application
+
+Rename **.env.sample** to **.env** and add the following configuration and connection to the database.
+
+Using the database name, username, and password above setup the DB URI:
+```
+DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'
+```
+Replace SECRET KEY with your secrect key and run the following code below to setup the .env file:
+
+```
+echo "DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'\nJWT_KEY='SECRET KEY'" > .env 
+```
+
+The table below lists the available CLI commands for the application.
+
+| CLI commands | Description |
+| ----- | ----- |
+| flask cli create | Create the the models in the database |
+| flask cli drop | Drop the models from the database |
+| flask cli seed | Seed the database models with data - Needed to create ADMIN user |
+| flask run | Run the Flask application |
 
 
+Create the models and seed the database. Then run the Flask app in the CLI:
 
+```
+flask cli create
+flask cli seed
+flask run
+```
+
+The Flask application is running on the localhost on Port 5000. The endpoints can be accessed through a browser or through API development platforms such as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/).
 
 
 ## REST API Resources
@@ -52,6 +110,10 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#head19) | Update the trip details for the selected user car. |
 |[GET                /logs/me/$car_id/expenditure/from/\$from_day/\$from_month/\$from_year/to/\$to_day/\$to_month/\$to_year/](./docs/endpoints.md#head20) | Get the expenditure summary for a time period |
 
+## Third Party Services
+
+pip install flask, flask-sqlalchemy, flask-bcrypt, flask-marshmallow, psycopg2-binary, flask-JWT-Extended, orjson marshmallow-sqlalchemy, python-dotenv
+
 #### The problem this API app is trying to solve
 
 With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down. This application will provide a way for users to track their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
@@ -74,6 +136,4 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 - User Cars
 - Trips
 
-## Third Party Services
 
-pip install flask, flask-sqlalchemy, flask-bcrypt, flask-marshmallow, psycopg2-binary, flask-JWT-Extended, orjson marshmallow-sqlalchemy, python-dotenv
