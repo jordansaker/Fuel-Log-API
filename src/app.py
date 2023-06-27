@@ -79,11 +79,11 @@ def create_app():
 
     @app.errorhandler(IntegrityError)
     def integrity_error(err):
-        return {'error': 'Data already exists in database'}
+        return {'error': 'Data already exists in database'}, 400
 
 
     @app.errorhandler(ValidationError)
     def validation_error(err):
-        return {'error': err.messages}
+        return {'error': err.messages}, 400
 
     return app
