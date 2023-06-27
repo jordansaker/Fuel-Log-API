@@ -83,7 +83,7 @@ class UserCarDumpSchema(ma.Schema):
     """
     DUMP ONLY SCHEMA
 
-    Schema used when dumping a user car
+    Schema used when dumping a user car that's in a list with nested fields
     """
     class Meta:
         """
