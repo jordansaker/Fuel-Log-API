@@ -11,7 +11,7 @@ Routes:
     DELETE '/me/<int:user_id>/delete/' - ADMIN and user only: delete a user account
 """
 from datetime import timedelta
-from flask import Blueprint, request, abort
+from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from init import bcrypt, db
 from models.user import User, UserSchema
@@ -113,7 +113,8 @@ def delete_user(user_id):
             return {'deleted': 'user successfully deleted'}
         if not admin_delete_user.is_admin:
             return {"unauthorized" : "Admin access only"}, 401
-        db.session.delete(admin_delete_user)
+        user_to_delete = User.query.filter_by(id=user_id).first()
+        db.session.delete(user_to_delete)
         db.session.commit()
         return {'admin_deleted': 'user successfully deleted'}
     return {"invalid_user" : "User not found"}, 404
