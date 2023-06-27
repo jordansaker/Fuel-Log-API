@@ -87,7 +87,7 @@ def user_login():
                 "token": token, 
                 "user": UserSchema(exclude=['id', 'password']).dump(user)
                }
-    abort(401, description='Invalid email address or password')
+    return {"invalid_user_info" : "Invalid email address or password"}, 401
 
 
 @auth_bp.route('/me/<int:user_id>/delete/', methods=['DELETE'])
@@ -114,7 +114,7 @@ def delete_user(user_id):
             db.session.delete(admin_delete_user)
             db.session.commit()
             return {'admin_deleted': 'user successfully deleted'}
-    abort(404, "User not found")
+    return {"invalid_user" : "User not found"}, 404
 
 
 def admin_access():
