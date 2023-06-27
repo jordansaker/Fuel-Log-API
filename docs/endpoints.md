@@ -74,3 +74,68 @@ These are the possible errors returned by the endpoint.
 ```
 
 [Back to Main](../README.md#user-access-and-account-management)
+
+## POST    /register
+
+Let's a user register to use the API.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | POST |
+| URL | http://127.0.0.1:5000/register |
+| Requires authentication | No |
+
+##### Request Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| email | (string) | The email of the new user  |
+| password | (string) | The password of the new user |
+| first_name | (string) | Optional: The firstname of the new user |
+| last_name | (string) | Optional: The lastname of the new user |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| msg | (string) | A message to indicate successful registration  |
+| user_info | (dict) | Details of the registered user |
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 400 | valiadtion_error | Returns a dict with the keys that fail the validation |
+
+##### Example
+
+###### Request
+
+```
+{
+    "email": "john.smith@gmail.com",
+    "password": "password123",
+    "first_name": "John"
+}
+```
+
+###### Response
+
+```
+{
+    "msg": "Successfully created new user",
+    "user_info": {
+        "id": 4,
+        "email": "john.smith@gmail.com",
+        "first_name": "John",
+        "last_name": "null",
+        "cars": []
+    }
+}
+```
+
+[Back to Main](../README.md#user-access-and-account-management)
