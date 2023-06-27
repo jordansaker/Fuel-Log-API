@@ -28,7 +28,7 @@ Routes:
     <int:to_day>/<int:to_month>/<int:to_year>/' : get the expenditure summary for a time period
 """
 from datetime import datetime
-from flask import Blueprint, abort, request
+from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.log import LogEntry, LogEntrySchema
