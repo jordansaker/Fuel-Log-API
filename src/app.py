@@ -52,26 +52,6 @@ def create_app():
     app.register_blueprint(car_bp)
     app.register_blueprint(log_bp)
     # handle errors
-    @app.errorhandler(401)
-    def unauthorised(err):
-        """
-        Handle unauthorised codes passed to the flask abort() function
-
-        ``err`` contains the error JSON response
-        """
-        return {'error': str(err)}, 401
-
-
-    @app.errorhandler(404)
-    def not_found(err):
-        """
-        Handle not found codes passed to the flask abort() function
-
-        ``err`` contains the error JSON response
-        """
-        return {'error': str(err)}, 404
-
-
     @app.errorhandler(400)
     def bad_request(err):
         return {'bad_request': 'No JSON object Found in request body'}, 400
