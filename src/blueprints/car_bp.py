@@ -41,10 +41,12 @@ def get_all_cars():
     This view function returns all the cars in the Cars table
     """
     # statement to query the database
-    verify_user()
-    stmt = db.select(Car)
-    cars = db.session.scalars(stmt).all()
-    return CarSchema(many=True, exclude=['user_car']).dump(cars)
+    user = verify_user()
+    if user:
+        stmt = db.select(Car)
+        cars = db.session.scalars(stmt).all()
+        return CarSchema(many=True, exclude=['user_car']).dump(cars)
+    return {"forbidden": "You must be logged in to access resource"}, 403
 
 
 @car_bp.route('/<string:make>/<string:model>')
@@ -61,7 +63,9 @@ def get_cars_by_make_model(make, model):
 
             <model>  (str)
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(
         db.and_(
@@ -72,7 +76,7 @@ def get_cars_by_make_model(make, model):
     cars = db.session.scalars(stmt).all()
     if cars:
         return CarSchema(many=True, exclude=['user_car']).dump(cars)
-    abort(404, description='Car make or model not found')
+    return {'not_found': "Car make or model not found"}, 404
 
 
 @car_bp.route('/<string:make>/')
@@ -87,13 +91,15 @@ def get_cars_by_make(make):
 
             <make>  (str)
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # statement to query the database, searching for cars using the .where() method
     stmt = db.select(Car).where(Car.make == make.capitalize())
     cars = db.session.scalars(stmt).all()
     if cars:
         return CarSchema(many=True, exclude=['user_car']).dump(cars)
-    abort(404, description='Car make not found')
+    return {'not_found': "Car make not found"}, 404
 
 # add a new car
 @car_bp.route('/me/', methods=['POST'])
@@ -128,7 +134,9 @@ def add_new_car():
                 "tank_size" : "car tank size"
             }
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # load the request using the Car schema
     car_info = CarSchema().load(request.json)
     # query the database to see if the car exists
@@ -174,7 +182,6 @@ def add_new_car():
         car_id=add_car.id
     )
     existing_user_car = db.session.scalar(stmt)
-    print(add_car.id)
     if add_car and not existing_user_car:
         # add the car to the user's cars list
         new_user_car = UserCar(
@@ -185,7 +192,6 @@ def add_new_car():
         db.session.add(new_user_car)
         db.session.commit()
         return UserCarSchema(exclude=['user_id']).dump(new_user_car)
-    return {'error': 'Car already exists for user'}
 
 
 # get user cars
@@ -197,13 +203,15 @@ def get_user_cars():
 
     This view function returns all the user cars
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # query the database
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
     user_cars = db.session.scalars(stmt).all()
     if user_cars:
         return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
-    return {"msg": "user has no cars added to their list"}
+    return {"not_found": "User has no cars added to their list"}, 404
 
 
 # delete user car
@@ -219,7 +227,9 @@ def delete_user_car(user_car_id):
 
             <user_car_id> (int)
     """
-    verify_user()
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
     # query the database to find user car
     stmt = db.select(UserCar).filter_by(
         user_id= get_jwt_identity()
@@ -232,7 +242,7 @@ def delete_user_car(user_car_id):
         db.session.delete(user_car)
         db.session.commit()
         return {'deleted': 'removed car from user list'}
-    abort(404, description='User car not found')
+    return {'not_found': "User car not found"}, 404
 
 
 # ADMIN ROUTES
@@ -263,8 +273,8 @@ def delete_car(car_id):
         # delete car from cars table
         db.session.delete(car)
         db.session.commit()
-        return {'msg': 'car successfully deleted'}
-    abort(404, "Car not found")
+        return {'admin_deleted': 'car successfully deleted'}
+    return {'not_found': 'Car not found'}, 404
 
 
 # admin can update car info in cars table
@@ -299,4 +309,4 @@ def update_car_info(car_id):
         # commit the update
         db.session.commit()
         return CarSchema(exclude=['user_car']).dump(car)
-    abort(404, "Car not found")
+    return {'not_found': 'Car not found'}, 404

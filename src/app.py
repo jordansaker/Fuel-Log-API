@@ -74,7 +74,7 @@ def create_app():
 
     @app.errorhandler(400)
     def bad_request(err):
-        return {'error': str(err)}, 400
+        return {'bad_request': 'No JSON object Found in request body'}, 400
 
 
     @app.errorhandler(IntegrityError)
