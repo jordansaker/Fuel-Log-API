@@ -28,7 +28,6 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.car import Car, CarSchema
 from models.user_car import UserCar, UserCarSchema
-from blueprints.auth_bp import admin_access
 from blueprints.auth_bp import verify_user
 
 car_bp = Blueprint('car', __name__, url_prefix='/cars')
@@ -251,7 +250,9 @@ def delete_car(car_id):
             <car_id> (int)
     """
     # admin access
-    admin_access()
+    admin = verify_user()
+    if not admin.is_admin:
+        return {"unauthorized" : "Admin access only"}, 401
     # query the database to find the car
     stmt = db.select(Car).filter_by(id= car_id)
     car = db.session.scalar(stmt)
@@ -280,7 +281,9 @@ def update_car_info(car_id):
             <car_id> (int)
     """
     # admin access
-    admin_access()
+    admin = verify_user()
+    if not admin.is_admin:
+        return {"unauthorized" : "Admin access only"}, 401
     # query the database to find the car
     stmt = db.select(Car).filter_by(id= car_id)
     car = db.session.scalar(stmt)
