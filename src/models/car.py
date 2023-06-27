@@ -78,3 +78,16 @@ class CarSchema(ma.Schema):
         """
         fields = ('id', 'make', 'model', 'model_trim', 'year', 'tank_size', 'user_car')
         ordered = True
+
+class UserCarDumpSchema(ma.Schema):
+    """
+    DUMP ONLY SCHEMA
+
+    Schema used when dumping a user car
+    """
+    class Meta:
+        """
+        Defining the fields in a tuple and ordering the fields
+        """
+        fields = ('make', 'model', 'model_trim', 'year')
+        ordered = True

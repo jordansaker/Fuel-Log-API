@@ -84,7 +84,6 @@ class ExpenditureSchema(ma.Schema):
 
     Used to validate the date format that is being sent in the POST request
     """
-    usercar = fields.Nested('UserCarSchema', exclude=['logs'])
     from_date = fields.Date(
         required=True,
         format='%Y, %m, %d'
@@ -97,6 +96,6 @@ class ExpenditureSchema(ma.Schema):
         """
         Defining the fields in a tuple and ordering the fields
         """
-        fields = ('from_date', 'to_date', 'usercar')
+        fields = ('from_date', 'to_date')
         ordered = True
         dateformat = '%Y, %m, %d'

@@ -34,6 +34,7 @@ from init import db
 from models.log import LogEntry, LogEntrySchema, ExpenditureSchema
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
+from models.user_car import UserCarSchema
 from blueprints.auth_bp import verify_user_car, verify_user
 
 log_bp = Blueprint('log', __name__, url_prefix='/logs')
@@ -409,6 +410,7 @@ def expenditure_summary(car_id):
     logs_for_period = db.session.scalars(stmt).all()
     # verify the user is allowed to access the logs
     user = verify_user_car(car_id)
+    print(user.id)
     if user:
         if logs_for_period:
             # filter out the logs that belong to the user and car
@@ -425,7 +427,8 @@ def expenditure_summary(car_id):
                     'from': dates['from_date'],
                     'to': dates['to_date'],
                     'total_cost_for_period': f"${format(total_cost, '.2f')}",
-                    'total_distance_for_period': f"{total_distance} km"
+                    'total_distance_for_period': f"{total_distance} km",
+                    'user_car': UserCarSchema(only=['car']).dump(user)
             }
         return {'not_found': 'No expenditure for period specified'}, 404
     return{'not_found': 'User car not found'}, 404
