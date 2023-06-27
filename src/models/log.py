@@ -68,6 +68,7 @@ class LogEntrySchema(ma.Schema):
         required=True,
         validate=Range(0.01)
     )
+    
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
@@ -76,3 +77,26 @@ class LogEntrySchema(ma.Schema):
                   'fuel_quantity', 'fuel_price', 
                     'date_added', 'usercar')
         ordered = True
+
+class ExpenditureSchema(ma.Schema):
+    """
+    Expenditure schema for the expenditure route.
+
+    Used to validate the date format that is being sent in the POST request
+    """
+    usercar = fields.Nested('UserCarSchema', exclude=['logs'])
+    from_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    to_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    class Meta:
+        """
+        Defining the fields in a tuple and ordering the fields
+        """
+        fields = ('from_date', 'to_date', 'usercar')
+        ordered = True
+        dateformat = '%Y, %m, %d'

@@ -31,7 +31,7 @@ from datetime import datetime
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
-from models.log import LogEntry, LogEntrySchema
+from models.log import LogEntry, LogEntrySchema, ExpenditureSchema
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
 from blueprints.auth_bp import verify_user_car, verify_user
@@ -356,11 +356,10 @@ def update_trips(car_id, trip_id):
 
 # expenditure summary
 @log_bp.route(
-    '/me/<int:car_id>/expenditure/from/<int:from_day>/<int:from_month>/<int:from_year>/to/' + \
-    '<int:to_day>/<int:to_month>/<int:to_year>/'
+    '/me/<int:car_id>/expenditure/', methods=['POST']
 )
 @jwt_required()
-def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_year, car_id):
+def expenditure_summary(car_id):
     """
     Expenditure Summary
 
@@ -369,33 +368,35 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
     Variables:
 
             <car_id> (int)
-
-            <from_day> (int)
-
-            <from_month> (int)
-
-            <from_year> (int)
-
-            <to_day> (int)
-
-            <to_month> (int)
-
-            <to_year> (int)
     """
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+
+    dates = ExpenditureSchema().load(request.json)
     # convert "from" date to format stored in database "unix"
-    from_date = datetime(from_year, from_month, from_day).timestamp()
+    from_date = datetime(
+        int(dates['from_date'].strftime("%Y")),
+        int(dates['from_date'].strftime("%m")),
+        int(dates['from_date'].strftime("%d"))
+    ).timestamp()
     # 'to' date
-    to_date = datetime(to_year, to_month, to_day).date()
+    to_date = datetime(
+        int(dates['to_date'].strftime("%Y")),
+        int(dates['to_date'].strftime("%m")),
+        int(dates['to_date'].strftime("%d"))
+    ).date()
 
     # if "to" date is the same as the current date
     # assign it using the .now() function
     if to_date == datetime.now().date():
         to_date = datetime.now()
     else:
-        to_date = datetime(to_year, to_month, to_day)
+        to_date = datetime(
+            int(dates['to_date'].strftime("%Y")),
+            int(dates['to_date'].strftime("%m")),
+            int(dates['to_date'].strftime("%d"))
+        )
     # convert "to" date to timestamp
     to_date = to_date.timestamp()
     # filter the logs using the to and from dates
@@ -421,8 +422,8 @@ def expenditure_summary(from_day, from_month, from_year, to_day, to_month, to_ye
 
 
             return {
-                    'from': f'{from_day}-{from_month}-{from_year}',
-                    'to': f'{to_day}-{to_month}-{to_year}',
+                    'from': dates['from_date'],
+                    'to': dates['to_date'],
                     'total_cost_for_period': f"${format(total_cost, '.2f')}",
                     'total_distance_for_period': f"{total_distance} km"
             }
