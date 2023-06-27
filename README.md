@@ -15,7 +15,7 @@ Requirements:
 
 ## REST API Resources
 
-A full listing of all available endpoints can be found [here](./docs/endpoints.md).
+Below is a full listing of all available endpoints. Click on a resource name for more information. 
 
 #### User Access and account management
 
