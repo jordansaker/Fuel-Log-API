@@ -264,6 +264,67 @@ http://127.0.0.1:5000/cars/
 
 [Back to Main](../README.md#cars)
 
+## <a name="head23"></a> GET  /cars/$car_id/
+
+Get a single car.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | GET |
+| URL | http://127.0.0.1:5000/cars/$car_id/ |
+| Requires authentication | Yes |
+
+##### Method Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| $car_id | (int) | Car ID |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| id | (int) | The ID of the car  |
+| make | (string) | The make of the car  |
+| model | (string) | The model of the car|
+| model_trim | (string) | The model trim of the car|
+| year | (int) | The year of manufacture for the car|
+| tank_size | (int) | The tank size of the car|
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 403 | forbidden | You must be logged in or registered |
+| 404 | not_found | Car not found |
+
+##### Example
+
+###### Request
+
+```
+http://127.0.0.1:5000/cars/1/
+```
+
+###### Response
+
+```
+{
+    "id": 1,
+    "make": "Ford",
+    "model": "Ranger",
+    "model_trim": "Raptor",
+    "year": 2022,
+    "tank_size": 80
+}
+```
+
+[Back to Main](../README.md#cars)
+
 ## <a name="head5"></a> GET  /cars/$make/
 
 Get a filtered list of cars by make.
@@ -815,6 +876,80 @@ http://127.0.0.1:5000/logs/me/2/
 
 [Back to Main](../README.md#logs)
 
+## <a name="head22"></a> GET  /logs/me/$car_id/\$log_id/
+
+A single log entry that belongs to the authenticated user's car.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | GET |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/\$log_id/ |
+| Requires authentication | Yes |
+
+##### Method Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| $car_id | (int) | The ID of the car in the user's car list |
+| $log_id | (int) | The ID of the log entry in the user car's logs |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| id | (int) | The ID of the log entry  |
+| current_odo | (int) | The current odometer reading of the car  |
+| fuel_quantity | (int) | The amount of fuel added to the car|
+| fuel_price | (float) | The price of fuel added|
+| date_added | (bigint) | The date added for the log entry (Datetime timestamp format)  |
+| usercar | (object) | An object containing the user car information|
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 403 | forbidden | You must be logged in or registered |
+| 404 | not_found | Log entry not found for user car |
+| 404 | not_found | User car not found |
+
+##### Example
+
+###### Request
+
+```
+http://127.0.0.1:5000/logs/me/2/1/
+```
+
+###### Response
+
+```
+{
+    "id": 1,
+    "current_odo": 80100,
+    "fuel_quantity": 80,
+    "fuel_price": 1.86,
+    "date_added": 1687764209,
+    "usercar": {
+        "id": 2,
+        "user_id": 3,
+        "car": {
+            "id": 1,
+            "make": "Ford",
+            "model": "Ranger",
+            "model_trim": "Raptor",
+            "year": 2022,
+            "tank_size": 80
+        }
+    }
+}
+```
+
+[Back to Main](../README.md#logs)
+
 ## <a name="head13"></a> POST  /logs/me/$car_id/
 
 Add a new log entry for the authenticated user's car.
@@ -1182,6 +1317,65 @@ http://127.0.0.1:5000/logs/me/2/trips/
         "user_car_id": 2
     }
 ]
+```
+
+[Back to Main](../README.md#logs)
+
+## <a name="head24"></a> GET  /logs/me/$car_id/trips/\$trip_id/
+
+Get a trip for the authenticated user's car.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | GET |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/\$trip_id/ |
+| Requires authentication | Yes |
+
+##### Method Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| $car_id | (int) | The ID of the car in the user's car list |
+| $trip_id | (int) | The ID of trip for the user's car |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| id | (int) | The trip ID  |
+| distance | (int) | The trip distance  |
+| fuel_price | (float) | The current price of fuel|
+| user_car_id| (int) | The ID of the user's car |
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 403 | forbidden | You must be logged in or registered |
+| 404 | not_found | User car not found |
+| 404 | not_found | User car trip not found |
+
+##### Example
+
+###### Request
+
+```
+http://127.0.0.1:5000/logs/me/2/trips/2/
+```
+
+###### Response
+
+```
+    {
+        "id": 2,
+        "fuel_price": 1.9,
+        "distance": 400,
+        "user_car_id": 2
+    }
 ```
 
 [Back to Main](../README.md#logs)

@@ -96,6 +96,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 | Resource | Description |
 | --------------------- | ---------- |
 |[GET               /cars/](./docs/endpoints.md#head4) | Get a list of all cars.|
+|[GET               /cars/\$car_id/](./docs/endpoints.md#head23) | Get car.|
 |[GET               /cars/$make/](./docs/endpoints.md#head5) | Get a list of all cars by make.|
 |[GET               /cars/$make/\$model](./docs/endpoints.md#head6) | Get a list of all cars by make and model.|
 |[GET               /cars/me/](./docs/endpoints.md#head7) | Get the list of cars belonging to the user.|
@@ -109,11 +110,13 @@ Below is a full listing of all available endpoints. Click on a resource name for
 | Resource | Description |
 | --------------------- | ---------- |
 |[GET                 /logs/me/$car_id/](./docs/endpoints.md#head12) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$car_id/\$log_id/](./docs/endpoints.md#head22) | Get a log entry for the selected car. |
 |[POST              /logs/me/$car_id/](./docs/endpoints.md#head13) | Add a new log for the selected user car. |
 |[PUT/PATCH    /logs/me/$car_id/\$log_id/](./docs/endpoints.md#head14) | Update a log for the selected user car. |
 |[DELETE          /logs/me/$car_id/\$log_id](./docs/endpoints.md#head15) | Delete a log for the selected user car. |
 |[POST              /logs/me/$car_id/trip/calculator/](./docs/endpoints.md#head16) | Calculate the total fuel cost of a trip. |
 |[GET                 /logs/me/$car_id/trips/](./docs/endpoints.md#head17) | Get the user car's list of trips. |
+|[GET                 /logs/me/$car_id/trips/\$trip_id/](./docs/endpoints.md#head24) | Get a trip for the user's car. |
 |[DELETE           /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#head18) | Delete a trip for the selected user car. |
 |[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#head19) | Update the trip details for the selected user car. |
 |[POST              /logs/me/$car_id/expenditure/](./docs/endpoints.md#head20) | Get the expenditure summary for a time period |
