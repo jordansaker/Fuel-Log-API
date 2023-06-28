@@ -123,7 +123,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ## R7    Third Party Services
 
-This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and doesn't come with an Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
+This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
 
 ### SQLAlchemy
 
@@ -142,15 +142,23 @@ class User(db.Model)
 
 ### Marshmallow
 
-The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request.
+The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request. [(marshmallow.readthedocs.io, n.d.)](./docs/references.md#R7.4)
 
 ### Flask-Marshmallow
 
-### Psycopg
+Similar to Flask-SQLAlchemy, Flask-Marshmallow is also an extension that adds extra features which allow it to be integrated with Marhsmallow and Flask-SQLALchemy. The extension class is integrated with Flask-SQLAlchemy by being initialised after the Flask-SQLAlchemy extension class [(flask-marshmallow.readthedocs.io, n.d.)](./docs/references.md#R7.5). This extension is used to create schema classes which are used when dumping and loading JSON objects. For a schema class, fields are exposed to be dumped or loaded by the schema, and these fields are normally given a Marshmallow specific datatype class. 
+
+### Psycopg2-binary
+
+Psycopg is a PostgreSQL database adapter that can be used for the Python Programming language and was designed to be used for multi-threaded applications [(www.psycopg.org, n.d.)](./docs/references.md#R7.6). It allows the Flask application to connect to the PostgreSQL database, creates and destroys database cursors, and executes queries passed onto it by SQLAlchemy. [(pysql.tecladocode.com, n.d.)](./docs/references.md#R7.7)
 
 ### Flask-Bcrypt
 
+Flask-Bcrypt is used as an extension for Flask an provides the app with bcrypt hasshing utilities. Bcrypt uses a hash design that's "de-optimised", making it intentionally structured to be a slow hashing algorithm compared to other algorithms such as MD5 and SHA1. This extension when it is created and initialised in the app, provides a away for sensitive data being pass through the Flask app to be protect. [(flask-bcrypt.readthedocs.io, n.d.)](./docs/references.md#R7.8)
+
 ### Flask-JWT-Extended
+
+This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route.
 
 ### Python-Dotenv
 
