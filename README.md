@@ -100,6 +100,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[GET               /cars/$make/](./docs/endpoints.md#head5) | Get a list of all cars by make.|
 |[GET               /cars/$make/\$model](./docs/endpoints.md#head6) | Get a list of all cars by make and model.|
 |[GET               /cars/me/](./docs/endpoints.md#head7) | Get the list of cars belonging to the user.|
+|[GET               /cars/me/$user_car_id/](./docs/endpoints.md#head25) | Get a car that belongs to the user.|
 |[POST             /cars/me/](./docs/endpoints.md#head8) | Add a car to the user's list of cars.|
 |[DELETE         /cars/me/$user_car_id](./docs/endpoints.md#head9) | Delete a car from the user's car list.|
 |[DELETE         /cars/$car_id](./docs/endpoints.md#head10) | ADMIN ONLY:  Delete a car from the car index.|

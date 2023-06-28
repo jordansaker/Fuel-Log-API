@@ -400,7 +400,7 @@ Get a filtered list of cars by make and model.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/cars/$make/\$model |
+| URL | http://127.0.0.1:5000/cars/$make/$model |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -499,6 +499,65 @@ http://127.0.0.1:5000/cars/me/
         "tank_size": 80
     },
 ]
+```
+
+[Back to Main](../README.md#cars)
+
+## <a name="head25"></a> GET  /cars/me/$user_car_id/
+
+Get a car that belongs to the authenticated user.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | GET |
+| URL | http://127.0.0.1:5000/cars/me/$user_car_id/ |
+| Requires authentication | Yes |
+
+##### Method Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| $user_car_id | (int) | The ID of the user's car in the user's list |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| id | (int) | The ID of the user car |
+| car | (object) | The car details |
+
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 403 | forbidden | You must be logged in or registered |
+| 404 | not_found | User car not found |
+
+
+##### Example
+
+###### Request
+
+```
+http://127.0.0.1:5000/cars/me/1/
+```
+
+###### Response
+
+```
+    {
+        "id": 1,
+        "make": "Ford",
+        "model": "Ranger",
+        "model_trim": "Raptor",
+        "year": 2022,
+        "tank_size": 80
+    }
 ```
 
 [Back to Main](../README.md#cars)
@@ -1045,7 +1104,7 @@ Update a log entry for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Methods | PUT, PATCH |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/\$log_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1133,7 +1192,7 @@ Update a log entry for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | DELETE |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/\$log_id |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1330,7 +1389,7 @@ Get a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/\$trip_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1389,7 +1448,7 @@ Delete a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | DELETE |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/\$trip_id |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1442,7 +1501,7 @@ Update a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Methods | PUT, PATCH |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/\$trip_id |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1516,7 +1575,7 @@ Get an expenditure summary for a specified time period for the authenticated use
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/\$car_id/expenditure/ |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/expenditure/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1595,7 +1654,7 @@ Compare expenditure summaries for specified time periods for the authenticated u
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/\$car_id/expenditure/compare/ |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/expenditure/compare/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
