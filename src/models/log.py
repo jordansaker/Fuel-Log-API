@@ -86,11 +86,11 @@ class ExpenditureSchema(ma.Schema):
     """
     from_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     to_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     class Meta:
         """
@@ -98,7 +98,7 @@ class ExpenditureSchema(ma.Schema):
         """
         fields = ('from_date', 'to_date')
         ordered = True
-        dateformat = '%Y, %m, %d'
+        dateformat = '%Y-%m-%d'
 
 class ExpenditureCompareSchema(ma.Schema):
     """
@@ -106,19 +106,19 @@ class ExpenditureCompareSchema(ma.Schema):
     """
     from_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     to_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     compare_from_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     compare_to_date = fields.Date(
         required=True,
-        format='%Y, %m, %d'
+        format='%Y-%m-%d'
     )
     class Meta:
         """
@@ -126,4 +126,4 @@ class ExpenditureCompareSchema(ma.Schema):
         """
         fields = ('from_date', 'to_date', 'compare_to_date', 'compare_from_date')
         ordered = True
-        dateformat = '%Y, %m, %d'
+        dateformat = '%Y-%m-%d'
