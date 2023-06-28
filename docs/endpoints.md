@@ -885,7 +885,7 @@ A single log entry that belongs to the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/\$log_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
