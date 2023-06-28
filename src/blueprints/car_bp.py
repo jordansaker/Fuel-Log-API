@@ -48,6 +48,24 @@ def get_all_cars():
         return CarSchema(many=True, exclude=['user_car']).dump(cars)
     return {"forbidden": "You must be logged in to access resource"}, 403
 
+@car_bp.route('/<int:car_id>/')
+@jwt_required()
+def get_a_car(car_id):
+    """
+    A single car view function
+
+    This view function returns a single car in the Cars table
+    """
+    # statement to query the database
+    user = verify_user()
+    if user:
+        stmt = db.select(Car).filter_by(id=car_id)
+        car = db.session.scalar(stmt)
+        if car:
+            return CarSchema(exclude=['user_car']).dump(car)
+        return {'not_found': "Car not found"}, 404
+    return {"forbidden": "You must be logged in to access resource"}, 403
+
 
 @car_bp.route('/<string:make>/<string:model>')
 @jwt_required()
