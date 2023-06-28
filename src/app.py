@@ -1,45 +1,26 @@
 '''
 Fuel Log API app
 
-This module creates a Flask app instance through OrJSONProvider.
+This module creates a Flask app instance.
 '''
 from os import environ
 from flask import Flask
-from flask.json.provider import JSONProvider
 from sqlalchemy.exc import IntegrityError
 from marshmallow.exceptions import ValidationError
-import orjson
 from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
 from blueprints.cli_bp import cli_bp
 from blueprints.car_bp import car_bp
 from blueprints.log_bp import log_bp
 
-
-class OrJSONProvider(JSONProvider):
-    '''Class to use the JSON provider. This will allow schema fields to be ordered.'''
-    def dumps(self, obj, *, option=None):
-        '''Function for the dumps method'''
-        if option is None:
-            option = orjson.OPT_APPEND_NEWLINE | orjson.OPT_NAIVE_UTC
-        return orjson.dumps(obj).decode()
-    def loads(self, s):
-        '''Function for the loads method'''
-        return orjson.loads(s)
-
 def create_app():
     '''Function to create the flask app. Function creates an instance of Flask.'''
-    # to use the JSON provider class, the Flask class
-    # will be assigned and instance of the MyFlask Class
-    class MyFlask(Flask):
-        '''Assigning the OrJSONProvider to be used to create app instance.'''
-        json_provider_class = OrJSONProvider
-
     # create the app instance
-    app = MyFlask(__name__)
+    app = Flask(__name__)
     # config the app setting the database URI and JWT secrect key
     app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URI')
     app.config['JWT_SECRET_KEY'] = environ.get('JWT_KEY')
+    app.json.sort_keys = False
     # app.config.from_object(Config)
     # initialise the database instance from the init.py file
     db.init_app(app)
