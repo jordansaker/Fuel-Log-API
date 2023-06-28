@@ -1315,7 +1315,7 @@ These are the possible errors returned by the endpoint.
 
 Get an expenditure summary for a specified time period for the authenticated user's car. The endpoint takes a "to_date" and "from_date" dates in the request body. 
 
-**Date format in request:** "YYYY, mm, dd"
+**Date format in request:** "YYYY-mm-dd"
 
 ##### Resource Information
 
@@ -1364,8 +1364,8 @@ These are the possible errors returned by the endpoint.
 
 ```
 {
-    "from_date": "2023, 6, 1",
-    "to_date": "2023, 6, 29"
+    "from_date": "2023-6-1",
+    "to_date": "2023-6-29"
 }
 ```
 
@@ -1373,8 +1373,8 @@ These are the possible errors returned by the endpoint.
 
 ```
 {
-    "from": "1-6-2023",
-    "to": "26-6-2023",
+    "from": "2023-06-1",
+    "to": "2023-06-29",
     "total_cost_for_period": "$561.60",
     "total_distance_for_period": "1700 km"
     "user_car": {
@@ -1394,7 +1394,7 @@ These are the possible errors returned by the endpoint.
 
 Compare expenditure summaries for specified time periods for the authenticated user's car. The endpoint takes a "to_date" and "compare_from_date" and "compare_to_date" and "from_date" dates in the request body. 
 
-**Date format in request:** "YYYY, mm, dd"
+**Date format in request:** "YYYY-mm-dd"
 
 ##### Resource Information
 
@@ -1443,10 +1443,10 @@ These are the possible errors returned by the endpoint.
 
 ```
 {
-    "from_date": "2023, 6, 1",
-    "to_date": "2023, 6, 29",
-    "compare_from_date": "2023, 5, 1",
-    "compare_to_date": "2023, 5, 31"
+    "from_date": "2023-6-1",
+    "to_date": "2023-6-29",
+    "compare_from_date": "2023-5-1",
+    "compare_to_date": "2023-5-31"
 }
 ```
 
@@ -1456,8 +1456,8 @@ These are the possible errors returned by the endpoint.
 {
     "period_one": {
         "expenditure_summary_for": {
-            "to_date": "2023, 06, 29",
-            "from_date": "2023, 06, 01"
+            "to_date": "2023-06-29",
+            "from_date": "2023-06-01"
         },
         "total_cost_for_period": "$270.00",
         "total_distance_for_period": "700 km",
@@ -1472,8 +1472,8 @@ These are the possible errors returned by the endpoint.
     },
     "period_two": {
         "expenditure_summary_for": {
-            "compare_to_date": "2023, 05, 31",
-            "compare_from_date": "2023, 05, 01"
+            "compare_to_date": "2023-05-31",
+            "compare_from_date": "2023-05-01"
         },
         "total_cost_for_period": "$528.80",
         "total_distance_for_period": "1800 km",

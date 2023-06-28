@@ -1,5 +1,7 @@
 # Fuel Log API
 
+![Fuel-log-API](./docs/Fuel_log_API.png) 
+
 ## Installation
 
 #### Requirements:
@@ -28,7 +30,7 @@ grant all privileges on database fuel_log_db to fuel_dev;
 ---
 #### Python setup
 
-Navigate to the **src** file in a terminal window. In the **src** directory, create a virtual environment and activate it:
+In the **src** directory, create a virtual environment and activate it:
 
 ```
 python3 -m venv .venv
@@ -121,9 +123,36 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ## R7    Third Party Services
 
-This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and doesn't come with an Object Relational Manager or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7). Here are some of the third party services that were used to fully implement the API.
+This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and doesn't come with an Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
 
-flask-sqlalchemy, flask-bcrypt, flask-marshmallow, psycopg2-binary, flask-JWT-Extended, marshmallow-sqlalchemy, python-dotenv
+### SQLAlchemy
+
+The API uses an SQL database system to store data relating to cars, users, and log entries. In order to integrate and allow the Flask app to interact with the database, SQLAlchemy was installed as a dependency and used. SQLAlchemy is the Python ORM that is used by the app to efficiently access and perform database queries interpreting Pythonic language and then creating and executing the equivalent SQL query operation on the database. The approach that SQLAlchemy takes is that it's processes are fully exposed and it allows the developer to construct a database and the SQL queries using Python, almost the same way they would be constructed in an SQL system. [(www.sqlalchemy.org, n.d.)](./docs/references.md#R7.2)
+
+### Flask-SQLAlchemy
+
+Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatcally handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#R7.3). i.e An SQLAlchemy model can be created using the subclass of the extension class:
+
+```
+# the extension class
+db = SQLAlchemy()
+# the subclass db.Model used to define a model class
+class User(db.Model)
+```
+
+### Marshmallow
+
+The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request.
+
+### Flask-Marshmallow
+
+### Psycopg
+
+### Flask-Bcrypt
+
+### Flask-JWT-Extended
+
+### Python-Dotenv
 
 [References](./docs/references.md#R7)
 
@@ -152,7 +181,13 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 
 ---
 
-## Entities
+## R3    Reasons the database system was chosen and its drawbacks
+
+
+---
+## R9     The database relations implemented in the app
+
+#### Entities
 
 The 
 
@@ -162,16 +197,15 @@ The
 - User Cars
 - Trips
 
-## R3    Reasons the database system was chosen and its          drawbacks
-
-
-
-## R9     The database relations implemented in the app
-
+---
 
 ## R4      Key functionalities and benefits of an ORM
 
+---
+
 ## R8      The relationships between the models
+
+---
 
 ## R10     Project Management
 
