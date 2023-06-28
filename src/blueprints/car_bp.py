@@ -55,6 +55,10 @@ def get_a_car(car_id):
     A single car view function
 
     This view function returns a single car in the Cars table
+
+    Variables:
+
+            <car_id> (int)
     """
     # statement to query the database
     user = verify_user()

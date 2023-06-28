@@ -313,6 +313,35 @@ def get_all_trips(car_id):
         return {'not_found': 'User car has no trips'}, 404
     return {'not_found': 'User car not found'}, 404
 
+# get a trip for user car
+@log_bp.route('/me/<int:car_id>/trips/<int:trip_id>/')
+@jwt_required()
+def get_a_trip(car_id, trip_id):
+    """
+    Get a Trip
+
+    Get a trip related to the specified user car
+
+    Variables:
+
+            <car_id> (int)
+            <trip_id> (int)
+    """
+    # verify the user
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
+    user = verify_user_car(car_id)
+    # query the database
+    stmt = db.select(Trip).filter_by(user_car_id=car_id).filter_by(id=trip_id)
+    trip = db.session.scalar(stmt)
+    if user:
+        if trip:
+            if trip.usercar.user_id == get_jwt_identity():
+                return TripSchema(exclude=['usercar']).dump(trip)
+        return {'not_found': 'User car trip not found'}, 404
+    return {'not_found': 'User car not found'}, 404
+
 # delete trips
 @log_bp.route('/me/<int:car_id>/trips/<int:trip_id>', methods=['DELETE'])
 @jwt_required()
