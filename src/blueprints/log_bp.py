@@ -66,6 +66,33 @@ def get_log_entries(car_id):
         return {'not_found': 'No log entries for user car'}, 404
     return {'not_found': 'User car not found'}, 404
 
+# get a single log for selected car
+@log_bp.route('/me/<int:car_id>/<int:log_id>/')
+@jwt_required()
+def get_log_entry(car_id, log_id):
+    """
+    Log Entry for car
+
+    Get a log entries for specified user car
+
+    Variables:
+
+            <car_id> (int)
+            <log_id> (int)
+    """
+    # query the database for user car's id
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
+    user_car = verify_user_car(car_id)
+    if user_car:
+        # query the database and filter logs by user_car_id
+        stmt = db.select(LogEntry).filter_by(user_car_id=user_car.id).filter_by(id=log_id)
+        log_entry = db.session.scalar(stmt)
+        if log_entry:
+            return LogEntrySchema().dump(log_entry)
+        return {'not_found': 'Log entry not found for user car'}, 404
+    return {'not_found': 'User car not found'}, 404
 
 # add a new log
 @log_bp.route('/me/<int:car_id>/', methods=['POST'])
