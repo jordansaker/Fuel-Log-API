@@ -235,6 +235,25 @@ def get_user_cars():
         return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
     return {"not_found": "User has no cars added to their list"}, 404
 
+# get user cars
+@car_bp.route('/me/<int:car_id>/')
+@jwt_required()
+def get_user_car(car_id):
+    """
+    A user car view function
+
+    This view function returns a user car
+    """
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database
+    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    user_car = db.session.scalar(stmt)
+    if user_car:
+        return UserCarSchema(only=['id','car']).dump(user_car)
+    return {"not_found": "User car not found"}, 404
+
 
 # delete user car
 @car_bp.route('/me/<int:user_car_id>', methods=['DELETE'])
