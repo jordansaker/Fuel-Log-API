@@ -99,3 +99,31 @@ class ExpenditureSchema(ma.Schema):
         fields = ('from_date', 'to_date')
         ordered = True
         dateformat = '%Y, %m, %d'
+
+class ExpenditureCompareSchema(ma.Schema):
+    """
+    Compare Expenditures for 2 different time periods
+    """
+    from_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    to_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    compare_from_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    compare_to_date = fields.Date(
+        required=True,
+        format='%Y, %m, %d'
+    )
+    class Meta:
+        """
+        Defining the fields in a tuple and ordering the fields
+        """
+        fields = ('from_date', 'to_date', 'compare_to_date', 'compare_from_date')
+        ordered = True
+        dateformat = '%Y, %m, %d'

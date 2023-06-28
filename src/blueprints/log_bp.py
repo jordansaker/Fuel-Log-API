@@ -31,7 +31,7 @@ from datetime import datetime
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
-from models.log import LogEntry, LogEntrySchema, ExpenditureSchema
+from models.log import LogEntry, LogEntrySchema, ExpenditureSchema, ExpenditureCompareSchema
 from models.car import CarSchema
 from models.trip import Trip, TripSchema
 from models.user_car import UserCarSchema
@@ -410,7 +410,6 @@ def expenditure_summary(car_id):
     logs_for_period = db.session.scalars(stmt).all()
     # verify the user is allowed to access the logs
     user = verify_user_car(car_id)
-    print(user.id)
     if user:
         if logs_for_period:
             # filter out the logs that belong to the user and car
@@ -424,11 +423,133 @@ def expenditure_summary(car_id):
 
 
             return {
-                    'from': dates['from_date'],
-                    'to': dates['to_date'],
+                    
                     'total_cost_for_period': f"${format(total_cost, '.2f')}",
                     'total_distance_for_period': f"{total_distance} km",
+                    "expenditure_summary_for" : ExpenditureSchema().dump(dates),
                     'user_car': UserCarSchema(only=['car']).dump(user)
             }
         return {'not_found': 'No expenditure for period specified'}, 404
     return{'not_found': 'User car not found'}, 404
+
+# expanditure compare
+@log_bp.route(
+    '/me/<int:car_id>/expenditure/compare/', methods=['POST']
+)
+@jwt_required()
+def expenditure_compare(car_id):
+    """
+    Expenditure Compare
+
+    Allows the user to compare expenditure reports for specified time periods
+
+    Variables:
+
+            <car_id> (int)
+    """
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in to access resource"}, 403
+
+    dates = ExpenditureCompareSchema().load(request.json)
+    # convert "from" date to format stored in database "unix"
+    from_date = datetime(
+        int(dates['from_date'].strftime("%Y")),
+        int(dates['from_date'].strftime("%m")),
+        int(dates['from_date'].strftime("%d"))
+    ).timestamp()
+    # 'to' date
+    to_date = datetime(
+        int(dates['to_date'].strftime("%Y")),
+        int(dates['to_date'].strftime("%m")),
+        int(dates['to_date'].strftime("%d"))
+    ).date()
+    compare_from_date = datetime(
+        int(dates['compare_from_date'].strftime("%Y")),
+        int(dates['compare_from_date'].strftime("%m")),
+        int(dates['compare_from_date'].strftime("%d"))
+    ).timestamp()
+    # 'to' date
+    compare_to_date = datetime(
+        int(dates['compare_to_date'].strftime("%Y")),
+        int(dates['compare_to_date'].strftime("%m")),
+        int(dates['compare_to_date'].strftime("%d"))
+    ).date()
+
+    # if "to" date is the same as the current date
+    # assign it using the .now() function
+    if to_date == datetime.now().date() or compare_to_date == datetime.now().date():
+        to_date = datetime.now()
+        compare_to_date = datetime.now()
+    else:
+        to_date = datetime(
+            int(dates['to_date'].strftime("%Y")),
+            int(dates['to_date'].strftime("%m")),
+            int(dates['to_date'].strftime("%d"))
+        )
+        compare_to_date = datetime(
+            int(dates['compare_to_date'].strftime("%Y")),
+            int(dates['compare_to_date'].strftime("%m")),
+            int(dates['compare_to_date'].strftime("%d"))
+        )
+    # convert "to" date to timestamp
+    to_date = to_date.timestamp()
+    compare_to_date = compare_to_date.timestamp()
+    # filter the logs using the to and from dates
+    stmt = db.select(LogEntry).where(
+        db.and_(
+            LogEntry.date_added <= to_date,
+            LogEntry.date_added >= from_date
+        )
+    )
+    logs_for_period_one = db.session.scalars(stmt).all()
+    stmt2 = db.select(LogEntry).where(
+        db.and_(
+            LogEntry.date_added <= compare_to_date,
+            LogEntry.date_added >= compare_from_date
+        )
+    )
+    logs_for_period_two = db.session.scalars(stmt2).all()
+    # verify the user is allowed to access the logs
+    print(logs_for_period_one)
+    print(logs_for_period_two)
+    user = verify_user_car(car_id)
+    if user:
+        if logs_for_period_one and logs_for_period_two:
+            # filter out the logs that belong to the user and car
+            user_logs_for_period_one = [log for log in logs_for_period_one if log.user_car_id == car_id]
+            user_logs_for_period_two = [log for log in logs_for_period_two if log.user_car_id == car_id]
+            # calculate the total cost for the period
+            total_cost_one = 0
+            total_cost_two = 0
+            total_distance_one = user_logs_for_period_one[-1].current_odo \
+                                    - user_logs_for_period_one[0].current_odo
+            total_distance_two = user_logs_for_period_two[-1].current_odo \
+                                    - user_logs_for_period_two[0].current_odo
+            for log in user_logs_for_period_one:
+                total_cost_one += log.fuel_price * log.fuel_quantity
+            for log in user_logs_for_period_two:
+                total_cost_two += log.fuel_price * log.fuel_quantity
+
+
+            return {
+                "period_one" : {
+                    "expenditure_summary_for" : ExpenditureCompareSchema(
+                                                        only=['to_date', 'from_date']
+                                                ).dump(dates),
+                    'total_cost_for_period': f"${format(total_cost_one, '.2f')}",
+                    'total_distance_for_period': f"{total_distance_one} km",
+                    'user_car': UserCarSchema(only=['car']).dump(user)
+                },
+                "period_two" : {
+                    "expenditure_summary_for" : ExpenditureCompareSchema(
+                                                        exclude=['to_date', 'from_date']
+                                                ).dump(dates),
+                    'total_cost_for_period': f"${format(total_cost_two, '.2f')}",
+                    'total_distance_for_period': f"{total_distance_two} km",
+                    'user_car': UserCarSchema(only=['car']).dump(user)
+                }
+            }
+        return {'not_found': 'No expenditure for periods specified'}, 404
+    return{'not_found': 'User car not found'}, 404
+
