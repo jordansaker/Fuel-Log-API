@@ -2,27 +2,27 @@
 
 ![Fuel-log-API](./docs/Fuel_log_API.png) 
 
-- [Installation](#installation)
-- [Rest API Resources](#r5-rest-api-resources)
-    - [User Access and account management](./README.md#r5.1)
-    - [Cars](./README.md#r5.2)
-    - [Logs](./README.md#r5.3)
-- [Third Party Services](./README.md#r7)
-- [ERD](./README.md#r6)
-- [The database relations implemented in the app](./README.md#r9)
-    - [Entities](./README.md#r9.1)
-        - [User](./README.md#r9.1.1)
-        - [User Cars](./README.md#r9.1.2)
-        - [Log Entries](./README.md#r9.1.3)
-        - [Cars](./README.md#r9.1.4)
-        - [User Trips](./README.md#r9.1.5)
-    - [Cars and Users:   Many to Many Relationship](./README.md#r9.2)
-    - [Cars and Log Entries:   One to Many Relationship](./README.md#r9.3)
-    - [Users and User Trips:   Many to Many Relationship](./README.md#r9.4)
-- [PostgreSQL:  Reasons the database system was chosen and its drawbacks](./README.md#r3)
-- [Key functionalities and benefits of an ORM](./README.md#r4)
-- [The relationships between the models in the app](./README.md#r8)
-- [Project Management](./README.md#r10)
+- [Installation](#-installation)
+- [Rest API Resources](#-r5-rest-api-resources)
+    - [User Access and account management](#-user-access-and-account-management)
+    - [Cars](#-cars-1)
+    - [Logs](#-logs)
+- [Third Party Services](#-r7-third-party-services)
+- [ERD](#r6-erd)
+- [The database relations implemented in the app](#-r9-the-database-relations-implemented-in-the-app)
+    - [Entities](#-entities)
+        - [Users](#-users)
+        - [User Cars](#-user-cars)
+        - [Log Entries](#-log-entries)
+        - [Cars](#-car)
+        - [User Trips](#-user-trips)
+    - [Cars and Users:   Many to Many Relationship](#-cars-and-users-many-to-many-relationship)
+    - [Cars and Log Entries:   One to Many Relationship](#-cars-and-log-entries-one-to-many-relationship)
+    - [Users and User Trips:   Many to Many Relationship](#-users-and-user-trips-many-to-many-relationship)
+- [PostgreSQL:  Reasons the database system was chosen and its drawbacks](#-r3-postgresql-reasons-the-database-system-was-chosen-and-its-drawbacks)
+- [Key functionalities and benefits of an ORM](#-r4-key-functionalities-and-benefits-of-an-orm)
+- [The relationships between the models in the app](#-r8-the-relationships-between-the-models-in-the-app)
+- [Project Management](#-r10-project-management)
 
 ## Installation
 
@@ -113,16 +113,16 @@ The Flask application is running on the localhost on Port 5000. The endpoints ca
 
 Below is a full listing of all available endpoints. Click on a resource name for more information. 
 
-#### <a name="#r5.1"></a> User Access and account management
+#### User Access and account management
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[POST       /login](./docs/endpoints.md#head1) | Allows existing user to authenticate.|
-|[POST       /register](./docs/endpoints.md#head2) | Allows a user to register.|
-|[GET         /users/](./docs/endpoints.md#head26) | ADMIN ONLY: Allows admin to get all users details|
-|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#head3) | Allows a user to delete their account. Admin can delete any user.|
+|[POST       /login](./docs/endpoints.md#-head1) | Allows existing user to authenticate.|
+|[POST       /register](./docs/endpoints.md#-head2) | Allows a user to register.|
+|[GET         /users/](./docs/endpoints.md#-head26) | ADMIN ONLY: Allows admin to get all users details|
+|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#-head3) | Allows a user to delete their account. Admin can delete any user.|
 
-#### <a name="#r5.2"></a> Cars
+#### Cars
 
 | Resource | Description |
 | --------------------- | ---------- |
@@ -135,9 +135,9 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[POST             /cars/me/](./docs/endpoints.md#head8) | Add a car to the user's list of cars.|
 |[DELETE         /cars/me/$user_car_id](./docs/endpoints.md#head9) | Delete a car from the user's car list.|
 |[DELETE         /cars/$car_id](./docs/endpoints.md#head10) | ADMIN ONLY:  Delete a car from the car index.|
-|[PUT/PATCH   /cars/$car_id](./docs/endpoints.md#head11) | ADMIN ONLY:  Update a car's details.|
+|[PUT/PATCH   /cars/$car_id](./docs/endpoints.md#-head11) | ADMIN ONLY:  Update a car's details.|
 
-#### <a name="#r5.3"></a> Logs
+#### Logs
 
 | Resource | Description |
 | --------------------- | ---------- |
@@ -156,7 +156,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ---
 
-## R7<a name="#r7"></a>    Third Party Services
+## R7   Third Party Services
 
 This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
 
@@ -197,16 +197,16 @@ This Flask extension allows the app to be able to generate JSON Web Tokens. This
 
 ### Python-Dotenv
 
-This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#R7.10). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
+This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#-R7.10). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
 
 ![.env.sample](./docs/env_sample.png)
 **Fig. 1**
 
-[References](./docs/references.md#R7)
+[References](./docs/references.md#-R7)
 
 ---
 
-#### R1<a name="#r1"></a>    The problem this API app is trying to solve
+#### R1    The problem this API app is trying to solve
 
 This application will provide a way for users to track and record their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
 
@@ -217,13 +217,13 @@ This application will provide a way for users to track and record their fuel con
 - The average consumption per 100 km is returned each time the user calculates the cost of a trip. This consumption rate is used to estimate the total cost of the trip.
 - It allows users to add multiple cars to their list to track separately.
 
-#### R2<a name="#r2"></a>    Justification for the API
+#### R2   Justification for the API
 
 With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down. 
 
 ---
 
-## R6<a name="#r6"></a>    ERD
+## R6    ERD
 
 ![Fuel log API ERD](./docs/ERD.png)
 
@@ -231,61 +231,61 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 
 ---
 
-## R9<a name="#r9"></a>     The database relations implemented in the app
+## R9     The database relations implemented in the app
 
-#### <a name="#r9.1"></a> Entities
+#### Entities
 
 The following entities were designed using an [ERM](./docs/ERM.png) and the ERD in Fig. 2 above to conceptualise the relations between them.
 
-- <a name="#r9.1.5"></a> Users
+- Users
     -   
-    - The users entity contains records of users who are able to access the API endpoints. When a user registers, they provide an email and password. There can only be one record associated with an email, while the user doesn't have to provide a first and last name. Is user is assigned a boolean value based on whether they're an administrator or not. The defualt value when a user is created is False.
+    - The users entity contains records of users who are able to access the API endpoints. When a user registers, they provide an email and password. There can only be one record associated with an email, while the user doesn't have to provide a first and last name. A user is assigned a boolean value based on whether they're an administrator or not. The defualt value when a user is created is False.
     
 ![users-user-car](./docs/users-user-cars.png)
-**Fig. 3**: Users and User Cars in [ERD](./README.md#r6)
+**Fig. 3**: Users and User Cars in [ERD](#-r6-erd)
 
-- <a name="#r9.1.2"></a>User Cars
+- User Cars
     -
     - User cars is a join table for the Users and Cars entity and each record contains a user ID and car ID.
 
-- <a name="#r9.1.3"></a>Log Entries
+- Log Entries
     -
     - 
 
 ![log-entries-user-car](./docs/log_entries_user_car.png)
-**Fig. 3**: Log Entries and User Cars in [ERD](./README.md#r6)
+**Fig. 3**: Log Entries and User Cars in [ERD](#-r6-erd)
 
-- <a name="#r9.1.4"></a>Cars
+- Cars
     -
     -
 
 ![cars-user-trips](./docs/cars_user_trips.png)
-**Fig. 4**: Cars and User Trips [ERD](./README.md#r6)
+**Fig. 4**: Cars and User Trips [ERD](#-r6-erd)
 
-- <a name="#r9.1.5"></a>User Trips
+- User Trips
     -
     -
 
-##### <a name="#r9.2"></a> Cars and Users:   Many to Many Relationship
+##### Cars and Users:   Many to Many Relationship
 
-##### <a name="#r9.3"></a> Cars and Log Entries:   One to Many Relationship
+##### Cars and Log Entries:   One to Many Relationship
 
-##### <a name="#r9.4"></a> Users and User Trips:   Many to Many Relationship
-
----
-
-## R3<a name="#r3"></a>     PostgreSQL:  Reasons the database system was chosen and its drawbacks
-
+##### Users and User Trips:   Many to Many Relationship
 
 ---
 
-## R4<a name="#r4"></a>      Key functionalities and benefits of an ORM
+## R3     PostgreSQL:  Reasons the database system was chosen and its drawbacks
+
 
 ---
 
-## R8<a name="#r8"></a>      The relationships between the models in the app
+## R4     Key functionalities and benefits of an ORM
 
 ---
 
-## R10<a name="#r10"></a>     Project Management
+## R8      The relationships between the models in the app
+
+---
+
+## R10     Project Management
 
