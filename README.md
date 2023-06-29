@@ -117,42 +117,42 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[POST       /login](./docs/endpoints.md#-head1) | Allows existing user to authenticate.|
-|[POST       /register](./docs/endpoints.md#-head2) | Allows a user to register.|
-|[GET         /users/](./docs/endpoints.md#-head26) | ADMIN ONLY: Allows admin to get all users details|
-|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#-head3) | Allows a user to delete their account. Admin can delete any user.|
+|[POST       /login](./docs/endpoints.md#post-login) | Allows existing user to authenticate.|
+|[POST       /register](./docs/endpoints.md#post-register) | Allows a user to register.|
+|[GET         /users/](./docs/endpoints.md#get-users) | ADMIN ONLY: Allows admin to get all users details|
+|[DELETE   /me/$user_id/delete/](./docs/endpoints.md#delete-meuser_iddelete) | Allows a user to delete their account. Admin can delete any user.|
 
 #### Cars
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[GET               /cars/](./docs/endpoints.md#head4) | Get a list of all cars.|
-|[GET               /cars/\$car_id/](./docs/endpoints.md#head23) | Get car.|
-|[GET               /cars/$make/](./docs/endpoints.md#head5) | Get a list of all cars by make.|
-|[GET               /cars/$make/\$model](./docs/endpoints.md#head6) | Get a list of all cars by make and model.|
-|[GET               /cars/me/](./docs/endpoints.md#head7) | Get the list of cars belonging to the user.|
-|[GET               /cars/me/$user_car_id/](./docs/endpoints.md#head25) | Get a car that belongs to the user.|
-|[POST             /cars/me/](./docs/endpoints.md#head8) | Add a car to the user's list of cars.|
-|[DELETE         /cars/me/$user_car_id](./docs/endpoints.md#head9) | Delete a car from the user's car list.|
-|[DELETE         /cars/$car_id](./docs/endpoints.md#head10) | ADMIN ONLY:  Delete a car from the car index.|
-|[PUT/PATCH   /cars/$car_id](./docs/endpoints.md#-head11) | ADMIN ONLY:  Update a car's details.|
+|[GET               /cars/](./docs/endpoints.md#get-cars) | Get a list of all cars.|
+|[GET               /cars/\$car_id/](./docs/endpoints.md#get-carscar_id) | Get car.|
+|[GET               /cars/$make/](./docs/endpoints.md#get-carsmake) | Get a list of all cars by make.|
+|[GET               /cars/$make/\$model](./docs/endpoints.md#get-carsmakemodel) | Get a list of all cars by make and model.|
+|[GET               /cars/me/](./docs/endpoints.md#get-carsme) | Get the list of cars belonging to the user.|
+|[GET               /cars/me/$user_car_id/](./docs/endpoints.md#get-carsmeuser_car_id) | Get a car that belongs to the user.|
+|[POST             /cars/me/](./docs/endpoints.md#post-carsme) | Add a car to the user's list of cars.|
+|[DELETE         /cars/me/$user_car_id](./docs/endpoints.md#delete-carscar_id) | Delete a car from the user's car list.|
+|[DELETE         /cars/$car_id](./docs/endpoints.md#delete-carscar_id) | ADMIN ONLY:  Delete a car from the car index.|
+|[PUT/PATCH   /cars/$car_id](./docs/endpoints.md#putpatch-carscar_id) | ADMIN ONLY:  Update a car's details.|
 
 #### Logs
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[GET                 /logs/me/$car_id/](./docs/endpoints.md#head12) | Get the user's logs for the selected car. |
-|[GET                 /logs/me/$car_id/\$log_id/](./docs/endpoints.md#head22) | Get a log entry for the selected car. |
-|[POST              /logs/me/$car_id/](./docs/endpoints.md#head13) | Add a new log for the selected user car. |
-|[PUT/PATCH    /logs/me/$car_id/\$log_id/](./docs/endpoints.md#head14) | Update a log for the selected user car. |
-|[DELETE          /logs/me/$car_id/\$log_id](./docs/endpoints.md#head15) | Delete a log for the selected user car. |
-|[POST              /logs/me/$car_id/trip/calculator/](./docs/endpoints.md#head16) | Calculate the total fuel cost of a trip. |
-|[GET                 /logs/me/$car_id/trips/](./docs/endpoints.md#head17) | Get the user car's list of trips. |
-|[GET                 /logs/me/$car_id/trips/\$trip_id/](./docs/endpoints.md#head24) | Get a trip for the user's car. |
-|[DELETE           /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#head18) | Delete a trip for the selected user car. |
-|[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#head19) | Update the trip details for the selected user car. |
-|[POST              /logs/me/$car_id/expenditure/](./docs/endpoints.md#head20) | Get the expenditure summary for a time period |
-|[POST              /logs/me/$car_id/expenditure/compare/](./docs/endpoints.md#head21) | Compare expenditure summaries for two different periods |
+|[GET                 /logs/me/$car_id/](./docs/endpoints.md#get-logsmecar_id) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$car_id/\$log_id/](./docs/endpoints.md#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
+|[POST              /logs/me/$car_id/](./docs/endpoints.md#post-logsmecar_id) | Add a new log for the selected user car. |
+|[PUT/PATCH    /logs/me/$car_id/\$log_id/](./docs/endpoints.md#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
+|[DELETE          /logs/me/$car_id/\$log_id](./docs/endpoints.md#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
+|[POST              /logs/me/$car_id/trip/calculator/](./docs/endpoints.md#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
+|[GET                 /logs/me/$car_id/trips/](./docs/endpoints.md#get-logsmecar_idtrips) | Get the user car's list of trips. |
+|[GET                 /logs/me/$car_id/trips/\$trip_id/](./docs/endpoints.md#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
+|[DELETE           /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
+|[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](./docs/endpoints.md#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
+|[POST              /logs/me/$car_id/expenditure/](./docs/endpoints.md#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
+|[POST              /logs/me/$car_id/expenditure/compare/](./docs/endpoints.md#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
 ---
 
@@ -266,11 +266,11 @@ The following entities were designed using an [ERM](./docs/ERM.png) and the ERD 
     -
     -
 
-##### Cars and Users:   Many to Many Relationship
+##### Cars and Users: Many to Many Relationship
 
-##### Cars and Log Entries:   One to Many Relationship
+##### Cars and Log Entries: One to Many Relationship
 
-##### Users and User Trips:   Many to Many Relationship
+##### Users and User Trips: Many to Many Relationship
 
 ---
 

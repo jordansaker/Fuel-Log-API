@@ -24,7 +24,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[GET               /cars/me/](#get-carsme) | Get the list of cars belonging to the user.|
 |[GET               /cars/me/$user_car_id/](#get-carsmeuser_car_id) | Get a car that belongs to the user.|
 |[POST             /cars/me/](#post-carsme) | Add a car to the user's list of cars.|
-|[DELETE         /cars/me/$user_car_id](#delete-carsmeuser_car_id) | Delete a car from the user's car list.|
+|[DELETE         /cars/me/$user_car_id](#delete-carscar_id) | Delete a car from the user's car list.|
 |[DELETE         /cars/$car_id](#delete-carscar_id) | ADMIN ONLY:  Delete a car from the car index.|
 |[PUT/PATCH   /cars/$car_id](#putpatch-carscar_id) | ADMIN ONLY:  Update a car's details.|
 
@@ -45,10 +45,11 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[POST              /logs/me/$car_id/expenditure/](#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
 |[POST              /logs/me/$car_id/expenditure/compare/](#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
+
 ---
 
 
-## <a name="head1"></a> POST    /login
+## POST /login
 
 Let's the user authenticate and recieve an access token
 
@@ -121,7 +122,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## <a name="head2"></a> POST    /register
+## POST /register
 
 Let's a user register to use the API.
 
@@ -187,7 +188,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## <a name="head26"></a> GET    /users/
+## GET /users/
 
 ADMIN ONLY: Allows an administrator to access all user's details.
 
@@ -249,7 +250,7 @@ http://127.0.0.1:5000/users/
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## <a name="head3"></a> DELETE    /me/$user_id/delete/
+## DELETE /me/$user_id/delete/
 
 Allows a user to delete their account. Admin accessing this endpoint can delete any user.
 
@@ -304,7 +305,7 @@ http://127.0.0.1:5000/me/3/delete/
 
 [Back to Main](../README.md#user-access-and-account-management)
 
-## <a name="head4"></a> GET  /cars/
+## GET /cars/
 
 Get a list of all cars.
 
@@ -371,7 +372,7 @@ http://127.0.0.1:5000/cars/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head23"></a> GET  /cars/$car_id/
+## GET /cars/$car_id/
 
 Get a single car.
 
@@ -432,7 +433,7 @@ http://127.0.0.1:5000/cars/1/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head5"></a> GET  /cars/$make/
+## GET /cars/$make/
 
 Get a filtered list of cars by make.
 
@@ -498,7 +499,7 @@ http://127.0.0.1:5000/cars/ford/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head6"></a> GET  /cars/$make/\$model
+## GET /cars/$make/\$model
 
 Get a filtered list of cars by make and model.
 
@@ -557,7 +558,7 @@ http://127.0.0.1:5000/cars/ford/ranger
 
 [Back to Main](../README.md#cars)
 
-## <a name="head7"></a> GET  /cars/me/
+## GET /cars/me/
 
 Get a list of all cars that belong to the authenticated user.
 
@@ -610,7 +611,7 @@ http://127.0.0.1:5000/cars/me/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head25"></a> GET  /cars/me/$user_car_id/
+## GET /cars/me/$user_car_id/
 
 Get a car that belongs to the authenticated user.
 
@@ -669,7 +670,7 @@ http://127.0.0.1:5000/cars/me/1/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head8"></a> POST  /cars/me/
+## POST /cars/me/
 
 Add a new car to the user's car list. The car is also added to the cars list.
 
@@ -746,7 +747,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#cars)
 
-## <a name="head9"></a> DELETE  /cars/me/$user_car_id
+## DELETE /cars/me/$user_car_id
 
 Delete a car in user's car list.
 
@@ -801,7 +802,7 @@ http://127.0.0.1:5000/cars/me/
 
 [Back to Main](../README.md#cars)
 
-## <a name="head10"></a> DELETE  /cars/$car_id
+## DELETE /cars/$car_id
 
 ADMIN ONLY: Admin can delete a car which will delete from all user car lists.
 
@@ -854,7 +855,7 @@ http://127.0.0.1:5000/cars/3
 
 [Back to Main](../README.md#cars)
 
-## <a name="head11"></a> PUT/PATCH  /cars/$car_id
+## PUT/PATCH /cars/$car_id
 
 ADMIN ONLY: Admin can delete a car which will delete from all user car lists.
 
@@ -934,7 +935,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#cars)
 
-## <a name="head12"></a> GET  /logs/me/$car_id/
+## GET /logs/me/$car_id/
 
 Get a list of the logs that belong to the authenticated user's car.
 
@@ -1042,7 +1043,7 @@ http://127.0.0.1:5000/logs/me/2/
 
 [Back to Main](../README.md#logs)
 
-## <a name="head22"></a> GET  /logs/me/$car_id/\$log_id/
+## GET /logs/me/$car_id/\$log_id/
 
 A single log entry that belongs to the authenticated user's car.
 
@@ -1116,7 +1117,7 @@ http://127.0.0.1:5000/logs/me/2/1/
 
 [Back to Main](../README.md#logs)
 
-## <a name="head13"></a> POST  /logs/me/$car_id/
+## POST /logs/me/$car_id/
 
 Add a new log entry for the authenticated user's car.
 
@@ -1202,7 +1203,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## <a name="head14"></a> PUT/PATCH  /logs/me/$car_id/\$log_id/
+## PUT/PATCH /logs/me/$car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -1290,7 +1291,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## <a name="head15"></a> DELETE  /logs/me/$car_id/\$log_id/
+## DELETE /logs/me/$car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -1343,7 +1344,7 @@ http://127.0.0.1:5000/logs/me/2/6
 
 [Back to Main](../README.md#logs)
 
-## <a name="head16"></a> POST  /logs/me/$car_id/trip/calculator/
+## POST /logs/me/$car_id/trip/calculator/
 
 The calculator takes a distance and current fuel price. Calculates how much a trip will cost using the average consumption which is calculated from the user's car logs
 
@@ -1418,7 +1419,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## <a name="head17"></a> GET  /logs/me/$car_id/trips/
+## GET /logs/me/$car_id/trips/
 
 Get all trips for the authenticated user's car.
 
@@ -1487,7 +1488,7 @@ http://127.0.0.1:5000/logs/me/2/trips/
 
 [Back to Main](../README.md#logs)
 
-## <a name="head24"></a> GET  /logs/me/$car_id/trips/\$trip_id/
+## GET /logs/me/$car_id/trips/\$trip_id/
 
 Get a trip for the authenticated user's car.
 
@@ -1546,7 +1547,7 @@ http://127.0.0.1:5000/logs/me/2/trips/2/
 
 [Back to Main](../README.md#logs)
 
-## <a name="head18"></a> DELETE  /logs/me/$car_id/trips/\$trip_id
+## DELETE /logs/me/$car_id/trips/\$trip_id
 
 Delete a trip for the authenticated user's car.
 
@@ -1599,7 +1600,7 @@ http://127.0.0.1:5000/logs/me/2/trips/3
 
 [Back to Main](../README.md#logs)
 
-## <a name="head19"></a> PUT/PATCH  /logs/me/$car_id/trips/\$trip_id
+## PUT/PATCH /logs/me/$car_id/trips/\$trip_id
 
 Update a trip for the authenticated user's car.
 
@@ -1671,7 +1672,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## <a name="head20"></a> POST  /logs/me/\$car_id/expenditure/
+## POST /logs/me/\$car_id/expenditure/
 
 Get an expenditure summary for a specified time period for the authenticated user's car. The endpoint takes a "to_date" and "from_date" dates in the request body. 
 
@@ -1750,7 +1751,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## <a name="head21"></a> POST  /logs/me/\$car_id/expenditure/compare/
+## POST /logs/me/\$car_id/expenditure/compare/
 
 Compare expenditure summaries for specified time periods for the authenticated user's car. The endpoint takes a "to_date" and "compare_from_date" and "compare_to_date" and "from_date" dates in the request body. 
 
