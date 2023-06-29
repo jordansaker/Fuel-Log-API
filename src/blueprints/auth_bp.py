@@ -89,6 +89,22 @@ def user_login():
                }
     return {"invalid_user_info" : "Invalid email address or password"}, 401
 
+# Admin only access
+@auth_bp.route('/users/')
+@jwt_required()
+def get_users():
+    """
+    Allows the admin to get a list of entire users
+    """
+    user = verify_user()
+    if not user:
+        return {"forbidden": "You must be logged in or registered"}, 403
+    if user.is_admin:
+        stmt = db.select(User)
+        users = db.session.scalars(stmt).all()
+        return UserSchema(many=True, exclude=['password', 'cars']).dump(users)
+    return {"unauthorized" : "Admin access only"}, 401
+
 
 @auth_bp.route('/me/<int:user_id>/delete/', methods=['DELETE'])
 @jwt_required()

@@ -1,12 +1,31 @@
 # Fuel Log API
 
 - [Installation](./README.md#installation)
-- [Rest API Resources](./README.md#r5-rest-api-resources)
+- [Rest API Resources](./README.md#r5)
+    - [User Access and account management](./README.md#r5.1)
+    - [Cars](./README.md#r5.2)
+    - [Logs](./README.md#r5.3)
+- [Third Party Services](./README.md#r7)
+- [ERD](./README.md#r6)
+- [The database relations implemented in the app](./README.md#r9)
+    - [Entities](./README.md#r9.1)
+        - [User](./README.md#r9.1.1)
+        - [User Cars](./README.md#r9.1.2)
+        - [Log Entries](./README.md#r9.1.3)
+        - [Cars](./README.md#r9.1.4)
+        - [User Trips](./README.md#r9.1.5)
+    - [Cars and Users:   Many to Many Relationship](./README.md#r9.2)
+    - [Cars and Log Entries:   One to Many Relationship](./README.md#r9.3)
+    - [Users and User Trips:   Many to Many Relationship](./README.md#r9.4)
+- [PostgreSQL:  Reasons the database system was chosen and its drawbacks](./README.md#r3)
+- [Key functionalities and benefits of an ORM](./README.md#r4)
+- [The relationships between the models in the app](./README.md#r8)
+- [Project Management](./README.md#r10)
 
 
 ![Fuel-log-API](./docs/Fuel_log_API.png) 
 
-## Installation
+## <a name="#installation"></a> Installation
 
 #### Requirements:
 - PostgreSQL
@@ -82,21 +101,29 @@ flask run
 
 The Flask application is running on the localhost on Port 5000. The endpoints can be accessed through a browser or through API development platforms such as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/).
 
+##### Seeded Users
+|email |password| Is admin? |
+| ---- | ---- | ---- |
+| fuellogadmin@fuellogapi.com | admin1234 | True |
+| john.smith@test.com | password123 | False |
+| will.thomas@gmail.com | thisIsapassword | False |
+
 ---
 
-## R5    REST API Resources
+## R5<a name="#r5"></a>    REST API Resources
 
 Below is a full listing of all available endpoints. Click on a resource name for more information. 
 
-#### User Access and account management
+#### <a name="#r5.1"></a> User Access and account management
 
 | Resource | Description |
 | --------------------- | ---------- |
 |[POST       /login](./docs/endpoints.md#head1) | Allows existing user to authenticate.|
 |[POST       /register](./docs/endpoints.md#head2) | Allows a user to register.|
+|[GET         /users/](./docs/endpoints.md#head26) | ADMIN ONLY: Allows admin to get all users details|
 |[DELETE   /me/$user_id/delete/](./docs/endpoints.md#head3) | Allows a user to delete their account. Admin can delete any user.|
 
-#### Cars
+#### <a name="#r5.2"></a> Cars
 
 | Resource | Description |
 | --------------------- | ---------- |
@@ -111,7 +138,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[DELETE         /cars/$car_id](./docs/endpoints.md#head10) | ADMIN ONLY:  Delete a car from the car index.|
 |[PUT/PATCH   /cars/$car_id](./docs/endpoints.md#head11) | ADMIN ONLY:  Update a car's details.|
 
-#### Logs
+#### <a name="#r5.3"></a> Logs
 
 | Resource | Description |
 | --------------------- | ---------- |
@@ -130,7 +157,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ---
 
-## R7    Third Party Services
+## R7<a name="#r7"></a>    Third Party Services
 
 This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
 
@@ -174,12 +201,13 @@ This Flask extension allows the app to be able to generate JSON Web Tokens. This
 This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#R7.10). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
 
 ![.env.sample](./docs/env_sample.png)
+**Fig. 1**
 
 [References](./docs/references.md#R7)
 
 ---
 
-#### R1    The problem this API app is trying to solve
+#### R1<a name="#r1"></a>    The problem this API app is trying to solve
 
 This application will provide a way for users to track and record their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
 
@@ -190,44 +218,75 @@ This application will provide a way for users to track and record their fuel con
 - The average consumption per 100 km is returned each time the user calculates the cost of a trip. This consumption rate is used to estimate the total cost of the trip.
 - It allows users to add multiple cars to their list to track separately.
 
-#### R2    Justification for the API
+#### R2<a name="#r2"></a>    Justification for the API
 
 With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down. 
 
 ---
 
-## R6    ERD
+## R6<a name="#r6"></a>    ERD
 
 ![Fuel log API ERD](./docs/ERD.png)
 
----
-
-## R9     The database relations implemented in the app
-
-#### Entities
-
-The following entities were designed using an [ERM](./docs/ERM.png) and the ERD above to conceptualise the relations between then 
-
-- Users
-- Log Entries
-- Cars
-- User Cars
-- Trips
+**Fig. 2**: Fuel Log API ERD
 
 ---
 
-## R3     Reasons the database system was chosen and its drawbacks
+## R9<a name="#r9"></a>     The database relations implemented in the app
+
+#### <a name="#r9.1"></a> Entities
+
+The following entities were designed using an [ERM](./docs/ERM.png) and the ERD in Fig. 2 above to conceptualise the relations between them.
+
+- <a name="#r9.1.5"></a> Users
+    -   
+    - The users entity contains records of users who are able to access the API endpoints. When a user registers, they provide an email and password. There can only be one record associated with an email, while the user doesn't have to provide a first and last name. Is user is assigned a boolean value based on whether they're an administrator or not. The defualt value when a user is created is False.
+    
+![users-user-car](./docs/users-user-cars.png)
+**Fig. 3**: Users and User Cars in [ERD](./README.md#r6)
+
+- <a name="#r9.1.2"></a>User Cars
+    -
+    - User cars is a join table for the Users and Cars entity and each record contains a user ID and car ID.
+
+- <a name="#r9.1.3"></a>Log Entries
+    -
+    - 
+
+![log-entries-user-car](./docs/log_entries_user_car.png)
+**Fig. 3**: Log Entries and User Cars in [ERD](./README.md#r6)
+
+- <a name="#r9.1.4"></a>Cars
+    -
+    -
+
+![cars-user-trips](./docs/cars_user_trips.png)
+**Fig. 4**: Cars and User Trips [ERD](./README.md#r6)
+
+- <a name="#r9.1.5"></a>User Trips
+    -
+    -
+
+##### <a name="#r9.2"></a> Cars and Users:   Many to Many Relationship
+
+##### <a name="#r9.3"></a> Cars and Log Entries:   One to Many Relationship
+
+##### <a name="#r9.4"></a> Users and User Trips:   Many to Many Relationship
+
+---
+
+## R3<a name="#r3"></a>     PostgreSQL:  Reasons the database system was chosen and its drawbacks
 
 
 ---
 
-## R4      Key functionalities and benefits of an ORM
+## R4<a name="#r4"></a>      Key functionalities and benefits of an ORM
 
 ---
 
-## R8      The relationships between the models
+## R8<a name="#r8"></a>      The relationships between the models in the app
 
 ---
 
-## R10     Project Management
+## R10<a name="#r10"></a>     Project Management
 

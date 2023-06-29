@@ -2,6 +2,51 @@
 
 All URLs specified point to the Localhost server at the default port 5000 when the Flask API is run.
 
+Below is a full listing of all available endpoints. Click on a resource name for more information. 
+
+#### User Access and account management
+
+| Resource | Description |
+| --------------------- | ---------- |
+|[POST       /login](#post-login) | Allows existing user to authenticate.|
+|[POST       /register](#post-register) | Allows a user to register.|
+|[GET         /users/](#get-users) | ADMIN ONLY: Allows admin to get all users details|
+|[DELETE   /me/$user_id/delete/](#delete-meuser_iddelete) | Allows a user to delete their account. Admin can delete any user.|
+
+#### Cars
+
+| Resource | Description |
+| --------------------- | ---------- |
+|[GET               /cars/](#get-cars) | Get a list of all cars.|
+|[GET               /cars/\$car_id/](#get-carscar_id) | Get car.|
+|[GET               /cars/$make/](#get-carsmake) | Get a list of all cars by make.|
+|[GET               /cars/$make/\$model](#get-carsmakemodel) | Get a list of all cars by make and model.|
+|[GET               /cars/me/](#get-carsme) | Get the list of cars belonging to the user.|
+|[GET               /cars/me/$user_car_id/](#get-carsmeuser_car_id) | Get a car that belongs to the user.|
+|[POST             /cars/me/](#post-carsme) | Add a car to the user's list of cars.|
+|[DELETE         /cars/me/$user_car_id](#delete-carsmeuser_car_id) | Delete a car from the user's car list.|
+|[DELETE         /cars/$car_id](#delete-carscar_id) | ADMIN ONLY:  Delete a car from the car index.|
+|[PUT/PATCH   /cars/$car_id](#putpatch-carscar_id) | ADMIN ONLY:  Update a car's details.|
+
+#### Logs
+
+| Resource | Description |
+| --------------------- | ---------- |
+|[GET                 /logs/me/$car_id/](#get-logsmecar_id) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$car_id/\$log_id/](#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
+|[POST              /logs/me/$car_id/](#post-logsmecar_id) | Add a new log for the selected user car. |
+|[PUT/PATCH    /logs/me/$car_id/\$log_id/](#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
+|[DELETE          /logs/me/$car_id/\$log_id](#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
+|[POST              /logs/me/$car_id/trip/calculator/](#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
+|[GET                 /logs/me/$car_id/trips/](#get-logsmecar_idtrips) | Get the user car's list of trips. |
+|[GET                 /logs/me/$car_id/trips/\$trip_id/](#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
+|[DELETE           /logs/me/$car_id/trips/\$trip_id](#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
+|[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
+|[POST              /logs/me/$car_id/expenditure/](#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
+|[POST              /logs/me/$car_id/expenditure/compare/](#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
+
+---
+
 
 ## <a name="head1"></a> POST    /login
 
@@ -138,6 +183,68 @@ These are the possible errors returned by the endpoint.
         "cars": []
     }
 }
+```
+
+[Back to Main](../README.md#user-access-and-account-management)
+
+## <a name="head26"></a> GET    /users/
+
+ADMIN ONLY: Allows an administrator to access all user's details.
+
+##### Resource Information
+
+|  | |
+| ------ | ----- |
+| Method | GET |
+| URL | http://127.0.0.1:5000/users/ |
+| Requires authentication | Yes |
+
+##### Response Parameters
+
+| Parameter | Type | Description |
+| ------ | ----- | ----- |
+| List | (object) | List object of all users |
+
+##### Resource Errors
+
+These are the possible errors returned by the endpoint.
+
+| HTTP Code | Error Identifier | Error Message |
+| ------ | ----- | ----- |
+| 401 | unauthorized | Admin access only |
+| 403 | forbidden | You must be logged in or registered |
+
+##### Example
+
+###### Request
+
+```
+http://127.0.0.1:5000/users/
+```
+
+###### Response
+
+```
+[
+    {
+        "id": 1,
+        "email": "fuellogadmin@fuellogapi.com",
+        "first_name": "null",
+        "last_name": "null"
+    },
+    {
+        "id": 2,
+        "email": "john.smith@test.com",
+        "first_name": "John",
+        "last_name": "Smith"
+    },
+    {
+        "id": 3,
+        "email": "will.thomas@gmail.com",
+        "first_name": "William",
+        "last_name": "Thomas"
+    }
+]
 ```
 
 [Back to Main](../README.md#user-access-and-account-management)
