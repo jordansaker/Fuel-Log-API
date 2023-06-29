@@ -109,7 +109,7 @@ The Flask application is running on the localhost on Port 5000. The endpoints ca
 
 ---
 
-##R5   REST API Resources
+## R5   REST API Resources
 
 Below is a full listing of all available endpoints. Click on a resource name for more information. 
 
