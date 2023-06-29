@@ -1,7 +1,9 @@
 # Fuel Log API
 
-- [Installation](./README.md#installation)
-- [Rest API Resources](./README.md#r5)
+![Fuel-log-API](./docs/Fuel_log_API.png) 
+
+- [Installation](#installation)
+- [Rest API Resources](#r5-rest-api-resources)
     - [User Access and account management](./README.md#r5.1)
     - [Cars](./README.md#r5.2)
     - [Logs](./README.md#r5.3)
@@ -22,10 +24,7 @@
 - [The relationships between the models in the app](./README.md#r8)
 - [Project Management](./README.md#r10)
 
-
-![Fuel-log-API](./docs/Fuel_log_API.png) 
-
-## <a name="#installation"></a> Installation
+## Installation
 
 #### Requirements:
 - PostgreSQL
@@ -110,7 +109,7 @@ The Flask application is running on the localhost on Port 5000. The endpoints ca
 
 ---
 
-## R5<a name="#r5"></a>    REST API Resources
+## R5   REST API Resources
 
 Below is a full listing of all available endpoints. Click on a resource name for more information. 
 
