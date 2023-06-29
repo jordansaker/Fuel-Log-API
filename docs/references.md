@@ -16,3 +16,4 @@
 
 1. cleancommit.io. (2022). _Why Use PostgreSQL For Your Next Project? | Clean Commit._ [online] Available at: https://cleancommit.io/blog/why-use-postgresql-for-your-next-project/.
 2. EDB. (n.d.). _MVCC and VACUUM._ [online] Available at: https://www.enterprisedb.com/blog/mvcc-and-vacuum [Accessed 29 Jun. 2023].
+3. Amazon Web Services, Inc. (n.d.). _MySQL vs. PostgreSQL - Comparing Relational Database Management Systems (RDBMS) - AWS._ [online] Available at: https://aws.amazon.com/compare/the-difference-between-mysql-vs-postgresql/.
