@@ -101,7 +101,7 @@ flask run
 The Flask application is running on the localhost on Port 5000. The endpoints can be accessed through a browser or through API development platforms such as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/).
 
 ##### Seeded Users
-|email |password| Is admin? |
+|email |password| admin |
 | ---- | ---- | ---- |
 | fuellogadmin@fuellogapi.com | admin1234 | True |
 | john.smith@test.com | password123 | False |
@@ -109,9 +109,9 @@ The Flask application is running on the localhost on Port 5000. The endpoints ca
 
 ---
 
-## R5   REST API Resources
+## R5 REST API Resources
 
-Below is a full listing of all available endpoints. Click on a resource name for more information. 
+Below is a full listing of all available endpoints. Click on a resource name for more information.
 
 #### User Access and account management
 
@@ -154,19 +154,21 @@ Below is a full listing of all available endpoints. Click on a resource name for
 |[POST              /logs/me/$car_id/expenditure/](./docs/endpoints.md#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
 |[POST              /logs/me/$car_id/expenditure/compare/](./docs/endpoints.md#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
+## [REST API Resource](./docs/endpoints.md)
+
 ---
 
 ## R7 Third Party Services
 
-This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
+This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#r7). Here are some of the third party services that were used to fully implement the API.
 
 ### SQLAlchemy
 
-The API uses an SQL database system to store data relating to cars, users, and log entries. In order to integrate and allow the Flask app to interact with the database, SQLAlchemy was installed as a dependency and used. SQLAlchemy is the Python ORM that is used by the app to efficiently access and perform database queries interpreting Pythonic language and then creating and executing the equivalent SQL query operation on the database. The approach that SQLAlchemy takes is that it's processes are fully exposed and it allows the developer to construct a database and the SQL queries using Python, almost the same way they would be constructed in an SQL system. [(www.sqlalchemy.org, n.d.)](./docs/references.md#R7.2)
+The API uses an SQL database system to store data relating to cars, users, and log entries. In order to integrate and allow the Flask app to interact with the database, SQLAlchemy was installed as a dependency and used. SQLAlchemy is the Python ORM that is used by the app to efficiently access and perform database queries interpreting Pythonic language and then creating and executing the equivalent SQL query operation on the database. The approach that SQLAlchemy takes is that it's processes are fully exposed and it allows the developer to construct a database and the SQL queries using Python, almost the same way they would be constructed in an SQL system. [(www.sqlalchemy.org, n.d.)](./docs/references.md#r7)
 
 ### Flask-SQLAlchemy
 
-Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatcally handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#R7.3). i.e An SQLAlchemy model can be created using the subclass of the extension class:
+Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatcally handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#r7). i.e An SQLAlchemy model can be created using the subclass of the extension class:
 
 ```
 # the extension class
@@ -177,32 +179,32 @@ class User(db.Model)
 
 ### Marshmallow
 
-The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request. [(marshmallow.readthedocs.io, n.d.)](./docs/references.md#R7.4)
+The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request. [(marshmallow.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Flask-Marshmallow
 
-Similar to Flask-SQLAlchemy, Flask-Marshmallow is also an extension that adds extra features which allow it to be integrated with Marhsmallow and Flask-SQLALchemy. The extension class is integrated with Flask-SQLAlchemy by being initialised after the Flask-SQLAlchemy extension class [(flask-marshmallow.readthedocs.io, n.d.)](./docs/references.md#R7.5). This extension is used to create schema classes which are used when dumping and loading JSON objects. For a schema class, fields are exposed to be dumped or loaded by the schema, and these fields are normally given a Marshmallow specific datatype class. 
+Similar to Flask-SQLAlchemy, Flask-Marshmallow is also an extension that adds extra features which allow it to be integrated with Marhsmallow and Flask-SQLALchemy. The extension class is integrated with Flask-SQLAlchemy by being initialised after the Flask-SQLAlchemy extension class [(flask-marshmallow.readthedocs.io, n.d.)](./docs/references.md#r7). This extension is used to create schema classes which are used when dumping and loading JSON objects. For a schema class, fields are exposed to be dumped or loaded by the schema, and these fields are normally given a Marshmallow specific datatype class. 
 
 ### Psycopg2-binary
 
-Psycopg is a PostgreSQL database adapter that can be used for the Python Programming language and was designed to be used for multi-threaded applications [(www.psycopg.org, n.d.)](./docs/references.md#R7.6). It allows the Flask application to connect to the PostgreSQL database, creates and destroys database cursors, and executes queries passed onto it by SQLAlchemy. [(pysql.tecladocode.com, n.d.)](./docs/references.md#R7.7)
+Psycopg is a PostgreSQL database adapter that can be used for the Python Programming language and was designed to be used for multi-threaded applications [(www.psycopg.org, n.d.)](./docs/references.md#r7). It allows the Flask application to connect to the PostgreSQL database, creates and destroys database cursors, and executes queries passed onto it by SQLAlchemy. [(pysql.tecladocode.com, n.d.)](./docs/references.md#r7)
 
 ### Flask-Bcrypt
 
-Flask-Bcrypt is used as an extension for Flask an provides the app with bcrypt hasshing utilities. Bcrypt uses a hash design that's "de-optimised", making it intentionally structured to be a slow hashing algorithm compared to other algorithms such as MD5 and SHA1. This extension when it is created and initialised in the app, provides a away for sensitive data being pass through the Flask app to be protect. [(flask-bcrypt.readthedocs.io, n.d.)](./docs/references.md#R7.8)
+Flask-Bcrypt is used as an extension for Flask an provides the app with bcrypt hasshing utilities. Bcrypt uses a hash design that's "de-optimised", making it intentionally structured to be a slow hashing algorithm compared to other algorithms such as MD5 and SHA1. This extension when it is created and initialised in the app, provides a away for sensitive data being pass through the Flask app to be protect. [(flask-bcrypt.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Flask-JWT-Extended
 
-This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route. As with Flask-SQLAlchemy, Flask-Bcrypt, and Flask-Marshmallow, its utilies are made available after an extension class is created in the app. The app is secured by being configured with a JWT secret key, which is added to the JWT bearer token each time a user authenticates. [(flask-jwt-extended.readthedocs.io, n.d.)](./docs/references.md#R7.9)
+This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route. As with Flask-SQLAlchemy, Flask-Bcrypt, and Flask-Marshmallow, its utilies are made available after an extension class is created in the app. The app is secured by being configured with a JWT secret key, which is added to the JWT bearer token each time a user authenticates. [(flask-jwt-extended.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Python-Dotenv
 
-This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#-R7.10). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
+This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#r7). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
 
 ![.env.sample](./docs/env_sample.png)
 **Fig. 1**
 
-[References](./docs/references.md#-R7)
+## [References](./docs/references.md#r7)
 
 ---
 
@@ -242,33 +244,45 @@ The following entities were designed using an [ERM](./docs/ERM.png) and the ERD 
     - The users entity contains records of users who are able to access the API endpoints. When a user registers, they provide an email and password. There can only be one record associated with an email, while the user doesn't have to provide a first and last name. A user is assigned a boolean value based on whether they're an administrator or not. The defualt value when a user is created is False.
     
 ![users-user-car](./docs/users-user-cars.png)
-**Fig. 3**: Users and User Cars in [ERD](#-r6-erd)
+**Fig. 3**: Users and User Cars in [ERD](#r6-erd)
 
 - User Cars
     -
     - User cars is a join table for the Users and Cars entity and each record contains a user ID and car ID.
 
 - Log Entries
-    -
     - 
+    - The log entries entity contains the records of all log entries for all user cars. For the attributes, seen in Fig. 4 below, "current_odo", "fuel_quantity", and "fuel_price" require user inputs while the date for each log is automatically added each time a new record is created.
 
 ![log-entries-user-car](./docs/log_entries_user_car.png)
-**Fig. 3**: Log Entries and User Cars in [ERD](#-r6-erd)
+**Fig. 4**: Log Entries and User Cars in [ERD](#r6-erd)
 
 - Cars
     -
-    -
+    - The cars entity contains records of car types that a user may have. Every attribute has the NOT NULL property while a three column key constraint is placed on the entity using "make", "model", and "model_trim". 
 
 ![cars-user-trips](./docs/cars_user_trips.png)
-**Fig. 4**: Cars and User Trips [ERD](#-r6-erd)
+**Fig. 5**: Cars and User Trips [ERD](#r6-erd)
 
 - User Trips
     -
-    -
+    - In the user trips entity (Fig. 5 above), a user car and distance travelled for the trip plus the cost of fuel is stored in each record. Both distance and fuel price have the NOT NULL property.
 
 ##### Cars and Users: Many to Many Relationship
 
+The relationship between the cars and users entities is a many to many relationship. A user can have many cars and a car of a specific make, model, and model trim can be owned by many users. Because of this relationship between users and cars, a joining table called "user_cars" was created. This joining table allowed a one to many relationship for the users and cars entities i.e. a user can have many "user_cars" and a car can belong to many "user_cars". 
+
+As seen in Fig. 6 below, a user can have zero or many user cars and a user car belongs to only one user. A car type on the other end can be owned by zero or many users and a user car has only one specific car type.
+
+![users-cars-many](./docs/users-cars-many.png)
+**Fig. 6**: Cars and User Trips [ERD](#r6-erd)
+
 ##### Cars and Log Entries: One to Many Relationship
+
+Cars and log entries have a one to many relationship. 
+
+![log-entries-user-car](./docs/log_entries_user_car.png)
+**Fig. 7**: Log Entries and User Cars in [ERD](#r6-erd)
 
 ##### Users and User Trips: Many to Many Relationship
 
