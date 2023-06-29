@@ -3,13 +3,13 @@
 ![Fuel-log-API](./docs/Fuel_log_API.png) 
 
 - [Installation](#installation)
-- [Rest API Resources](#r5rest-api-resources)
+- [Rest API Resources](#r5-rest-api-resources)
     - [User Access and account management](#user-access-and-account-management)
     - [Cars](#cars-1)
     - [Logs](#logs)
-- [Third Party Services](#r7third-party-services)
+- [Third Party Services](#r7-third-party-services)
 - [ERD](#r6erd)
-- [The database relations implemented in the app](#r9the-database-relations-implemented-in-the-app)
+- [The database relations implemented in the app](#r9-the-database-relations-implemented-in-the-app)
     - [Entities](#entities)
         - [Users](#users)
         - [User Cars](#user-cars)
@@ -19,12 +19,12 @@
     - [Cars and Users:   Many to Many Relationship](#cars-and-users-many-to-many-relationship)
     - [Cars and Log Entries:   One to Many Relationship](#cars-and-log-entries-one-to-many-relationship)
     - [Users and User Trips:   Many to Many Relationship](#users-and-user-trips-many-to-many-relationship)
-- [PostgreSQL:  Reasons the database system was chosen and its drawbacks](#r3postgresql-reasons-the-database-system-was-chosen-and-its-drawbacks)
-- [Key functionalities and benefits of an ORM](#r4key-functionalities-and-benefits-of-an-orm)
-- [The relationships between the models in the app](#r8the-relationships-between-the-models-in-the-app)
-- [Project Management](#-r10-project-management)
+- [PostgreSQL:  Reasons the database system was chosen and its drawbacks](#r3-postgresql-reasons-the-database-system-was-chosen-and-its-drawbacks)
+- [Key functionalities and benefits of an ORM](#r4-key-functionalities-and-benefits-of-an-orm)
+- [The relationships between the models in the app](#r8-the-relationships-between-the-models-in-the-app)
+- [Project Management](#r10-project-management)
 
-##Installation
+## Installation
 
 #### Requirements:
 - PostgreSQL
@@ -156,7 +156,7 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ---
 
-## R7   Third Party Services
+## R7 Third Party Services
 
 This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#R7.1). Here are some of the third party services that were used to fully implement the API.
 
@@ -206,7 +206,7 @@ This third party service is used for reading key-value pairs from .env files and
 
 ---
 
-#### R1    The problem this API app is trying to solve
+#### R1 The problem this API app is trying to solve
 
 This application will provide a way for users to track and record their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
 
@@ -217,13 +217,13 @@ This application will provide a way for users to track and record their fuel con
 - The average consumption per 100 km is returned each time the user calculates the cost of a trip. This consumption rate is used to estimate the total cost of the trip.
 - It allows users to add multiple cars to their list to track separately.
 
-#### R2   Justification for the API
+#### R2 Justification for the API
 
 With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down. 
 
 ---
 
-## R6    ERD
+## R6 ERD
 
 ![Fuel log API ERD](./docs/ERD.png)
 
@@ -231,7 +231,7 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 
 ---
 
-## R9     The database relations implemented in the app
+## R9 The database relations implemented in the app
 
 #### Entities
 
@@ -274,18 +274,18 @@ The following entities were designed using an [ERM](./docs/ERM.png) and the ERD 
 
 ---
 
-## R3     PostgreSQL:  Reasons the database system was chosen and its drawbacks
+## R3 PostgreSQL: Reasons the database system was chosen and its drawbacks
 
 
 ---
 
-## R4     Key functionalities and benefits of an ORM
+## R4 Key functionalities and benefits of an ORM
 
 ---
 
-## R8      The relationships between the models in the app
+## R8 The relationships between the models in the app
 
 ---
 
-## R10     Project Management
+## R10 Project Management
 
