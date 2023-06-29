@@ -9,7 +9,7 @@ The Car Model contains the following attributes:
 """
 from datetime import datetime
 from marshmallow import fields
-from marshmallow.validate import Regexp, Range
+from marshmallow.validate import Regexp, Range, Length
 from init import db, ma
 
 class Car(db.Model):
@@ -70,7 +70,8 @@ class CarSchema(ma.Schema):
         validate=Range(1)
     )
     model_trim = fields.String(
-        required=True
+        required=True,
+        validate=Length(min=1, error="String must not be empty")
     )
     class Meta:
         """
