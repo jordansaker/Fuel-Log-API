@@ -1,7 +1,7 @@
 # Fuel Log API
 
-- [Installation](#installation)
-- [Rest API Resources](#r5-rest-api-resources)
+- [Installation](./README.md#installation)
+- [Rest API Resources](./README.md#r5-rest-api-resources)
 
 
 ![Fuel-log-API](./docs/Fuel_log_API.png) 
