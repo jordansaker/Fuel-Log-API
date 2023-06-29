@@ -1,5 +1,9 @@
 # Fuel Log API
 
+- [Installation](#installation)
+- [Rest API Resources](#r5-rest-api-resources)
+
+
 ![Fuel-log-API](./docs/Fuel_log_API.png) 
 
 ## Installation
@@ -56,6 +60,7 @@ Replace SECRET KEY with your secrect key and run the following code  below in th
 ```
 echo "DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'\nJWT_KEY='SECRET KEY'" > .env 
 ```
+##### CLI Commands
 
 The table below lists the available CLI commands for the application.
 
@@ -162,9 +167,13 @@ Flask-Bcrypt is used as an extension for Flask an provides the app with bcrypt h
 
 ### Flask-JWT-Extended
 
-This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route.
+This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route. As with Flask-SQLAlchemy, Flask-Bcrypt, and Flask-Marshmallow, its utilies are made available after an extension class is created in the app. The app is secured by being configured with a JWT secret key, which is added to the JWT bearer token each time a user authenticates. [(flask-jwt-extended.readthedocs.io, n.d.)](./docs/references.md#R7.9)
 
 ### Python-Dotenv
+
+This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#R7.10). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
+
+![.env.sample](./docs/env_sample.png)
 
 [References](./docs/references.md#R7)
 
@@ -193,21 +202,22 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 
 ---
 
-## R3    Reasons the database system was chosen and its drawbacks
-
-
----
 ## R9     The database relations implemented in the app
 
 #### Entities
 
-The 
+The following entities were designed using an [ERM](./docs/ERM.png) and the ERD above to conceptualise the relations between then 
 
 - Users
 - Log Entries
 - Cars
 - User Cars
 - Trips
+
+---
+
+## R3     Reasons the database system was chosen and its drawbacks
+
 
 ---
 
