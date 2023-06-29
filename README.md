@@ -262,7 +262,7 @@ The following entities were designed using an [ERM](./docs/ERM.png) and the ERD 
     - The cars entity contains records of car types that a user may have. Every attribute has the NOT NULL property while a three column key constraint is placed on the entity using "make", "model", and "model_trim". 
 
 ![cars-user-trips](./docs/cars_user_trips.png)
-**Fig. 5**: Cars and User Trips [ERD](#r6-erd)
+**Fig. 5**: Cars and User Trips in [ERD](#r6-erd)
 
 - User Trips
     -
@@ -275,26 +275,49 @@ The relationship between the cars and users entities is a many to many relations
 As seen in Fig. 6 below, a user can have zero or many user cars and a user car belongs to only one user. A car type on the other end can be owned by zero or many users and a user car has only one specific car type.
 
 ![users-cars-many](./docs/users-cars-many.png)
-**Fig. 6**: Cars and User Trips [ERD](#r6-erd)
+**Fig. 6**: Cars and User Trips many to many in [ERD](#r6-erd)
 
 ##### User Cars and Log Entries: One to Many Relationship
 
 User cars and log entries have a one to many relationship. A user car can have many log entries while a log entry belongs to only one user car. As seen in Fig. 7 below, a user car can have zero or many log entries while a log entry bleongs to only one user car.
 
 ![log-entries-user-car](./docs/log_entries_user_car.png)
-**Fig. 7**: Log Entries and User Cars in [ERD](#r6-erd)
+**Fig. 7**: Log Entries and User Cars one to many in [ERD](#r6-erd)
 
 ##### User Cars and User Trips: One to Many Relationship
 
 The relationship between user cars and user trips is a one to many relationship. A user car can have many trips while a trip belongs to only one user car. As seen in Fig. 8 below, a user car can have zero or many user trips while a user trip only has one user car.
 
 ![cars-user-trips](./docs/cars_user_trips.png)
-**Fig. 8**: Cars and User Trips [ERD](#r6-erd)
+**Fig. 8**: Cars and User Trips one to many in [ERD](#r6-erd)
 
 ---
 
 ## R3 PostgreSQL: Reasons the database system was chosen and its drawbacks
 
+The main reasons for using PostgreSQL is its high data consistency and integrity which allows it to have excellent transaction processing and data analysis capabilities. This means that PostgreSQL's features fully cover the Atomicity, Consistency, Isolation, and Durability model (ACID), which ensures that transactions made are correct and reliable when writing or updating data. [(cleancommit.io, 2022)]()
+
+Postgres' atomicity feature means that a transaction is completely successful or it fails completely [(cleancommit.io, 2022)](). Meaning if a post transaction to the database doesn't meet predefined constraints such as a value violating a unique constraint (intergrity error), the transaction completely fails and data entries in the incomplete transaction remains unchanged in the database (an immediate rollback of the transaction). The atomcity feature was useful in the app in certain places such as setting a unqiue constraint for a user email and a key constraint that was a combination of car make, model, and model trim. This ensured that incomplete data wasn't added to the database when the violation of these constraints occured.
+
+The consistency feature of Postgres ensures that during transactions, the database can only be changed from a valid state to another. This gurantess that the final state of the database remains consistent as it was before a transaction [(cleancommit.io, 2022)](). In the app for example, if a user was to be deleted, a cascading delete was defined to ensure that data in the user cars table remained the same; i.e user_id was set as NOT NULL so the records relating to the deleted user had to be deleted to ensure no records contained a NULL value in the user_id column.
+
+Isloation in Postgres ensures that many transactions can happen simultaneously. A common type of simultaneous transaction that could happen is reading and writing to the database at the same time [(cleancommit.io, 2022)](). An example of this feature used in the app was in the Trip Calculator route. The route first reads into the database, querying the log entries entity and retriving the appropriate data (Fig. 9 below). 
+
+![isolation-code-read](./docs/iso-write.png)
+**Fig. 9**: Reading the databse for the log entries entity
+
+This data is then used to create a new record in the user trips entity (Fig. 10 below). These transactions are all carried out in one request. 
+
+![isolation-code-write](./docs/iso-read.png)
+**Fig. 10**: Write to the databse into the user trips entity
+
+The final feature, durability, ensures that the transactions that have been committed will permanently survive in the database [(cleancommit.io, 2022)](./docs/references.md#r3). This property of Postgres suits the requirements of this app in that data that is committed to the database will be permanent. It ensures that records containing logs, which are cruical for the core feature of the app, will not be lost. 
+
+The major drawback or challange with Postgres is that it uses an approach called multi-version concurrency control (MVCC) [(cleancommit.io, 2022)](./docs/references.md#r3). A basic idea of this approach in one instance is during an UPDATE, instead of selecting the actual row in the database to write too, a new row is created initally and is only visible to the transaction. Once the transaction is commited, that new row becomes visible to all new transactions. However, transactions that were still occuring at the time of the new row being create will not be able to access this new row. But to satisfy the isolation feature of the database, the old record can still be accessed by the current transactions. This leads to a storage management problem. The old records end up being "dead" rows or Dead Tuples, even though Dead Tuples can no longer be selected by the user, they still exist in the Postgres database paired to their new row. [(EDB, n.d.)](./docs/references.md#r3)
+
+The database esentially could grow with no limit on the size, using up valuable storage space. Because of this side product of MVCC, a process called VACUUM is used to remove dead rows from the database. And since dead rows are created during many processes occuring in or to the databse i.e. updating records or incomplete transactions; VACCUM is necessary to maintain a Postgres database. [(EDB, n.d.)](./docs/references.md#r3)
+
+[References](./docs/references.md#r3)
 
 ---
 
