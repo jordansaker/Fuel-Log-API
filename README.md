@@ -17,8 +17,8 @@
         - [Cars](#car)
         - [User Trips](#user-trips)
     - [Cars and Users:   Many to Many Relationship](#cars-and-users-many-to-many-relationship)
-    - [Cars and Log Entries:   One to Many Relationship](#cars-and-log-entries-one-to-many-relationship)
-    - [Users and User Trips:   Many to Many Relationship](#users-and-user-trips-many-to-many-relationship)
+    - [User Cars and Log Entries: One to Many Relationship](#user-cars-and-log-entries-one-to-many-relationship)
+    - [User Cars and User Trips: One to Many Relationship](#user-cars-and-user-trips-one-to-many-relationship)
 - [PostgreSQL:  Reasons the database system was chosen and its drawbacks](#r3-postgresql-reasons-the-database-system-was-chosen-and-its-drawbacks)
 - [Key functionalities and benefits of an ORM](#r4-key-functionalities-and-benefits-of-an-orm)
 - [The relationships between the models in the app](#r8-the-relationships-between-the-models-in-the-app)
@@ -204,7 +204,7 @@ This third party service is used for reading key-value pairs from .env files and
 ![.env.sample](./docs/env_sample.png)
 **Fig. 1**
 
-## [References](./docs/references.md#r7)
+[References](./docs/references.md#r7)
 
 ---
 
@@ -277,14 +277,19 @@ As seen in Fig. 6 below, a user can have zero or many user cars and a user car b
 ![users-cars-many](./docs/users-cars-many.png)
 **Fig. 6**: Cars and User Trips [ERD](#r6-erd)
 
-##### Cars and Log Entries: One to Many Relationship
+##### User Cars and Log Entries: One to Many Relationship
 
-Cars and log entries have a one to many relationship. 
+User cars and log entries have a one to many relationship. A user car can have many log entries while a log entry belongs to only one user car. As seen in Fig. 7 below, a user car can have zero or many log entries while a log entry bleongs to only one user car.
 
 ![log-entries-user-car](./docs/log_entries_user_car.png)
 **Fig. 7**: Log Entries and User Cars in [ERD](#r6-erd)
 
-##### Users and User Trips: Many to Many Relationship
+##### User Cars and User Trips: One to Many Relationship
+
+The relationship between user cars and user trips is a one to many relationship. A user car can have many trips while a trip belongs to only one user car. As seen in Fig. 8 below, a user car can have zero or many user trips while a user trip only has one user car.
+
+![cars-user-trips](./docs/cars_user_trips.png)
+**Fig. 8**: Cars and User Trips [ERD](#r6-erd)
 
 ---
 
