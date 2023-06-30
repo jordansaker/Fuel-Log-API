@@ -40,9 +40,10 @@ def get_all_cars():
 
     This view function returns all the cars in the Cars table
     """
-    # statement to query the database
+    # verify the user
     user = verify_user()
     if user:
+        # select all from the cars table
         stmt = db.select(Car)
         cars = db.session.scalars(stmt).all()
         return CarSchema(many=True, exclude=['user_car']).dump(cars)
@@ -60,9 +61,10 @@ def get_a_car(car_id):
 
             <car_id> (int)
     """
-    # statement to query the database
+    # verify the user
     user = verify_user()
     if user:
+        # select cars and filter by car_id
         stmt = db.select(Car).filter_by(id=car_id)
         car = db.session.scalar(stmt)
         if car:
@@ -85,10 +87,11 @@ def get_cars_by_make_model(make, model):
 
             <model>  (str)
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
-    # statement to query the database, searching for cars using the .where() method
+    # searching for cars using the .where() method, by model and make
     stmt = db.select(Car).where(
         db.and_(
             Car.make == make.capitalize(),
@@ -113,10 +116,11 @@ def get_cars_by_make(make):
 
             <make>  (str)
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
-    # statement to query the database, searching for cars using the .where() method
+    # searching for cars using the .where() method, for the make
     stmt = db.select(Car).where(Car.make == make.capitalize())
     cars = db.session.scalars(stmt).all()
     if cars:
@@ -156,12 +160,13 @@ def add_new_car():
                 "tank_size" : "car tank size"
             }
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
     # load the request using the Car schema
     car_info = CarSchema().load(request.json)
-    # query the database to see if the car exists
+    # query the database to see if the car already exists
     stmt = db.select(Car).where(
         db.and_(
             Car.make == car_info['make'],
@@ -173,7 +178,7 @@ def add_new_car():
     )
     add_car = db.session.scalar(stmt)
     if not add_car:
-        # add the car to the cars list
+        # add the car to the cars list if it doesn't exists
         new_car = Car(
             make= car_info['make'],
             model= car_info['model'],
@@ -205,7 +210,7 @@ def add_new_car():
     )
     existing_user_car = db.session.scalar(stmt)
     if add_car and not existing_user_car:
-        # add the car to the user's cars list
+        # add the car to the user's cars list it user doesn't have the car in their list
         new_user_car = UserCar(
             user_id= get_jwt_identity(),
             car_id= add_car.id
@@ -225,11 +230,12 @@ def get_user_cars():
 
     This view function returns all the user cars
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
-    # query the database
-    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity())
+    # query the database and filter by the user id
+    stmt = db.select(UserCar).filter_by(user_id=user.id)
     user_cars = db.session.scalars(stmt).all()
     if user_cars:
         return UserCarSchema(many=True, only=['id','car']).dump(user_cars)
@@ -244,11 +250,12 @@ def get_user_car(car_id):
 
     This view function returns a user car
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
-    # query the database
-    stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
+    # query the database and filter by the user id and car id
+    stmt = db.select(UserCar).filter_by(user_id=user.id).filter_by(id=car_id)
     user_car = db.session.scalar(stmt)
     if user_car:
         return UserCarSchema(only=['id','car']).dump(user_car)
@@ -268,12 +275,13 @@ def delete_user_car(user_car_id):
 
             <user_car_id> (int)
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
     # query the database to find user car
     stmt = db.select(UserCar).filter_by(
-        user_id= get_jwt_identity()
+        user_id= user.id
     ).filter_by(
         id= user_car_id
     )
@@ -304,7 +312,7 @@ def delete_car(car_id):
     admin = verify_user()
     if not admin.is_admin:
         return {"unauthorized" : "Admin access only"}, 401
-    # query the database to find the car
+    # query the database to find the car by the car id
     stmt = db.select(Car).filter_by(id= car_id)
     car = db.session.scalar(stmt)
     if car:
@@ -335,7 +343,7 @@ def update_car_info(car_id):
     admin = verify_user()
     if not admin.is_admin:
         return {"unauthorized" : "Admin access only"}, 401
-    # query the database to find the car
+    # query the database to find the car by the car id
     stmt = db.select(Car).filter_by(id= car_id)
     car = db.session.scalar(stmt)
     if car:
