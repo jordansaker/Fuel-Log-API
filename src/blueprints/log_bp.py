@@ -52,10 +52,11 @@ def get_log_entries(car_id):
 
             <car_id> (int)
     """
-    # query the database for user car's id
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
         # query the database and filter logs by user_car_id
@@ -80,13 +81,14 @@ def get_log_entry(car_id, log_id):
             <car_id> (int)
             <log_id> (int)
     """
-    # query the database for user car's id
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
-        # query the database and filter logs by user_car_id
+        # query the database and filter logs by user_car_id and log_id
         stmt = db.select(LogEntry).filter_by(user_car_id=user_car.id).filter_by(id=log_id)
         log_entry = db.session.scalar(stmt)
         if log_entry:
@@ -107,10 +109,11 @@ def add_log_entry(car_id):
 
             <car_id> (int)
     """
-    # query the database for user car's id
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
         # load the requeest body to the log entry schema
@@ -144,10 +147,11 @@ def update_log_entry(car_id, log_id):
 
             <log_id> (int)
     """
-    # query the database for user car's id
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -182,10 +186,11 @@ def delete_log_entry(car_id, log_id):
 
             <log_id> (int)
     """
-    # query the database for user car's id
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
+    # query the database for user car's id
     user_car = verify_user_car(car_id)
     if user_car:
         # search for the log entry
@@ -222,6 +227,7 @@ def calculate_avg_consuption(car_id):
             <car_id> (int)
 
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
@@ -303,11 +309,12 @@ def get_all_trips(car_id):
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
     user = verify_user_car(car_id)
-    # query the database
+    # query the database and filter by car_id
     stmt = db.select(Trip).filter_by(user_car_id=car_id)
     all_trips = db.session.scalars(stmt).all()
     if user:
         if all_trips:
+            # get the user's trips and place in a list
             user_trips = [trip for trip in all_trips if trip.usercar.user_id == get_jwt_identity()]
             return TripSchema(many=True, exclude=['usercar']).dump(user_trips)
         return {'not_found': 'User car has no trips'}, 404
@@ -332,11 +339,12 @@ def get_a_trip(car_id, trip_id):
     if not user:
         return {"forbidden": "You must be logged in to access resource"}, 403
     user = verify_user_car(car_id)
-    # query the database
+    # query the database and filter by car_id, trip_id
     stmt = db.select(Trip).filter_by(user_car_id=car_id).filter_by(id=trip_id)
     trip = db.session.scalar(stmt)
     if user:
         if trip:
+            # get the user's id
             if trip.usercar.user_id == get_jwt_identity():
                 return TripSchema(exclude=['usercar']).dump(trip)
         return {'not_found': 'User car trip not found'}, 404
@@ -470,7 +478,7 @@ def expenditure_summary(car_id):
         if logs_for_period:
             # filter out the logs that belong to the user and car
             user_logs_for_period = [log for log in logs_for_period if log.user_car_id == car_id]
-            # calculate the total cost for the period
+            # calculate the total cost for the period and total distance
             total_cost = 0
             total_distance = user_logs_for_period[-1].current_odo \
                                     - user_logs_for_period[0].current_odo
@@ -479,7 +487,6 @@ def expenditure_summary(car_id):
 
 
             return {
-                    
                     'total_cost_for_period': f"${format(total_cost, '.2f')}",
                     'total_distance_for_period': f"{total_distance} km",
                     "expenditure_summary_for" : ExpenditureSchema().dump(dates),
@@ -514,26 +521,27 @@ def expenditure_compare(car_id):
         int(dates['from_date'].strftime("%m")),
         int(dates['from_date'].strftime("%d"))
     ).timestamp()
-    # 'to' date
+    # 'to' date placed into datetime
     to_date = datetime(
         int(dates['to_date'].strftime("%Y")),
         int(dates['to_date'].strftime("%m")),
         int(dates['to_date'].strftime("%d"))
     ).date()
+    # convert "compare_from" date to format stored in database "unix"
     compare_from_date = datetime(
         int(dates['compare_from_date'].strftime("%Y")),
         int(dates['compare_from_date'].strftime("%m")),
         int(dates['compare_from_date'].strftime("%d"))
     ).timestamp()
-    # 'to' date
+    # 'compare_to' date placed into datetime
     compare_to_date = datetime(
         int(dates['compare_to_date'].strftime("%Y")),
         int(dates['compare_to_date'].strftime("%m")),
         int(dates['compare_to_date'].strftime("%d"))
     ).date()
 
-    # if "to" date is the same as the current date
-    # assign it using the .now() function
+    # if "to" dates are the same as the current date
+    # assign them using the .now() function
     if to_date == datetime.now().date() or compare_to_date == datetime.now().date():
         to_date = datetime.now()
         compare_to_date = datetime.now()
@@ -548,7 +556,7 @@ def expenditure_compare(car_id):
             int(dates['compare_to_date'].strftime("%m")),
             int(dates['compare_to_date'].strftime("%d"))
         )
-    # convert "to" date to timestamp
+    # convert "to" dates to timestamp
     to_date = to_date.timestamp()
     compare_to_date = compare_to_date.timestamp()
     # filter the logs using the to and from dates
@@ -559,6 +567,7 @@ def expenditure_compare(car_id):
         )
     )
     logs_for_period_one = db.session.scalars(stmt).all()
+    # filter the logs using the "compare" to and from dates
     stmt2 = db.select(LogEntry).where(
         db.and_(
             LogEntry.date_added <= compare_to_date,
@@ -567,21 +576,24 @@ def expenditure_compare(car_id):
     )
     logs_for_period_two = db.session.scalars(stmt2).all()
     # verify the user is allowed to access the logs
-    print(logs_for_period_one)
-    print(logs_for_period_two)
     user = verify_user_car(car_id)
     if user:
         if logs_for_period_one and logs_for_period_two:
             # filter out the logs that belong to the user and car
-            user_logs_for_period_one = [log for log in logs_for_period_one if log.user_car_id == car_id]
-            user_logs_for_period_two = [log for log in logs_for_period_two if log.user_car_id == car_id]
-            # calculate the total cost for the period
+            user_logs_for_period_one = [
+                log for log in logs_for_period_one if log.user_car_id == car_id
+            ]
+            user_logs_for_period_two = [
+                log for log in logs_for_period_two if log.user_car_id == car_id
+            ]
+            # calculate the total costs and distances for the periods
             total_cost_one = 0
             total_cost_two = 0
             total_distance_one = user_logs_for_period_one[-1].current_odo \
                                     - user_logs_for_period_one[0].current_odo
             total_distance_two = user_logs_for_period_two[-1].current_odo \
                                     - user_logs_for_period_two[0].current_odo
+
             for log in user_logs_for_period_one:
                 total_cost_one += log.fuel_price * log.fuel_quantity
             for log in user_logs_for_period_two:
@@ -608,4 +620,3 @@ def expenditure_compare(car_id):
             }
         return {'not_found': 'No expenditure for periods specified'}, 404
     return{'not_found': 'User car not found'}, 404
-
