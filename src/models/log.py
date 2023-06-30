@@ -68,6 +68,7 @@ class LogEntrySchema(ma.Schema):
         required=True,
         validate=Range(0.01)
     )
+    date_added = fields.Method("timestamp_to_date")
 
     class Meta:
         """
@@ -77,6 +78,13 @@ class LogEntrySchema(ma.Schema):
                   'fuel_quantity', 'fuel_price', 
                     'date_added', 'usercar')
         ordered = True
+
+    @classmethod
+    def timestamp_to_date(self, obj):
+        """
+        Class method to convert time stamp to datetime
+        """
+        return datetime.utcfromtimestamp(obj.date_added)
 
 class ExpenditureSchema(ma.Schema):
     """

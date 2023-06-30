@@ -119,35 +119,35 @@ def seed_tables():
             current_odo= 80800,
             fuel_quantity= 80,
             fuel_price= 1.95,
-            date_added= datetime(2023, 5, 15).timestamp(),
+            date_added= datetime(2023, 5, 15, 9, 30, 00).timestamp(),
             usercar= user_cars[1]
         ),
         LogEntry(
             current_odo= 81600,
             fuel_quantity= 80,
             fuel_price= 1.89,
-            date_added= datetime(2023, 5, 23).timestamp(),
+            date_added= datetime(2023, 5, 23, 18, 30, 00).timestamp(),
             usercar= user_cars[1]
         ),
         LogEntry(
             current_odo= 81900,
             fuel_quantity= 40,
             fuel_price= 1.82,
-            date_added= datetime(2023, 5, 27).timestamp(),
+            date_added= datetime(2023, 5, 27, 19, 30, 00).timestamp(),
             usercar= user_cars[1]
         ),
         LogEntry(
             current_odo= 82400,
             fuel_quantity= 60,
             fuel_price= 1.86,
-            date_added= datetime(2023, 6, 4).timestamp(),
+            date_added= datetime(2023, 6, 4, 12, 30, 00).timestamp(),
             usercar= user_cars[1]
         ),
         LogEntry(
             current_odo= 83100,
             fuel_quantity= 80,
             fuel_price= 1.98,
-            date_added= datetime(2023, 6, 15).timestamp(),
+            date_added= datetime(2023, 6, 15, 10, 30, 00).timestamp(),
             usercar= user_cars[1]
         )
     ]
