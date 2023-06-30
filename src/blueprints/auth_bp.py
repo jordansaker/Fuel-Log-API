@@ -76,7 +76,7 @@ def user_login():
                 "password": "registered user password"
             }
     """
-    # find the user in the database
+    # find the user in the database using the email value from the body request
     stmt = db.select(User).filter_by(email=request.json['email'])
     user = db.session.scalar(stmt)
     # check if user exists
@@ -96,10 +96,12 @@ def get_users():
     """
     Allows the admin to get a list of entire users
     """
+    # verify the user
     user = verify_user()
     if not user:
         return {"forbidden": "You must be logged in or registered"}, 403
     if user.is_admin:
+        # select all users from the users table
         stmt = db.select(User)
         users = db.session.scalars(stmt).all()
         return UserSchema(many=True, exclude=['password', 'cars']).dump(users)
@@ -118,17 +120,21 @@ def delete_user(user_id):
 
             <user_id> (int)    
     """
+    # verify the user
     admin_delete_user = verify_user()
     if not admin_delete_user:
         return {"forbidden": "You must be logged in or registered"}, 403
-    # verify user
+
     if admin_delete_user:
+        # if the user is the correct user and not the admin
         if admin_delete_user.id == user_id and not admin_delete_user.is_admin:
             db.session.delete(admin_delete_user)
             db.session.commit()
             return {'deleted': 'user successfully deleted'}
+        # users can't delete other users only admin
         if not admin_delete_user.is_admin:
             return {"unauthorized" : "Admin access only"}, 401
+        # find the user for admin to delete
         user_to_delete = User.query.filter_by(id=user_id).first()
         db.session.delete(user_to_delete)
         db.session.commit()
@@ -146,6 +152,7 @@ def verify_user_car(car_id):
 
     Returns the user object
     """
+    # get a user object based on the car id and return to calling function
     stmt = db.select(UserCar).filter_by(user_id=get_jwt_identity()).filter_by(id=car_id)
     user = db.session.scalar(stmt)
     return user
@@ -154,6 +161,7 @@ def verify_user():
     """
     Verify that user exists using the JWT token linked to the user ID
     """
+    # get a user object and return to the calling function
     stmt = db.select(User).filter_by(id=get_jwt_identity())
     user = db.session.scalar(stmt)
     return user
