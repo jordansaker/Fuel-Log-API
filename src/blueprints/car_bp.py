@@ -23,7 +23,7 @@ Routes:
 
     PUT/PATCH '/<int:car_id>' ADMIN ONLY: Admin can update a car in the cars entity
 """
-from flask import Blueprint, abort, request
+from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.car import Car, CarSchema

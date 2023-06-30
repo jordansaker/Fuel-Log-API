@@ -68,7 +68,7 @@ class LogEntrySchema(ma.Schema):
         required=True,
         validate=Range(0.01)
     )
-    
+
     class Meta:
         """
         Defining the fields in a tuple and ordering the fields
