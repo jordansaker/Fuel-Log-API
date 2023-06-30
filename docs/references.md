@@ -18,6 +18,10 @@
 2. EDB. (n.d.). _MVCC and VACUUM._ [online] Available at: https://www.enterprisedb.com/blog/mvcc-and-vacuum [Accessed 29 Jun. 2023].
 3. Amazon Web Services, Inc. (n.d.). _MySQL vs. PostgreSQL - Comparing Relational Database Management Systems (RDBMS) - AWS._ [online] Available at: https://aws.amazon.com/compare/the-difference-between-mysql-vs-postgresql/.
 
+## R4
+
+1. Amin, S.A. (2022). _Minimal Flask Application using MVC design pattern._ [online] Medium. Available at: https://medium.com/@arslanaut/minimal-flask-application-using-mvc-design-pattern-842845cef703.
+
 ## R8
 
 1. docs.sqlalchemy.org. (n.d.). _Working with ORM Related Objects — SQLAlchemy 2.0 Documentation._ [online] Available at: https://docs.sqlalchemy.org/en/20/tutorial/orm_related_objects.html#persisting-and-loading-relationships [Accessed 30 Jun. 2023].
