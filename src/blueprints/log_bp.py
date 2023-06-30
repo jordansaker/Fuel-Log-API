@@ -123,7 +123,6 @@ def add_log_entry(car_id):
             current_odo= log_entry_info['current_odo'],
             fuel_quantity= log_entry_info['fuel_quantity'],
             fuel_price= log_entry_info['fuel_price'],
-            date_added= datetime.now().timestamp(),
             user_car_id= car_id
         )
         # add and commit new log entry

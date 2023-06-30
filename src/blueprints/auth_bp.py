@@ -141,7 +141,7 @@ def delete_user(user_id):
         return {'admin_deleted': 'user successfully deleted'}
     return {"invalid_user" : "User not found"}, 404
 
-def verify_user_car(car_id):
+def verify_user_car(car_id: int) -> dict:
     """
     Verify that the user making the request is allowed to access the
     response
@@ -157,7 +157,7 @@ def verify_user_car(car_id):
     user = db.session.scalar(stmt)
     return user
 
-def verify_user():
+def verify_user() -> dict:
     """
     Verify that user exists using the JWT token linked to the user ID
     """
