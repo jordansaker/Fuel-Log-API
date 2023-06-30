@@ -1,7 +1,10 @@
 # Fuel Log API
 
-![Fuel-log-API](./docs/screenshots/Fuel_log_API.png) 
+![Fuel-log-API](./docs/screenshots/Fuel_log_API.png)
 
+---
+
+- [GitHub Repo Link](https://github.com/jordansaker/Fuel-Log-API)
 - [Installation](#installation)
 - [Rest API Resources](#r5-rest-api-resources)
     - [User Access and account management](#user-access-and-account-management)
@@ -23,6 +26,8 @@
 - [Key functionalities and benefits of an ORM](#r4-key-functionalities-and-benefits-of-an-orm)
 - [The relationships between the models in the app](#r8-the-relationships-between-the-models-in-the-app)
 - [Project Management](#r10-project-management)
+
+---
 
 ## Installation
 
@@ -316,12 +321,12 @@ The consistency feature of Postgres ensures that during transactions, the databa
 Isloation in Postgres ensures that many transactions can happen simultaneously. A common type of simultaneous transaction that could happen is reading and writing to the database at the same time [(cleancommit.io, 2022)](./docs/references.md#r3). An example of this feature used in the app was in the Trip Calculator route. The route first reads into the database, querying the log entries entity and retriving the appropriate data (Fig. 9 below). 
 
 ![isolation-code-read](./docs/screenshots/iso-write.png)
-**Fig. 9**: Reading the databse for the log entries entity
+**Fig. 9**: Reading the database for the log entries entity
 
 This data is then used to create a new record in the user trips entity (Fig. 10 below). These transactions are all carried out in one request. 
 
 ![isolation-code-write](./docs/screenshots/iso-read.png)
-**Fig. 10**: Write to the databse into the user trips entity
+**Fig. 10**: Write to the database into the user trips entity
 
 The final feature, durability, ensures that the transactions that have been committed will permanently survive in the database [(cleancommit.io, 2022)](./docs/references.md#r3). This property of Postgres suits the requirements of this app in that data that is committed to the database will be permanent. It ensures that records containing logs, which are cruical for the core feature of the app, will not be lost. 
 
@@ -401,6 +406,46 @@ As seen above, the UserCar schema only exposes the "logs" relationship in the fi
 
 ## R10 Project Management
 
+Trello was used to track the progress of the API development. The board was organised into 7 different columns:
+
 ![trello-layout1](./docs/screenshots/trello_fuel_log_1.png)
-**Fig. 10**: Write to the databse into the user trips entity
+**Fig. 11**: Trello layout containing Epics, User stories.
+
+- User Stories
+    - The user stories column contained cards with user stories where the stories were thought of looking from the persepective of potential users. This helped with identifying the scope of the project and keeping track of each story requirement on the board helped to keep the tasks orientated toward completing a user story. Tasks were then created based on the user stories which were tailored accordingly for the appropriate epics.
+    - **User Story 1:**
+        - The story covers the core feature of what the API is intended for. It identifies that a user should be able to record a log entry for each fill-up. Along with providing insightful information related to fuel costs and usage.
+    
+    ![user-story-one](./docs/screenshots/user_story.png)
+    **Fig. 11**: User Story One.
+    - **User Story 2:**
+        - The story covers the feature of what the type of report that the API could provide for the user. It identifies that a user should be able to supply a time period and receive a summary for the total fuel cost for the period.
+    
+    ![user-story-two](./docs/screenshots/user_story2.png)
+    **Fig. 11**: User Story Two.
+    - **User Story 3:**
+        - The story covers the feature that will allow a user to calulate the cost of their trip. It helped identify the key data components that would be needed to create a calculator and this was factored in to the design of the database.
+    
+    ![user-story-three](./docs/screenshots/user_story3.png)
+    **Fig. 11**: User Story Three.
+    - **User Story 4:**
+        - The story covers the core features of what the API is intended for. It identifies that a user should be able to record a log entry for each fill-up. Along with providing insightful information related to fuel costs and usage.
+    
+    ![user-story-four](./docs/screenshots/user_story4.png)
+    **Fig. 11**: User Story Four.
+
+    -
+- Epics
+- Backlog
+- Current Sprint
+
+
+![trello-layout2](./docs/screenshots/trello_fuel_log_2.png)
+**Fig. 11**: Trello layout containing Sprint, To Do, In Progress, Done.
+
+- To Do
+- In Progress
+- Done
+
+## [Trello Board]()
 
