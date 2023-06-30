@@ -38,7 +38,7 @@ class LogEntry(db.Model):
     user_car_id = db.Column(
                             db.Integer,
                             db.ForeignKey('user_cars.id', ondelete='cascade'),
-                            nullable=True
+                            nullable=False
                         )
 
 

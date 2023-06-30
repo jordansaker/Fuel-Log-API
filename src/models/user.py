@@ -8,7 +8,7 @@ The User Model contains the following attributes:
     id, first_name, last_name, email, password
 """
 from marshmallow import fields
-from marshmallow.validate import And, Length, Regexp
+from marshmallow.validate import Length, Regexp
 from init import db, ma
 
 class User(db.Model):

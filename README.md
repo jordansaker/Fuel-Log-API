@@ -35,31 +35,37 @@
 #### Database setup
 
 Run PostgreSQL in the terminal:
-```
+```sh
 psql
 ```
 Create a database and database user:
-```
+```sh
 create database fuel_log_db;
 ```
-```
+```sh
 create user fuel_dev with password 'fueldevpass123';
 ```
 Grant access for the new user to the database:
-```
+```sh
 grant all privileges on database fuel_log_db to fuel_dev;
 ```
 ---
 #### Python setup
 
+Clone the repo to a local directory:
+
+```sh
+git clone https://github.com/jordansaker/Fuel-Log-API.git
+```
+
 In the **src** directory, create a virtual environment and activate it:
 
-```
+```sh
 python3 -m venv .venv
 source  .venv/bin/activate
 ```
 Install the required packages:
-```
+```sh
 python3 -m pip install -r requirements.txt
 ```
 
@@ -67,15 +73,13 @@ python3 -m pip install -r requirements.txt
 
 #### Running the Flask application
 
-Rename **.env.sample** to **.env** and add the following configuration and connection to the database.
-
-Using the database name, username, and password above setup the DB URI:
-```
+Rename **.env.sample** to **.env** and add the following configuration and connection to the database. Using the database name, username, and password above setup the DB URI:
+```sh
 DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'
 ```
 Replace SECRET KEY with your secrect key and run the following code  below in the **src** file to setup the .env file:
 
-```
+```sh
 echo "DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'\nJWT_KEY='SECRET KEY'" > .env 
 ```
 ##### CLI Commands
@@ -92,7 +96,7 @@ The table below lists the available CLI commands for the application.
 
 Create the models and seed the database. Then run the Flask app in the CLI:
 
-```
+```sh
 flask cli create
 flask cli seed
 flask run
@@ -170,7 +174,7 @@ The API uses an SQL database system to store data relating to cars, users, and l
 
 Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatcally handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#r7). i.e An SQLAlchemy model can be created using the subclass of the extension class:
 
-```
+```python
 # the extension class
 db = SQLAlchemy()
 # the subclass db.Model used to define a model class
@@ -333,19 +337,59 @@ The key functionalities of an ORM
 
 ## R8 The relationships between the models in the app
 
-The models contained in the app are mapped to reflect the entities that were designed in the [ERD](#r6-erd). The model User relates to the UserCar model as a one to many, many side of the relationship is linked to the UserCar model. To create this relationship between the models, the foreign key user_id was added to the UserModel (show below).
+The models contained in the app are mapped to reflect the entities that were designed in the [ERD](#r6-erd). The model User relates to the UserCar model as a one to many relationship, the many side of the relationship is linked to the UserCar model. To create this relationship between the models, the foreign key user_id was added to the UserCar model (shown below).
+
+```python
+    
+# model atributes
+id = db.Column(db.Integer, primary_key=True)
+# Foreign Keys
+user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+car_id = db.Column(
+        db.Integer,
+        db.ForeignKey('cars.id', ondelete='CASCADE'),
+        nullable=False
+    )
 
 ```
-    # model atributes
-    id = db.Column(db.Integer, primary_key=True)
-    # Foreign Keys
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    car_id = db.Column(
-            db.Integer,
-            db.ForeignKey('cars.id', ondelete='CASCADE'),
-            nullable=False
-        )
+
+To establish a bi-directional relationship between the two models, a related field was declared in the User model using the relationship() with reference to the UserCar model (shown below). Models in the app that contain a foreign key have this bi-directional relationship.
+
+```python
+# relationships to foreign key in other table (not model defined attributes)
+cars = db.relationship('UserCar', backref='user')
 ```
+This now links the User and UserCar models together. So when this relationship is established, "cars" can be exposed in the User schema even though it's not defined as a model attribute. But the main idea behind the relationship() is that if a new user car was to be added to the database, it could be done through the User model by appending a new UserCar instance via the "cars" relationship defined in the User class model. And this update in the User model will create an update in the UserCar model and add it to the session ready to be committed to the database [(docs.sqlalchemy.org, n.d.)](./docs/references.md#r8). Another property of the relationship function is that it allows for the relating model data to be nested in the User schema (shown below). From the User object, a list of related UserCar objects can be access.
+
+```python
+cars = fields.List(fields.Nested(
+                'UserCarSchema', 
+                exclude=['id', 'logs', 'user_id']
+            ))
+...
+fields = ('id', 'email', 'first_name', 'last_name', 'cars', 'password')
+```
+
+SImilar to the user model, the Car model is related to the UserCar model through a foreign key established in the UserCar model. The LogEntry and Trip models are each related to the UserCar model through a foreign key (see below) which satisfies the many relationship that each have with the UserCar model.
+
+```python
+# Foreign Keys
+user_car_id = db.Column(
+                        db.Integer,
+                        db.ForeignKey('user_cars.id', ondelete='cascade'),
+                        nullable=False
+                    )
+```
+
+These established relationships now link the LogEntry and Trip models to the User and Car models via the UserCar model. So this means for example, that from a single log entry or user trip object, the user's details can be accessed through the bi-directional relationship established between the User and Usercar. If say the user object was nested in the UserCar model in place of just the user ID, we can see the user's email and name all from accessing a log entry or user trip object. The same goes for the Car model, since it's in the UserCar model as well, a log entry or user trip will be able to show the full details of the car type.
+
+```python
+fields = ('id', 'user_id', 'car', 'logs')
+```
+As seen above, the UserCar schema only exposes the "logs" relationship in the fields and not the "user_trip" relationship that's also defined in the model. This means that even though it's possbile for a user object to access a user trip object thorugh the defined relationships, I have purposely hidden the user tip objects from the user object. So just as you would be able to access user objects from cars, user trips, and log entry objects due to the defined relationships, it's possible to do the opposite. A car object can contain a nested list of all the user objects which contain details of the users, made possible through the UserCar model.
+
+
+[References](./docs/references.md#r8)
 
 ---
 

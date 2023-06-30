@@ -90,7 +90,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "email": "will.thomas@gmail.com",
     "password": "thisIsapassword"
@@ -99,7 +99,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4Nzc4MTg0MSwianRpIjoiZTBmMWQwODItYTAwMS00OWJlLTg2NDAtZGY0ODQwNDc2OTE3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjg3NzgxODQxLCJleHAiOjE2ODc3ODkwNDF9.9-xFSzsr7K0mSvdu7Rz__Fvf17Pu2NhuNyup0s9zdY4",
     "user": {
@@ -163,7 +163,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "email": "john.smith@gmail.com",
     "password": "password123",
@@ -173,7 +173,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "msg": "Successfully created new user",
     "user_info": {
@@ -219,13 +219,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/users/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -291,13 +291,13 @@ These are the possible errors returned by the endpoint.
 
 ADMIN Delete
 
-```
+```python
 http://127.0.0.1:5000/me/3/delete/
 ```
 
 ###### Response
 
-```
+```python
 {
     "admin_deleted": "user successfully deleted"
 }
@@ -335,13 +335,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -414,13 +414,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/1/
 ```
 
 ###### Response
 
-```
+```python
 {
     "id": 1,
     "make": "Ford",
@@ -470,13 +470,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/ford/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -537,13 +537,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/ford/ranger
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -590,13 +590,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/me/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -651,13 +651,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/me/1/
 ```
 
 ###### Response
 
-```
+```python
     {
         "id": 1,
         "make": "Ford",
@@ -718,7 +718,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "make": "Ford",
     "model": "Focus",
@@ -730,7 +730,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "id": 4,
     "car": {
@@ -788,13 +788,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/me/
 ```
 
 ###### Response
 
-```
+```python
 {
     "deleted": "removed car from user list"
 }
@@ -841,13 +841,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/cars/3
 ```
 
 ###### Response
 
-```
+```python
 {
     "admin_deleted": "car successfully deleted"
 }
@@ -910,7 +910,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "make": "Ford",
     "model": "Focus",
@@ -922,7 +922,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "id": 3,
     "make": "Ford",
@@ -973,13 +973,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 1,
@@ -1087,13 +1087,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/1/
 ```
 
 ###### Response
 
-```
+```python
 {
     "id": 1,
     "current_odo": 80100,
@@ -1169,7 +1169,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "current_odo": 81800,
     "fuel_quantity": 75,
@@ -1179,7 +1179,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "id": 6,
     "current_odo": 81800,
@@ -1257,7 +1257,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "current_odo": 81800,
     "fuel_quantity": 75,
@@ -1267,7 +1267,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "id": 6,
     "current_odo": 81800,
@@ -1330,13 +1330,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/6
 ```
 
 ###### Response
 
-```
+```python
 {
     "deleted" : "Log entry deleted from user car"
 }
@@ -1394,7 +1394,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "distance": 100,
     "fuel_price": 1.92
@@ -1403,7 +1403,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "avg_consumption": "12.73 L/100km",
     "estimated_trip_fuel": "12.73 L",
@@ -1457,13 +1457,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/trips/
 ```
 
 ###### Response
 
-```
+```python
 [
     {
         "id": 2,
@@ -1530,13 +1530,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/trips/2/
 ```
 
 ###### Response
 
-```
+```python
     {
         "id": 2,
         "fuel_price": 1.9,
@@ -1586,13 +1586,13 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 http://127.0.0.1:5000/logs/me/2/trips/3
 ```
 
 ###### Response
 
-```
+```python
 {
     "deleted" : "Trip successfully deleted"
 }
@@ -1652,7 +1652,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "distance": 800,
     "fuel_price": 1.95
@@ -1661,7 +1661,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "id": 3,
     "fuel_price": 1.95,
@@ -1723,7 +1723,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "from_date": "2023-6-1",
     "to_date": "2023-6-29"
@@ -1732,7 +1732,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "from": "2023-06-1",
     "to": "2023-06-29",
@@ -1802,7 +1802,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Request
 
-```
+```python
 {
     "from_date": "2023-6-1",
     "to_date": "2023-6-29",
@@ -1813,7 +1813,7 @@ These are the possible errors returned by the endpoint.
 
 ###### Response
 
-```
+```python
 {
     "period_one": {
         "expenditure_summary_for": {
