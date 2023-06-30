@@ -1,6 +1,6 @@
 # Fuel Log API
 
-![Fuel-log-API](./docs/Fuel_log_API.png) 
+![Fuel-log-API](./docs/screenshots/Fuel_log_API.png) 
 
 - [Installation](#installation)
 - [Rest API Resources](#r5-rest-api-resources)
@@ -205,7 +205,7 @@ This Flask extension allows the app to be able to generate JSON Web Tokens. This
 
 This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#r7). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
 
-![.env.sample](./docs/env_sample.png)
+![.env.sample](./docs/screenshots/env_sample.png)
 **Fig. 1**
 
 [References](./docs/references.md#r7)
@@ -216,22 +216,26 @@ This third party service is used for reading key-value pairs from .env files and
 
 This application will provide a way for users to track and record their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
 
-- The app will help the user budget and plan ahead for fuel expenses for the month
+- The app will help the user budget and plan ahead for fuel expenses for the month.
     - It will return the total cost of fuel for a time period and the total distance travelled within that timeframe.
     - Users can also compare expenditure between two different periods.
-- The user can calculate the esitmated cost of a trip by providing the distance and the price of fuel
+- The user can calculate the esitmated cost of a trip by providing the distance and the price of fuel.
 - The average consumption per 100 km is returned each time the user calculates the cost of a trip. This consumption rate is used to estimate the total cost of the trip.
 - It allows users to add multiple cars to their list to track separately.
 
 #### R2 Justification for the API
 
-With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down. 
+With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down.
+
+- User's can have better control over living expenses.
+- Car usage and running costs records can be stored and retrieved efficiently compared to a basic spreadsheet.
+- The API can be extended to accommodate transport businesses since it already allows users to add multiple cars to track. 
 
 ---
 
 ## R6 ERD
 
-![Fuel log API ERD](./docs/ERD.png)
+![Fuel log API ERD](./docs/screenshots/ERD.png)
 
 **Fig. 2**: Fuel Log API ERD
 
@@ -241,13 +245,13 @@ With fuel prices rising steadily over the last 5 years, more car owners are look
 
 #### Entities
 
-The following entities were designed using an [ERM](./docs/ERM.png) and the ERD in Fig. 2 above to conceptualise the relations between them.
+The following entities were designed using an [ERM](./docs/screenshots/ERM.png) and the ERD in Fig. 2 above to conceptualise the relations between them.
 
 - Users
     -   
     - The users entity contains records of users who are able to access the API endpoints. When a user registers, they provide an email and password. There can only be one record associated with an email, while the user doesn't have to provide a first and last name. A user is assigned a boolean value based on whether they're an administrator or not. The defualt value when a user is created is False.
     
-![users-user-car](./docs/users-user-cars.png)
+![users-user-car](./docs/screenshots/users-user-cars.png)
 **Fig. 3**: Users and User Cars in [ERD](#r6-erd)
 
 - User Cars
@@ -258,14 +262,14 @@ The following entities were designed using an [ERM](./docs/ERM.png) and the ERD 
     - 
     - The log entries entity contains the records of all log entries for all user cars. For the attributes, seen in Fig. 4 below, "current_odo", "fuel_quantity", and "fuel_price" require user inputs while the date for each log is automatically added each time a new record is created.
 
-![log-entries-user-car](./docs/log_entries_user_car.png)
+![log-entries-user-car](./docs/screenshots/log_entries_user_car.png)
 **Fig. 4**: Log Entries and User Cars in [ERD](#r6-erd)
 
 - Cars
     -
     - The cars entity contains records of car types that a user may have. Every attribute has the NOT NULL property while a three column key constraint is placed on the entity using "make", "model", and "model_trim". 
 
-![cars-user-trips](./docs/cars_user_trips.png)
+![cars-user-trips](./docs/screenshots/cars_user_trips.png)
 **Fig. 5**: Cars and User Trips in [ERD](#r6-erd)
 
 - User Trips
@@ -278,21 +282,21 @@ The relationship between the cars and users entities is a many to many relations
 
 As seen in Fig. 6 below, a user can have zero or many user cars and a user car belongs to only one user. A car type on the other end can be owned by zero or many users and a user car has only one specific car type.
 
-![users-cars-many](./docs/users-cars-many.png)
+![users-cars-many](./docs/screenshots/users-cars-many.png)
 **Fig. 6**: Cars and User Trips many to many in [ERD](#r6-erd)
 
 ##### User Cars and Log Entries: One to Many Relationship
 
 User cars and log entries have a one to many relationship. A user car can have many log entries while a log entry belongs to only one user car. As seen in Fig. 7 below, a user car can have zero or many log entries while a log entry bleongs to only one user car.
 
-![log-entries-user-car](./docs/log_entries_user_car.png)
+![log-entries-user-car](./docs/screenshots/log_entries_user_car.png)
 **Fig. 7**: Log Entries and User Cars one to many in [ERD](#r6-erd)
 
 ##### User Cars and User Trips: One to Many Relationship
 
 The relationship between user cars and user trips is a one to many relationship. A user car can have many trips while a trip belongs to only one user car. As seen in Fig. 8 below, a user car can have zero or many user trips while a user trip only has one user car.
 
-![cars-user-trips](./docs/cars_user_trips.png)
+![cars-user-trips](./docs/screenshots/cars_user_trips.png)
 **Fig. 8**: Cars and User Trips one to many in [ERD](#r6-erd)
 
 ---
@@ -303,20 +307,20 @@ The main reasons for using PostgreSQL is its high data consistency and integrity
 
 Compare this to MySQL where it is only ACID compliant when used with other storage engines such as InnoDB and NDB Cluster. MySQL uses write locks, meaning only one user can edit the table, making other users wait for the operation to finish [(Amazon Web Services, Inc., n.d.)](./docs/references.md#r3). For an app that's designed to have multiple users edit a table, this poses a problem if MySQL was to be used.  
 
-The read performace of Postgres is more memory-intensive, creating a new process for every user that's connected to the database. This is a drawback that's comparable to MySQL which uses a single process for multiple users. [(Amazon Web Services, Inc., n.d.)](./docs/references.md#r3) The trade-off for better write speed over slow read speed suits the operation of the API which is designed to have users write to the database more often than reading from the database.  
+The read performace of Postgres is more memory-intensive, creating a new process for every user that's connected to the database. This is a drawback that's comparable to MySQL which uses a single process for multiple users [(Amazon Web Services, Inc., n.d.)](./docs/references.md#r3). The trade-off for better write speed over slow read speed suits the operation of the API which is designed to have users write to the database more often than reading from the database.  
 
 Postgres' atomicity feature means that a transaction is completely successful or it fails completely [(cleancommit.io, 2022)](./docs/references.md#r3). Meaning if a post transaction to the database doesn't meet predefined constraints such as a value violating a unique constraint (intergrity error), the transaction completely fails and data entries in the incomplete transaction remains unchanged in the database (an immediate rollback of the transaction). The atomcity feature was useful in the app in certain places such as setting a unqiue constraint for the user email and a key constraint that was a combination of car make, model, and model trim. This ensured that incomplete data wasn't added to the database when the violation of these constraints occured.
 
-The consistency feature of Postgres ensures that during transactions, the database can only be changed from a valid state to another. This gurantess that the final state of the database remains consistent as it was before a transaction [(cleancommit.io, 2022)](./docs/references.md#r3). In the app for example, if a user was to be deleted, a cascading delete was defined to ensure that data in the user cars table remained the same; i.e user_id was set as NOT NULL so the records relating to the deleted user had to be deleted to ensure no records contained a NULL value in the user_id column.
+The consistency feature of Postgres ensures that during transactions, the database can only be changed from a valid state to another. This gurantess that the final state of the database remains consistent as it was before a transaction [(cleancommit.io, 2022)](./docs/references.md#r3). In the app for example, if a user was to be deleted, a cascading delete has to be defined to ensure that data in the user cars table remained the same; i.e user_id was set as NOT NULL so the records relating to the deleted user had to be deleted to ensure no records contained a NULL value in the user_id column.
 
 Isloation in Postgres ensures that many transactions can happen simultaneously. A common type of simultaneous transaction that could happen is reading and writing to the database at the same time [(cleancommit.io, 2022)](./docs/references.md#r3). An example of this feature used in the app was in the Trip Calculator route. The route first reads into the database, querying the log entries entity and retriving the appropriate data (Fig. 9 below). 
 
-![isolation-code-read](./docs/iso-write.png)
+![isolation-code-read](./docs/screenshots/iso-write.png)
 **Fig. 9**: Reading the databse for the log entries entity
 
 This data is then used to create a new record in the user trips entity (Fig. 10 below). These transactions are all carried out in one request. 
 
-![isolation-code-write](./docs/iso-read.png)
+![isolation-code-write](./docs/screenshots/iso-read.png)
 **Fig. 10**: Write to the databse into the user trips entity
 
 The final feature, durability, ensures that the transactions that have been committed will permanently survive in the database [(cleancommit.io, 2022)](./docs/references.md#r3). This property of Postgres suits the requirements of this app in that data that is committed to the database will be permanent. It ensures that records containing logs, which are cruical for the core feature of the app, will not be lost. 
@@ -332,6 +336,8 @@ The database esentially could grow with no limit on the size, using up valuable 
 ## R4 Key functionalities and benefits of an ORM
 
 The key functionalities of an ORM
+
+One of the benefits of using an ORM is that makes it eaiser for an app design method to follow the MVC design process.
 
 ---
 
@@ -394,4 +400,7 @@ As seen above, the UserCar schema only exposes the "logs" relationship in the fi
 ---
 
 ## R10 Project Management
+
+![trello-layout1](./docs/screenshots/trello_fuel_log_1.png)
+**Fig. 10**: Write to the databse into the user trips entity
 
