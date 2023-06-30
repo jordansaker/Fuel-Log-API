@@ -333,6 +333,20 @@ The key functionalities of an ORM
 
 ## R8 The relationships between the models in the app
 
+The models contained in the app are mapped to reflect the entities that were designed in the [ERD](#r6-erd). The model User relates to the UserCar model as a one to many, many side of the relationship is linked to the UserCar model. To create this relationship between the models, the foreign key user_id was added to the UserModel (show below).
+
+```
+    # model atributes
+    id = db.Column(db.Integer, primary_key=True)
+    # Foreign Keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    car_id = db.Column(
+            db.Integer,
+            db.ForeignKey('cars.id', ondelete='CASCADE'),
+            nullable=False
+        )
+```
+
 ---
 
 ## R10 Project Management
