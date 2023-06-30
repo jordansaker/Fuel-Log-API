@@ -96,6 +96,7 @@ class LogEntrySchema(ma.Schema):
         Class method to convert timestamp to datetime date
         and returned as a string. This is for the schema dump
         """
+        print()
         return str(datetime.fromtimestamp(obj.date_added).date())
 
 

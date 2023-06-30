@@ -107,7 +107,7 @@ def seed_tables():
             fuel_quantity= 80,
             fuel_price= 1.86,
             date_added= datetime(
-                        2023, 5, 7, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 5, 7, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         ),
@@ -125,7 +125,7 @@ def seed_tables():
             fuel_quantity= 80,
             fuel_price= 1.95,
             date_added= datetime(
-                        2023, 5, 15, 9, 30, 00, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 5, 15, 9, 30, 00, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         ),
@@ -134,7 +134,7 @@ def seed_tables():
             fuel_quantity= 80,
             fuel_price= 1.89,
             date_added= datetime(
-                        2023, 5, 23, 18, 30, 00, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 5, 23, 18, 30, 00, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         ),
@@ -143,7 +143,7 @@ def seed_tables():
             fuel_quantity= 40,
             fuel_price= 1.82,
             date_added= datetime(
-                        2023, 5, 27, 19, 30, 00, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 5, 27, 19, 30, 00, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         ),
@@ -152,7 +152,7 @@ def seed_tables():
             fuel_quantity= 60,
             fuel_price= 1.86,
             date_added= datetime(
-                        2023, 6, 4, 12, 30, 00, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 6, 4, 12, 30, 00, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         ),
@@ -161,7 +161,7 @@ def seed_tables():
             fuel_quantity= 80,
             fuel_price= 1.98,
             date_added= datetime(
-                        2023, 6, 15, 10, 30, 00, tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
+                        2023, 6, 15, 10, 30, 00, tzinfo=datetime.now().astimezone().tzinfo
                     ).timestamp(),
             usercar= user_cars[1]
         )
