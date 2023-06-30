@@ -406,12 +406,12 @@ As seen above, the UserCar schema only exposes the "logs" relationship in the fi
 
 ## R10 Project Management
 
-Trello was used to track the progress of the API development. The board was organised into 7 different columns:
+Trello was used to track the progress of the API development. The board was organised into 7 different columns, User Stories, Epics, Backlog, Current Sprint, To Do, In Progress, Done. User stories were identified with a pink label, Epics with a purple label and differentiated from each other with their own label colour. The tasks were all labelled blue and labelled a second colour relating to their sprint. 
 
 ![trello-layout1](./docs/screenshots/trello_fuel_log_1.png)
 **Fig. 11**: Trello layout containing Epics, User stories.
 
-- User Stories
+- **User Stories**
     - The user stories column contained cards with user stories where the stories were thought of looking from the persepective of potential users. This helped with identifying the scope of the project and keeping track of each story requirement on the board helped to keep the tasks orientated toward completing a user story. Tasks were then created based on the user stories which were tailored accordingly for the appropriate epics.
     - **User Story 1:**
         - The story covers the core feature of what the API is intended for. It identifies that a user should be able to record a log entry for each fill-up. Along with providing insightful information related to fuel costs and usage.
@@ -429,23 +429,28 @@ Trello was used to track the progress of the API development. The board was orga
     ![user-story-three](./docs/screenshots/user_story3.png)
     **Fig. 11**: User Story Three.
     - **User Story 4:**
-        - The story covers the core features of what the API is intended for. It identifies that a user should be able to record a log entry for each fill-up. Along with providing insightful information related to fuel costs and usage.
+        - This story identified the relationship between users and cars. Even though a car comparison was out of scope, the comparision of expenditures for two different periods was determined to be more in scope. 
     
     ![user-story-four](./docs/screenshots/user_story4.png)
     **Fig. 11**: User Story Four.
 
-    -
-- Epics
-- Backlog
-- Current Sprint
 
+- **Epics**
+    - Epics were used to separate tasks and lay them out to visualise what needed to be done before moving on to the next set of tasks. Each epic contained as many sprints as needed **(shown below in Fig)** to break down and group the tasks even further to allow a more efficeint build process and direction. The tasks in each sprint for an epic had individual cards created for them and these were added to the Backlog column when an epic was scheduled to be started.
+    ![flask-sprints](./docs/screenshots/flask_sprints.png)
+    **Fig. 11**: Creating the Flask app and its sprints.
+- **Current Sprint**
+    - The current sprint contained a card for the sprint that was currently being done. Each sprint had a checklist of the tasks that needed to be done to complete the sprint. And this list was referred to when moving cards from the backlog to the To Do column. 
 
 ![trello-layout2](./docs/screenshots/trello_fuel_log_2.png)
 **Fig. 11**: Trello layout containing Sprint, To Do, In Progress, Done.
 
 - To Do
-- In Progress
+    - The To Do column contained every task relating to the current sprint and these cards were moved into the In Progress column as required. The In Progress column didn't have a set limit on the number of tasks that could be placed in it as some tasks in a sprint overlapped with others.
 - Done
+    - Once a task was done, it was placed into the To Do column and the sprint task list was updated. Once a sprint was done, it was also moved into the column and the Epic containing the sprint was updated.
+
+Another way the project was tracked was through the Daily Standups. This invovled listing what was achieved in a day, identifying any blockers encountered during that period, identifying the goals for the next period, and identifying things learned during the period.
 
 ## [Trello Board]()
 
