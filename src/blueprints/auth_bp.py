@@ -42,6 +42,11 @@ def user_register():
     """
     # sanitise the request body
     user_info = UserSchema().load(request.json)
+    # check if user already exists
+    stmt = db.select(User).filter_by(email=user_info['email'])
+    user = db.session.scalar(stmt)
+    if user:
+        return {'integrity_error': 'User already exists in database'}, 400
     # create new user model instance with data
     new_user = User(
         first_name= user_info.get('first_name', None),
