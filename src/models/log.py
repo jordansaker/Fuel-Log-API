@@ -28,7 +28,9 @@ class LogEntry(db.Model):
         
         date_added (datetime), avg_consumption (float), user_car_id (int) 
     """
-    # set the timezone
+    # find the timezome, gets the currernt timezone from time.timezone
+    # and sets at a time delta in datetime.timezone
+    current_timezone = timezone(timedelta(hours= tz/3600.0 * -1 ))
     __tablename__ = 'log_entries'
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
@@ -36,12 +38,8 @@ class LogEntry(db.Model):
     fuel_quantity = db.Column(db.Integer, nullable=False)
     fuel_price = db.Column(db.Float, nullable=False)
     date_added = db.Column(
-        db.BigInteger,
-        default=datetime.now(
-            # find the timezome, gets the currernt timezone from time.timezone
-            # and sets at a time delta in datetime.timezone
-            tz=timezone(timedelta(hours=( tz/3600.0 * -1 )))
-        ).timestamp()
+            db.BigInteger,
+            default=datetime.now(tz=current_timezone).timestamp()
     )
     # Foreign Keys
     user_car_id = db.Column(
@@ -96,7 +94,6 @@ class LogEntrySchema(ma.Schema):
         Class method to convert timestamp to datetime date
         and returned as a string. This is for the schema dump
         """
-        print()
         return str(datetime.fromtimestamp(obj.date_added).date())
 
 

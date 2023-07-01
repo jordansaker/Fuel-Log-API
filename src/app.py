@@ -34,12 +34,12 @@ def create_app():
     app.register_blueprint(log_bp)
     # handle errors
     @app.errorhandler(400)
-    def bad_request(err):
+    def bad_request():
         return {'bad_request': 'No JSON object Found in request body'}, 400
 
 
     @app.errorhandler(IntegrityError)
-    def integrity_error(err):
+    def integrity_error():
         return {'integrity_error': 'Data already exists in database'}, 400
 
 
