@@ -169,15 +169,15 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 ## R7 Third Party Services
 
-This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and have out of the box features such as Object Relational Manager (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#r7). Here are some of the third party services that were used to fully implement the API.
+This API application was created using the Flask web framework, which is a Python module that allows common interface between web servers and web applications. Because Flask was originally developed to have a small and easy-to-extend core: it's seen as a microframework and has out of the box features such as an Object Relational Mapper (ORM) or other features listed below. [(pythonbasics.org, 2021)](./docs/references.md#r7). Here are some of the third party services that were used to fully implement the API.
 
 ### SQLAlchemy
 
-The API uses an SQL database system to store data relating to cars, users, and log entries. In order to integrate and allow the Flask app to interact with the database, SQLAlchemy was installed as a dependency and used. SQLAlchemy is the Python ORM that is used by the app to efficiently access and perform database queries interpreting Pythonic language and then creating and executing the equivalent SQL query operation on the database. The approach that SQLAlchemy takes is that it's processes are fully exposed and it allows the developer to construct a database and the SQL queries using Python, almost the same way they would be constructed in an SQL system. [(www.sqlalchemy.org, n.d.)](./docs/references.md#r7)
+The API uses an SQL database system to store data relating to cars, users, and log entries. In order to integrate and allow the Flask app to interact with the database, SQLAlchemy was installed as a dependency and used. SQLAlchemy is a Python ORM that's used by the app to efficiently access and perform database queries interpreting Pythonic language and then creating and executing the equivalent SQL query operation on the database. The approach that SQLAlchemy takes is that it's processes are fully exposed and it allows the developer to construct a database and SQL queries using Python alone, almost the same way they would be constructed in an SQL system. [(www.sqlalchemy.org, n.d.)](./docs/references.md#r7)
 
 ### Flask-SQLAlchemy
 
-Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatcally handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#r7). i.e An SQLAlchemy model can be created using the subclass of the extension class:
+Flask has developed an extension for SQLAlchemy to simplify the process of interacting with SQLAlchemy. It automatically handles creating, using, and cleaning up SQLAlchemy objects. The is done by creating an extension class which then allows for cleaner SQLAlchemy operations through that extension class [(flask-sqlalchemy.palletsprojects.com, n.d.)](./docs/references.md#r7). i.e An SQLAlchemy model can be created using the subclass of the extension class:
 
 ```python
 # the extension class
@@ -188,7 +188,7 @@ class User(db.Model)
 
 ### Marshmallow
 
-The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data, deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed through a request. [(marshmallow.readthedocs.io, n.d.)](./docs/references.md#r7)
+The API uses the Marshmallow library to convert complex datatypes, to and from native Python objects. This is done through the Schema class in the Marshmallow library. It allows the app to validate input data and deserialise input data to app-level objects such as Lists or Dicts. It can also serialise app-level objects to be rendered to standard formats such JSON which can then be passed on through a request. [(marshmallow.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Flask-Marshmallow
 
@@ -200,15 +200,15 @@ Psycopg is a PostgreSQL database adapter that can be used for the Python Program
 
 ### Flask-Bcrypt
 
-Flask-Bcrypt is used as an extension for Flask an provides the app with bcrypt hasshing utilities. Bcrypt uses a hash design that's "de-optimised", making it intentionally structured to be a slow hashing algorithm compared to other algorithms such as MD5 and SHA1. This extension when it is created and initialised in the app, provides a away for sensitive data being pass through the Flask app to be protect. [(flask-bcrypt.readthedocs.io, n.d.)](./docs/references.md#r7)
+Flask-Bcrypt is used as an extension for Flask and provides the app with bcrypt hashing utilities. Bcrypt uses a hash design that's "de-optimised", making it intentionally structured to be a slow hashing algorithm compared to other algorithms such as MD5 and SHA1. This extension when it's created and initialised in the app, provides a way for sensitive data being passed through the Flask app to be protected. [(flask-bcrypt.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Flask-JWT-Extended
 
-This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protect route. As with Flask-SQLAlchemy, Flask-Bcrypt, and Flask-Marshmallow, its utilies are made available after an extension class is created in the app. The app is secured by being configured with a JWT secret key, which is added to the JWT bearer token each time a user authenticates. [(flask-jwt-extended.readthedocs.io, n.d.)](./docs/references.md#r7)
+This Flask extension allows the app to be able to generate JSON Web Tokens. This enables the app to protect routes and allows the app to get the identity of a JWT in a protected route. As with Flask-SQLAlchemy, Flask-Bcrypt, and Flask-Marshmallow, its utilities are made available after an extension class is created in the app. The app is secured by being configured with a JWT secret key, which is added to the JWT bearer token each time a user authenticates. [(flask-jwt-extended.readthedocs.io, n.d.)](./docs/references.md#r7)
 
 ### Python-Dotenv
 
-This third party service is used for reading key-value pairs from .env files and sets theses pairs as environment variables which can be access by an application [(Kumar, n.d.)](./docs/references.md#r7). Python-Dotenv was used to read the .env file in the application src root which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
+This third party service is used for reading key-value pairs from .env files and sets these pairs as environment variables which can be accessed by an application [(Kumar, n.d.)](./docs/references.md#r7). Python-Dotenv was used to read the .env file in the application src directory which was setup to configure the database URI and the JWT secret ket. An example of how these app properties would be configured from an .env file and accessed using Python-Dotenv is shown below.
 
 ![.env.sample](./docs/screenshots/env_sample.png)
 **Fig. 1**
@@ -219,7 +219,7 @@ This third party service is used for reading key-value pairs from .env files and
 
 #### R1 The problem this API app is trying to solve
 
-This application will provide a way for users to track and record their fuel consuption from bowser to bowser, while providing multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers which will be useful for budgeting purposes.
+This application will provide a way for users to track and record their fuel consumption from bowser to bowser. It will provide multiple forecasts and estimations based on their fuel consumption and current fuel costs at the bowsers, which will be useful for budgeting purposes.
 
 - The app will help the user budget and plan ahead for fuel expenses for the month.
     - It will return the total cost of fuel for a time period and the total distance travelled within that timeframe.
@@ -232,7 +232,7 @@ This application will provide a way for users to track and record their fuel con
 
 With fuel prices rising steadily over the last 5 years, more car owners are looking for ways to keep running costs down.
 
-- User's can have better control over living expenses.
+- Users can have better control over living expenses.
 - Car usage and running costs records can be stored and retrieved efficiently compared to a basic spreadsheet.
 - The API can be extended to accommodate transport businesses since it already allows users to add multiple cars to track. 
 
@@ -261,7 +261,7 @@ The following entities were designed using an [ERM](./docs/screenshots/ERM.png) 
 
 - User Cars
     -
-    - User cars is a join table for the Users and Cars entity and each record contains a user ID and car ID.
+    - User cars is a join table for the Users and Cars entities and each record contains a user ID and car ID.
 
 - Log Entries
     - 
