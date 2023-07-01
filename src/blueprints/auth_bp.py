@@ -76,11 +76,13 @@ def user_login():
                 "password": "registered user password"
             }
     """
+    # load into the schema
+    user_info = UserSchema().load(request.json)
     # find the user in the database using the email value from the body request
-    stmt = db.select(User).filter_by(email=request.json['email'])
+    stmt = db.select(User).filter_by(email=user_info['email'])
     user = db.session.scalar(stmt)
     # check if user exists
-    if user and bcrypt.check_password_hash(user.password, request.json['password']):
+    if user and bcrypt.check_password_hash(user.password, user_info['password']):
         # give user access token, token created using flask_jwt_extended
         token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=120))
         return {
