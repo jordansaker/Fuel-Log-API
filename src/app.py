@@ -7,6 +7,7 @@ from os import environ
 from flask import Flask
 from sqlalchemy.exc import IntegrityError
 from marshmallow.exceptions import ValidationError
+from werkzeug.exceptions import UnsupportedMediaType
 from init import db, ma, jwt, bcrypt
 from blueprints.auth_bp import auth_bp
 from blueprints.cli_bp import cli_bp
@@ -41,6 +42,10 @@ def create_app():
     @app.errorhandler(IntegrityError)
     def integrity_error(err):
         return {'integrity_error': 'Data already exists in database'}, 400
+
+    @app.errorhandler(UnsupportedMediaType)
+    def unsupported_request(err):
+        return {'error': err.description}
 
     @app.errorhandler(ValidationError)
     def validation_error(err):
