@@ -1797,7 +1797,7 @@ These are the possible errors returned by the endpoint.
 | ------ | ----- | ----- |
 | 403 | forbidden | You must be logged in or registered |
 | 404 | not_found | User car not found |
-| 404 | not_found | No expenditure for period specified |
+| 404 | not_found | No expenditure for one or both of periods specified |
 
 ##### Example
 

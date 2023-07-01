@@ -621,5 +621,5 @@ def expenditure_compare(car_id):
                     'user_car': UserCarSchema(only=['car']).dump(user)
                 }
             }
-        return {'not_found': 'No expenditure for periods specified'}, 404
+        return {'not_found': 'No expenditure for one or both of periods specified'}, 404
     return{'not_found': 'User car not found'}, 404

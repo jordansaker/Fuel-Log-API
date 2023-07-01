@@ -45,7 +45,7 @@ def create_app():
 
     @app.errorhandler(UnsupportedMediaType)
     def unsupported_request(err):
-        return {'error': err.description}
+        return {'bad_request': 'No JSON object Found in request body'}
 
     @app.errorhandler(ValidationError)
     def validation_error(err):
