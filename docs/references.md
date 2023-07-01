@@ -20,7 +20,8 @@
 
 ## R4
 
-1. Amin, S.A. (2022). _Minimal Flask Application using MVC design pattern._ [online] Medium. Available at: https://medium.com/@arslanaut/minimal-flask-application-using-mvc-design-pattern-842845cef703.
+1. Sarkar, A. (n.d.). _FRAMEWORK: ORM – Object Relational Mapping._ [online] Available at: https://interviewquestionjava.blogspot.com/2014/01/framework-orm-object-relational-mapping.html [Accessed 1 Jul. 2023].
+2. Amin, S.A. (2022). _Minimal Flask Application using MVC design pattern._ [online] Medium. Available at: https://medium.com/@arslanaut/minimal-flask-application-using-mvc-design-pattern-842845cef703.
 
 ## R8
 

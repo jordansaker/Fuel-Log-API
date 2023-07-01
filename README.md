@@ -340,12 +340,49 @@ The database esentially could grow with no limit on the size, using up valuable 
 
 ## R4 Key functionalities and benefits of an ORM
 
-The key functionalities of an ORM
+### Functionalities
 
-One of the benefits of using an ORM is that makes it eaiser for an app design method to follow the MVC design process.
+An Object Relational Mapper's key function is to create a mapping or "bridge" between Object Oriented Programming (OOP) and relation databases. The need for this bridging is due to relation databases designed on the basis of mathematical principles (set theory, first-order logic), while the OOP princples are based on Encapsulation, Data Abstraction, Polymorphism and Inheritance. [(Sarkar, n.d.)](./docs/references.md#r4)
+
+An ORM is able to map tables in the relational database to class objects or models. Table columns in databases then map as class attributes, while a record within a table is mapped as an instance of the class or model mode. This now allows an OOP language to manipulate a relation database table and records within the table using only objects in the native programming language. For example, if a table "users" within a database existed and was mapped by an ORM to be the model "User" in Python, a new user would be created using the following line of code:
+
+```python
+new_user = User(
+    name = "John Smith",
+    age = 20,
+)
+```
+This instance can then be used to update the database through the ORM. If a record within "users" in the database existed:
+```
+id |    name    | age |
+---| ---------- | --- |
+1  | John Smith |  20 |
+```
+An ORM is able to retrive that record and present it to the programming environment as an object as shown below:
+
+```python
+{
+    "id": 1,
+    "name": "John Smith",
+    "age": 20
+}
+```
+So an ORM can be used to perform CRUD operations on relational databases without the need for embbeding database query language (SQL) within the the back-end programming language. It creates this abstraction within an app, removing the underlying querying processes that would occur to a database and providing utilities (methods) that can be used in place of query language. A query of the database using an ORM would look something like this:
+
+```python
+user = User.query.where(User.id == 1)
+```
+The ORM then executes the query on the "users" table in the database to return the user matching the condition. The ORM then takes the record and returns it as on object which is assigned to the variable "user". The CRD operations are normally added to transactions and the ORM commits these transactions to the database.
+
+### Benefits
+One of the benefits of using an ORM is that makes it eaiser for an app design to follow the MVC design process (Fig. 11 below). It naturally adds the model layer to the process. This natural separation of concerns forces the controller to interact with the mapped models 
 
 ![MVC-design](./docs/screenshots/MVC.png)
 **Fig. 11**: MVC design [(Amin, 2022)](./docs/references.md#r4)
+
+The abstraction of SQL from the back-end programming language by an ORM adds some layer of protection for the database.
+
+[References](./docs/references.md#r4)
 
 ---
 
