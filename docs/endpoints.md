@@ -157,6 +157,7 @@ These are the possible errors returned by the endpoint.
 | HTTP Code | Error Identifier | Error Message |
 | ------ | ----- | ----- |
 | 400 | valiadtion_error | Returns a dict with the keys that fail the validation |
+| 400 | integrity_error | User already exists in database |
 | 400 | bad_request | No JSON object Found in request body |
 
 ##### Example
