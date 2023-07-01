@@ -344,7 +344,7 @@ The database esentially could grow with no limit on the size, using up valuable 
 
 An Object Relational Mapper's key function is to create a mapping or "bridge" between Object Oriented Programming (OOP) and relation databases. The need for this bridging is due to relation databases designed on the basis of mathematical principles (set theory, first-order logic), while the OOP princples are based on Encapsulation, Data Abstraction, Polymorphism and Inheritance. [(Sarkar, n.d.)](./docs/references.md#r4)
 
-An ORM is able to map tables in the relational database to class objects or models. Table columns in databases then map as class attributes, while a record within a table is mapped as an instance of the class or model mode. This now allows an OOP language to manipulate a relation database table and records within the table using only objects in the native programming language. For example, if a table "users" within a database existed and was mapped by an ORM to be the model "User" in Python, a new user would be created using the following line of code:
+An ORM is able to map tables in the relational database to class objects or models. Table columns in databases then map as class attributes, while a record within a table is mapped as an instance of the class or model. This now allows an OOP language to manipulate a relation database table and records within the table using only objects in the native programming language. It essentially removes the need for a back-end language to directly interact with database tables through SQL queries. For example, if a table "users" within a database existed and was mapped by an ORM to be the model "User" in Python, a new user would be created using the following line of code:
 
 ```python
 new_user = User(
@@ -372,15 +372,15 @@ So an ORM can be used to perform CRUD operations on relational databases without
 ```python
 user = User.query.where(User.id == 1)
 ```
-The ORM then executes the query on the "users" table in the database to return the user matching the condition. The ORM then takes the record and returns it as on object which is assigned to the variable "user". The CRD operations are normally added to transactions and the ORM commits these transactions to the database.
+The ORM then executes the query on the "users" table in the database to return the user matching the condition. The ORM then takes the record and returns it as an object which is assigned to the variable "user". The create, update, and delete operations are normally added to transactions and the ORM commits these transactions to the database.
 
 ### Benefits
-One of the benefits of using an ORM is that makes it eaiser for an app design to follow the MVC design process (Fig. 11 below). It naturally adds the model layer to the process. This natural separation of concerns forces the controller to interact with the mapped models 
+One of the benefits of using an ORM is that makes it eaiser for an app design to follow the MVC design process (Fig. 11 below). It naturally adds the model layer to the process and separates the models from the controller and routes. This natural separation of concerns forces the controller to interact with the mapped models created to manipulate the database. And because this design pattern is implemented with ORMs, it makes the app more transferrable such as changing database systems or the controller language. Since the data models are all in one place, it makes them easier to update, maintain, and reuse the code. This is a major benefit in terms of being cost-effective and increasing productivity by removing code that would otherwise have had to be handwritten. For this very reason, ORMs are often chosen to speed up development time.
 
 ![MVC-design](./docs/screenshots/MVC.png)
 **Fig. 11**: MVC design [(Amin, 2022)](./docs/references.md#r4)
 
-The abstraction of SQL from the back-end programming language by an ORM adds some layer of protection for the database.
+The abstraction of SQL from the back-end programming language by an ORM adds a layer of protection for the database. Even though using an ORM doesn't make an app completely immune from SQL injections [(snyk.io, n.d.)](./docs/references.md#r4), when used along with other practices such as input validation and prepared statements, it takes away the vast majority of risks regarding SQL Injection.
 
 [References](./docs/references.md#r4)
 
@@ -492,5 +492,5 @@ Trello was used to track the progress of the API development. The board was orga
 
 Another way the project was tracked was through the Daily Standups. This invovled listing what was achieved in a day, identifying any blockers encountered during that period, identifying the goals for the next period, and identifying things learned during the period.
 
-## [Trello Board]()
+## [Trello Board](https://trello.com/b/IulyjAXj/fuel-log-api)
 

@@ -26,3 +26,4 @@
 ## R8
 
 1. docs.sqlalchemy.org. (n.d.). _Working with ORM Related Objects — SQLAlchemy 2.0 Documentation._ [online] Available at: https://docs.sqlalchemy.org/en/20/tutorial/orm_related_objects.html#persisting-and-loading-relationships [Accessed 30 Jun. 2023].
+2. snyk.io. (n.d.). _Fixing SQL Injection: ORM is not enough_ | Snyk. [online] Available at: https://snyk.io/blog/sql-injection-orm-vulnerabilities/.
