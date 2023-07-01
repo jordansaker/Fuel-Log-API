@@ -463,7 +463,7 @@ def expenditure_summary(car_id):
         )
     # convert "to" date to timestamp
     to_date = to_date.timestamp()
-    if to_date > from_date:
+    if to_date < from_date:
         return {"logic_error": "to_date must be after from_date"}, 400
     # filter the logs using the to and from dates
     stmt = db.select(LogEntry).where(
@@ -560,7 +560,7 @@ def expenditure_compare(car_id):
     # convert "to" dates to timestamp
     to_date = to_date.timestamp()
     compare_to_date = compare_to_date.timestamp()
-    if to_date > from_date or compare_to_date > compare_from_date:
+    if to_date < from_date or compare_to_date < compare_from_date:
         return {"logic_error": "to_date and compared_to_date must be after from_dates"}, 400
     # filter the logs using the to and from dates
     stmt = db.select(LogEntry).where(
