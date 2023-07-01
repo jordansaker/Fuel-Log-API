@@ -1675,7 +1675,7 @@ These are the possible errors returned by the endpoint.
 
 ## POST /logs/me/\$car_id/expenditure/
 
-Get an expenditure summary for a specified time period for the authenticated user's car. The endpoint takes a "to_date" and "from_date" dates in the request body. 
+Get an expenditure summary for a specified time period for the authenticated user's car. The endpoint takes a "from_date" (starting) to "to_date" (ending) dates in the request body.
 
 **Date format in request:** "YYYY-mm-dd"
 
@@ -1754,7 +1754,7 @@ These are the possible errors returned by the endpoint.
 
 ## POST /logs/me/\$car_id/expenditure/compare/
 
-Compare expenditure summaries for specified time periods for the authenticated user's car. The endpoint takes a "to_date" and "compare_from_date" and "compare_to_date" and "from_date" dates in the request body. 
+Compare expenditure summaries for specified time periods for the authenticated user's car. The endpoint takes a "from_date" (starting) and "to_date" (ending) and "compare_from_date" (starting) and "compare_to_date" (ending) dates in the request body. 
 
 **Date format in request:** "YYYY-mm-dd"
 
