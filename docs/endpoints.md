@@ -32,18 +32,18 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[GET                 /logs/me/$car_id/](#get-logsmecar_id) | Get the user's logs for the selected car. |
-|[GET                 /logs/me/$car_id/\$log_id/](#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
-|[POST              /logs/me/$car_id/](#post-logsmecar_id) | Add a new log for the selected user car. |
-|[PUT/PATCH    /logs/me/$car_id/\$log_id/](#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
-|[DELETE          /logs/me/$car_id/\$log_id](#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
-|[POST              /logs/me/$car_id/trip/calculator/](#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
-|[GET                 /logs/me/$car_id/trips/](#get-logsmecar_idtrips) | Get the user car's list of trips. |
-|[GET                 /logs/me/$car_id/trips/\$trip_id/](#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
-|[DELETE           /logs/me/$car_id/trips/\$trip_id](#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
-|[PUT/PATCH    /logs/me/$car_id/trips/\$trip_id](#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
-|[POST              /logs/me/$car_id/expenditure/](#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
-|[POST              /logs/me/$car_id/expenditure/compare/](#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
+|[GET                 /logs/me/$user_car_id/](#get-logsmecar_id) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$user_car_id/\$log_id/](#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
+|[POST              /logs/me/$user_car_id/](#post-logsmecar_id) | Add a new log for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/\$log_id/](#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
+|[DELETE          /logs/me/$user_car_id/\$log_id](#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
+|[POST              /logs/me/$user_car_id/trip/calculator/](#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
+|[GET                 /logs/me/$user_car_id/trips/](#get-logsmecar_idtrips) | Get the user car's list of trips. |
+|[GET                 /logs/me/$user_car_id/trips/\$trip_id/](#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
+|[DELETE           /logs/me/$user_car_id/trips/\$trip_id](#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/trips/\$trip_id](#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
+|[POST              /logs/me/$user_car_id/expenditure/](#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
+|[POST              /logs/me/$user_car_id/expenditure/compare/](#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
 
 ---
@@ -936,7 +936,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#cars)
 
-## GET /logs/me/$car_id/
+## GET /logs/me/$user_car_id/
 
 Get a list of the logs that belong to the authenticated user's car.
 
@@ -945,7 +945,7 @@ Get a list of the logs that belong to the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1044,7 +1044,7 @@ http://127.0.0.1:5000/logs/me/2/
 
 [Back to Main](../README.md#logs)
 
-## GET /logs/me/$car_id/\$log_id/
+## GET /logs/me/$user_car_id/\$log_id/
 
 A single log entry that belongs to the authenticated user's car.
 
@@ -1053,7 +1053,7 @@ A single log entry that belongs to the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/$log_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1118,7 +1118,7 @@ http://127.0.0.1:5000/logs/me/2/1/
 
 [Back to Main](../README.md#logs)
 
-## POST /logs/me/$car_id/
+## POST /logs/me/$user_car_id/
 
 Add a new log entry for the authenticated user's car.
 
@@ -1127,7 +1127,7 @@ Add a new log entry for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1204,7 +1204,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## PUT/PATCH /logs/me/$car_id/\$log_id/
+## PUT/PATCH /logs/me/$user_car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -1213,7 +1213,7 @@ Update a log entry for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Methods | PUT, PATCH |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/$log_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1292,7 +1292,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## DELETE /logs/me/$car_id/\$log_id/
+## DELETE /logs/me/$user_car_id/\$log_id/
 
 Update a log entry for the authenticated user's car.
 
@@ -1301,7 +1301,7 @@ Update a log entry for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | DELETE |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/$log_id |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/$log_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1345,7 +1345,7 @@ http://127.0.0.1:5000/logs/me/2/6
 
 [Back to Main](../README.md#logs)
 
-## POST /logs/me/$car_id/trip/calculator/
+## POST /logs/me/$user_car_id/trip/calculator/
 
 The calculator takes a distance and current fuel price. Calculates how much a trip will cost using the average consumption which is calculated from the user's car logs
 
@@ -1354,7 +1354,7 @@ The calculator takes a distance and current fuel price. Calculates how much a tr
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trip/calculator/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/trip/calculator/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1420,7 +1420,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## GET /logs/me/$car_id/trips/
+## GET /logs/me/$user_car_id/trips/
 
 Get all trips for the authenticated user's car.
 
@@ -1429,7 +1429,7 @@ Get all trips for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/trips/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1489,7 +1489,7 @@ http://127.0.0.1:5000/logs/me/2/trips/
 
 [Back to Main](../README.md#logs)
 
-## GET /logs/me/$car_id/trips/\$trip_id/
+## GET /logs/me/$user_car_id/trips/\$trip_id/
 
 Get a trip for the authenticated user's car.
 
@@ -1498,7 +1498,7 @@ Get a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | GET |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/trips/$trip_id/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1548,7 +1548,7 @@ http://127.0.0.1:5000/logs/me/2/trips/2/
 
 [Back to Main](../README.md#logs)
 
-## DELETE /logs/me/$car_id/trips/\$trip_id
+## DELETE /logs/me/$user_car_id/trips/\$trip_id
 
 Delete a trip for the authenticated user's car.
 
@@ -1557,7 +1557,7 @@ Delete a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Method | DELETE |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/trips/$trip_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1601,7 +1601,7 @@ http://127.0.0.1:5000/logs/me/2/trips/3
 
 [Back to Main](../README.md#logs)
 
-## PUT/PATCH /logs/me/$car_id/trips/\$trip_id
+## PUT/PATCH /logs/me/$user_car_id/trips/\$trip_id
 
 Update a trip for the authenticated user's car.
 
@@ -1610,7 +1610,7 @@ Update a trip for the authenticated user's car.
 |  | |
 | ------ | ----- |
 | Methods | PUT, PATCH |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/trips/$trip_id |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/trips/$trip_id |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1673,7 +1673,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## POST /logs/me/\$car_id/expenditure/
+## POST /logs/me/\$user_car_id/expenditure/
 
 Get an expenditure summary for a specified time period for the authenticated user's car. The endpoint takes a "from_date" (starting) to "to_date" (ending) dates in the request body.
 
@@ -1684,7 +1684,7 @@ Get an expenditure summary for a specified time period for the authenticated use
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/expenditure/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/expenditure/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
@@ -1752,7 +1752,7 @@ These are the possible errors returned by the endpoint.
 
 [Back to Main](../README.md#logs)
 
-## POST /logs/me/\$car_id/expenditure/compare/
+## POST /logs/me/\$user_car_id/expenditure/compare/
 
 Compare expenditure summaries for specified time periods for the authenticated user's car. The endpoint takes a "from_date" (starting) and "to_date" (ending) and "compare_from_date" (starting) and "compare_to_date" (ending) dates in the request body. 
 
@@ -1763,7 +1763,7 @@ Compare expenditure summaries for specified time periods for the authenticated u
 |  | |
 | ------ | ----- |
 | Method | POST |
-| URL | http://127.0.0.1:5000/logs/me/$car_id/expenditure/compare/ |
+| URL | http://127.0.0.1:5000/logs/me/$user_car_id/expenditure/compare/ |
 | Requires authentication | Yes |
 
 ##### Method Parameters
