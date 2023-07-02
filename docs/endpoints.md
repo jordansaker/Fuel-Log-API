@@ -32,18 +32,18 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[GET                 /logs/me/$user_car_id/](#get-logsmecar_id) | Get the user's logs for the selected car. |
-|[GET                 /logs/me/$user_car_id/\$log_id/](#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
-|[POST              /logs/me/$user_car_id/](#post-logsmecar_id) | Add a new log for the selected user car. |
-|[PUT/PATCH    /logs/me/$user_car_id/\$log_id/](#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
-|[DELETE          /logs/me/$user_car_id/\$log_id](#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
-|[POST              /logs/me/$user_car_id/trip/calculator/](#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
-|[GET                 /logs/me/$user_car_id/trips/](#get-logsmecar_idtrips) | Get the user car's list of trips. |
-|[GET                 /logs/me/$user_car_id/trips/\$trip_id/](#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
-|[DELETE           /logs/me/$user_car_id/trips/\$trip_id](#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
-|[PUT/PATCH    /logs/me/$user_car_id/trips/\$trip_id](#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
-|[POST              /logs/me/$user_car_id/expenditure/](#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
-|[POST              /logs/me/$user_car_id/expenditure/compare/](#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
+|[GET                 /logs/me/$user_car_id/](#get-logsmeuser_car_id) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$user_car_id/\$log_id/](#get-logsmeuser_car_idlog_id) | Get a log entry for the selected car. |
+|[POST              /logs/me/$user_car_id/](#post-logsmeuser_car_id) | Add a new log for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/\$log_id/](#putpatch-logsmeuser_car_idlog_id) | Update a log for the selected user car. |
+|[DELETE          /logs/me/$user_car_id/\$log_id](#delete-logsmeuser_car_idlog_id) | Delete a log for the selected user car. |
+|[POST              /logs/me/$user_car_id/trip/calculator/](#post-logsmeuser_car_idtripcalculator) | Calculate the total fuel cost of a trip. |
+|[GET                 /logs/me/$user_car_id/trips/](#get-logsmeuser_car_idtrips) | Get the user car's list of trips. |
+|[GET                 /logs/me/$user_car_id/trips/\$trip_id/](#get-logsmeuser_car_idtripstrip_id) | Get a trip for the user's car. |
+|[DELETE           /logs/me/$user_car_id/trips/\$trip_id](#delete-logsmeuser_car_idtripstrip_id) | Delete a trip for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/trips/\$trip_id](#putpatch-logsmeuser_car_idtripstrip_id) | Update the trip details for the selected user car. |
+|[POST              /logs/me/$user_car_id/expenditure/](#post-logsmeuser_car_idexpenditure) | Get the expenditure summary for a time period |
+|[POST              /logs/me/$user_car_id/expenditure/compare/](#post-logsmeuser_car_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
 
 ---

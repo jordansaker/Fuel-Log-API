@@ -25,7 +25,7 @@ class Car(db.Model):
 
     __tablename__ = 'cars'
     # set unique constraints
-    __table_args__ = (db.UniqueConstraint("make", "model", "model_trim"),)
+    __table_args__ = (db.UniqueConstraint("make", "model", "model_trim", "year", "tank_size"),)
     # model attributes
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(), nullable=False)

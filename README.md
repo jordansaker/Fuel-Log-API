@@ -150,18 +150,18 @@ Below is a full listing of all available endpoints. Click on a resource name for
 
 | Resource | Description |
 | --------------------- | ---------- |
-|[GET                 /logs/me/$user_car_id/](./docs/endpoints.md#get-logsmecar_id) | Get the user's logs for the selected car. |
-|[GET                 /logs/me/$user_car_id/\$log_id/](./docs/endpoints.md#get-logsmecar_idlog_id) | Get a log entry for the selected car. |
-|[POST              /logs/me/$user_car_id/](./docs/endpoints.md#post-logsmecar_id) | Add a new log for the selected user car. |
-|[PUT/PATCH    /logs/me/$user_car_id/\$log_id/](./docs/endpoints.md#putpatch-logsmecar_idlog_id) | Update a log for the selected user car. |
-|[DELETE          /logs/me/$user_car_id/\$log_id](./docs/endpoints.md#delete-logsmecar_idlog_id) | Delete a log for the selected user car. |
-|[POST              /logs/me/$user_car_id/trip/calculator/](./docs/endpoints.md#post-logsmecar_idtripcalculator) | Calculate the total fuel cost of a trip. |
-|[GET                 /logs/me/$user_car_id/trips/](./docs/endpoints.md#get-logsmecar_idtrips) | Get the user car's list of trips. |
-|[GET                 /logs/me/$user_car_id/trips/\$trip_id/](./docs/endpoints.md#get-logsmecar_idtripstrip_id) | Get a trip for the user's car. |
-|[DELETE           /logs/me/$user_car_id/trips/\$trip_id](./docs/endpoints.md#delete-logsmecar_idtripstrip_id) | Delete a trip for the selected user car. |
-|[PUT/PATCH    /logs/me/$user_car_id/trips/\$trip_id](./docs/endpoints.md#putpatch-logsmecar_idtripstrip_id) | Update the trip details for the selected user car. |
-|[POST              /logs/me/$user_car_id/expenditure/](./docs/endpoints.md#post-logsmecar_idexpenditure) | Get the expenditure summary for a time period |
-|[POST              /logs/me/$user_car_id/expenditure/compare/](./docs/endpoints.md#post-logsmecar_idexpenditurecompare) | Compare expenditure summaries for two different periods |
+|[GET                 /logs/me/$user_car_id/](./docs/endpoints.md#get-logsmeuser_car_id) | Get the user's logs for the selected car. |
+|[GET                 /logs/me/$user_car_id/\$log_id/](./docs/endpoints.md#get-logsmeuser_car_idlog_id) | Get a log entry for the selected car. |
+|[POST              /logs/me/$user_car_id/](./docs/endpoints.md#post-logsmeuser_car_id) | Add a new log for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/\$log_id/](./docs/endpoints.md#putpatch-logsmeuser_car_idlog_id) | Update a log for the selected user car. |
+|[DELETE          /logs/me/$user_car_id/\$log_id](./docs/endpoints.md#delete-logsmeuser_car_idlog_id) | Delete a log for the selected user car. |
+|[POST              /logs/me/$user_car_id/trip/calculator/](./docs/endpoints.md#post-logsmeuser_car_idtripcalculator) | Calculate the total fuel cost of a trip. |
+|[GET                 /logs/me/$user_car_id/trips/](./docs/endpoints.md#get-logsmeuser_car_idtrips) | Get the user car's list of trips. |
+|[GET                 /logs/me/$user_car_id/trips/\$trip_id/](./docs/endpoints.md#get-logsmeuser_car_idtripstrip_id) | Get a trip for the user's car. |
+|[DELETE           /logs/me/$user_car_id/trips/\$trip_id](./docs/endpoints.md#delete-logsmeuser_car_idtripstrip_id) | Delete a trip for the selected user car. |
+|[PUT/PATCH    /logs/me/$user_car_id/trips/\$trip_id](./docs/endpoints.md#putpatch-logsmeuser_car_idtripstrip_id) | Update the trip details for the selected user car. |
+|[POST              /logs/me/$user_car_id/expenditure/](./docs/endpoints.md#post-logsmeuser_car_idexpenditure) | Get the expenditure summary for a time period |
+|[POST              /logs/me/$user_car_id/expenditure/compare/](./docs/endpoints.md#post-logsmeuser_car_idexpenditurecompare) | Compare expenditure summaries for two different periods |
 
 ## [REST API Resource](./docs/endpoints.md)
 
