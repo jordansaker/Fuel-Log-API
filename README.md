@@ -272,7 +272,7 @@ The following entities were designed using an [ERM](./docs/screenshots/ERM.png) 
 
 - Cars
     -
-    - The cars entity contains records of car types that a user may have. Every attribute has the NOT NULL property while a three column key constraint is placed on the entity using "make", "model", and "model_trim". 
+    - The cars entity contains records of car types that a user may have. Every attribute has the NOT NULL property while a three column key constraint is placed on the entity using "make", "model", "model_trim", "year", "tank-size". 
 
 ![cars-user-trips](./docs/screenshots/cars_user_trips.png)
 **Fig. 5**: Cars and User Trips in [ERD](#r6-erd)
@@ -314,7 +314,7 @@ Compare this to MySQL where it is only ACID compliant when used with other stora
 
 The read performace of Postgres is more memory-intensive, creating a new process for every user that's connected to the database. This is a drawback that's comparable to MySQL which uses a single process for multiple users [(Amazon Web Services, Inc., n.d.)](./docs/references.md#r3). The trade-off for better write speed over slow read speed suits the operation of the API which is designed to have users write to the database more often than reading from the database.  
 
-Postgres' atomicity feature means that a transaction is completely successful or it fails completely [(cleancommit.io, 2022)](./docs/references.md#r3). Meaning if a post transaction to the database doesn't meet predefined constraints such as a value violating a unique constraint (intergrity error), the transaction completely fails and data entries in the incomplete transaction remains unchanged in the database (an immediate rollback of the transaction). The atomcity feature was useful in the app in certain places such as setting a unqiue constraint for the user email and a key constraint that was a combination of car make, model, and model trim. This ensured that incomplete data wasn't added to the database when the violation of these constraints occured.
+Postgres' atomicity feature means that a transaction is completely successful or it fails completely [(cleancommit.io, 2022)](./docs/references.md#r3). Meaning if a post transaction to the database doesn't meet predefined constraints such as a value violating a unique constraint (intergrity error), the transaction completely fails and data entries in the incomplete transaction remains unchanged in the database (an immediate rollback of the transaction). The atomcity feature was useful in the app in certain places such as setting a unqiue constraint for the user email and a key constraint that was a combination of car make, model, model trim, year, tank size. This ensured that incomplete data wasn't added to the database when the violation of these constraints occured.
 
 The consistency feature of Postgres ensures that during transactions, the database can only be changed from a valid state to another. This gurantess that the final state of the database remains consistent as it was before a transaction [(cleancommit.io, 2022)](./docs/references.md#r3). In the app for example, if a user was to be deleted, a cascading delete has to be defined to ensure that data in the user cars table remained the same; i.e user_id was set as NOT NULL so the records relating to the deleted user had to be deleted to ensure no records contained a NULL value in the user_id column.
 
