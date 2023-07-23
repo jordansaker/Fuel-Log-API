@@ -80,13 +80,25 @@ python3 -m pip install -r requirements.txt
 
 Rename **.env.sample** to **.env** and add the following configuration and connection to the database. Using the database name, username, and password above setup the DB URI:
 ```sh
-DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'
+ENVIRONMENT='dev'
+DB_URI_DEV='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'
 ```
 Replace SECRET KEY with your secrect key and run the following code  below in the **src** file to setup the .env file:
 
 ```sh
-echo "DB_URI='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'\nJWT_KEY='SECRET KEY'" > .env 
+echo "# Environment. Change to "dev" or "prod"\nENVIRONMENT='dev'\n# This is the database configuration and connection for production\nDB_URI=''\n# This is the database configuration and connection for development\nDB_URI_DEV='postgresql+psycopg2://fuel_dev:fueldevpass123@127.0.0.1:5432/fuel_log_db'\n# This is the JWT key\nJWT_KEY='SECRET KEY'" > .env 
 ```
+
+To add a production database, add the production database configuration URL to DB_URI in the **.env** and change the ENVIRONMENT to 'prod'.
+
+#### Production server
+
+The app uses Gunicorn as a production server. To run the production server locally:
+
+```sh
+gunicorn -w 4 "app:create_app()"
+```
+
 ##### CLI Commands
 
 The table below lists the available CLI commands for the application.
